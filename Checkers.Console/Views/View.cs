@@ -7,7 +7,7 @@ using System.Threading;
 using Checkers.Console.Models;
 using Checkers.Console.Resources;
 
-namespace Checkers.Console.View
+namespace Checkers.Console.Views
 {
     public class View : IView
     {

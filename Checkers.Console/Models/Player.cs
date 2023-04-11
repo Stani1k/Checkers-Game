@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Checkers.Console.View;
+using Checkers.Console.Views;
 
 namespace Checkers.Console.Models
 {
@@ -15,7 +15,7 @@ namespace Checkers.Console.Models
 
         public Player(IView view = null)
         {
-            _view = view ?? new View.View();
+            _view = view ?? new View();
         }
 
         public void WähleSeite(string seitenwahl)

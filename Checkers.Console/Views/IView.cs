@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Checkers.Console.Models;
 
-namespace Checkers.Console.View
+namespace Checkers.Console.Views
 {
     public interface IView
     {

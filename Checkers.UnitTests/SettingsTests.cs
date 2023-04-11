@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Checkers.Console;
 using Checkers.Console.Models;
-using Checkers.Console.View;
+using Checkers.Console.Views;
 using Moq;
 using NUnit.Framework;
 

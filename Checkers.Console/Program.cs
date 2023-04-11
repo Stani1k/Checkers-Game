@@ -1,13 +1,16 @@
 ﻿using Checkers.Console.Models;
+using Checkers.Console.Views;
 
 namespace Checkers.Console
 {
-    class Program
+    internal static class Program
     {
-        // Einstiegspunkt des Programms
-        private static void Main(string[] args)
+        /// <summary>
+        /// Application Entry point
+        /// </summary>
+        private static void Main()
         {
-            var controller = new Controller(new View.View());
+            var controller = new Controller(new View());
             controller.StarteAnwendung();
 
             System.Console.ReadKey();
