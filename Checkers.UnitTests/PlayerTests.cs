@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Checkers.Console;
-using Checkers.Console.Interfaces;
 using Checkers.Console.Models;
+using Checkers.Console.View;
 using Moq;
 using NUnit.Framework;
 

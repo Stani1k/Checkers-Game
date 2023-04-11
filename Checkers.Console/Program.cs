@@ -1,11 +1,13 @@
-﻿namespace Checkers.Console
+﻿using Checkers.Console.Models;
+
+namespace Checkers.Console
 {
     class Program
     {
         // Einstiegspunkt des Programms
         private static void Main(string[] args)
         {
-            var controller = new Controller(new View());
+            var controller = new Controller(new View.View());
             controller.StarteAnwendung();
 
             System.Console.ReadKey();

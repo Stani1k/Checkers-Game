@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Checkers.Console.Interfaces;
 using Checkers.Console.Models;
+using Checkers.Console.View;
 
 namespace Checkers.Console
 {
@@ -22,7 +22,7 @@ namespace Checkers.Console
 
         public Controller(IView view = null)
         {
-            _view = view ?? new View();
+            _view = view ?? new View.View();
             _settings = new Settings();
             _spielfeld = new Field(_settings);
         }
