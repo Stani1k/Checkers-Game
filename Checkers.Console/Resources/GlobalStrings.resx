@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Willkommenstext" xml:space="preserve">
+    <value>Herzlich Willkommen im Spiel Dame!</value>
+  </data>
+  <data name="Trennzeichen" xml:space="preserve">
+    <value>--------------------------------------------------------------</value>
+  </data>
+  <data name="SpielVariantenAuswahl" xml:space="preserve">
+    <value>Vor Spielbeginn, dürfen Sie sich für eine Variante des Spiels entscheiden.</value>
+  </data>
+  <data name="VerfügbareVarianten" xml:space="preserve">
+    <value>1 = amerikanische Variante  |  2 = europäische Variante: </value>
+  </data>
+  <data name="FehlerKeineGültigeZahl" xml:space="preserve">
+    <value>Fehler - Geben Sie eine gültige Zahl ein: </value>
+  </data>
+  <data name="VerfügbareSprachen" xml:space="preserve">
+    <value>Verfügbare Sprachen:</value>
+  </data>
+  <data name="Englisch" xml:space="preserve">
+    <value>[1] Englisch</value>
+  </data>
+  <data name="Deutsch" xml:space="preserve">
+    <value>[2] Deutsch</value>
+  </data>
+  <data name="Polnisch" xml:space="preserve">
+    <value>[3] Polnisch</value>
+  </data>
+  <data name="AuswahlDerSprache" xml:space="preserve">
+    <value>Wählen Sie eine Sprache: </value>
+  </data>
+  <data name="FehlerSprachauswahl" xml:space="preserve">
+    <value>Ungültiger Wert - bitte erneut versuchen!</value>
+  </data>
+  <data name="EingabeSpielername" xml:space="preserve">
+    <value>Spieler {0} - Gebe einen Namen ein: </value>
+  </data>
+  <data name="FehlerLeereEingabe" xml:space="preserve">
+    <value>Fehler - die Eingabe darf nicht leer sein!</value>
+  </data>
+  <data name="AuswahlSpielseite" xml:space="preserve">
+    <value>{0} entscheide dich für eine Spielseite.</value>
+  </data>
+  <data name="ObenOderUnten" xml:space="preserve">
+    <value>[1] = oben  |  [2] = unten : </value>
+  </data>
+  <data name="InfoText1FarbAuswahl" xml:space="preserve">
+    <value>Vor Spielbeginn darf jeder Spieler seinen Spielsteinen, Farben übergeben.</value>
+  </data>
+  <data name="InfoText2FarbAuswahl" xml:space="preserve">
+    <value>Folgende Farben stehen zur Auswahl: rot, blau, grün, gelb.</value>
+  </data>
+  <data name="AuswahlSpielsteinFarbe" xml:space="preserve">
+    <value>Spieler {0} ({1}) - Wähle eine Farbe aus: </value>
+  </data>
+  <data name="FehlerUngültigeFarbe" xml:space="preserve">
+    <value>Ungültige Farbe!</value>
+  </data>
+  <data name="FarbenAuswahlÜbersicht" xml:space="preserve">
+    <value>Spieler {0} ({1}) - Farbe: {2}</value>
+  </data>
+  <data name="SelektiereZweiGleicheFarben" xml:space="preserve">
+    <value>Geben Sie zwei unterschiedliche Farben ein!</value>
+  </data>
+  <data name="SelektiereZweiGleicheNamen" xml:space="preserve">
+    <value>Geben Sie zwei unterschiedliche Namen ein!</value>
+  </data>
+  <data name="Spielstein" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="InformationZumAufgeben1" xml:space="preserve">
+    <value>Um das Spiel jederzeit aufgeben zu können, geben Sie bei der</value>
+  </data>
+  <data name="InformationZumAufgeben2" xml:space="preserve">
+    <value>Koordinaten-Eingabe das Schlüsselwort : '!gg' ein</value>
+  </data>
+  <data name="EingabeXKoordinate" xml:space="preserve">
+    <value>Gib die x-Koordinate ein: </value>
+  </data>
+  <data name="FehlerUngültigerKoordinatenwert" xml:space="preserve">
+    <value>Kein gültiger Koordinatenwert!</value>
+  </data>
+  <data name="EingabeYKoordinate" xml:space="preserve">
+    <value>Gib die y-Koordinate ein: </value>
+  </data>
+  <data name="FehlerKoordinateIstKeineZahl" xml:space="preserve">
+    <value>Die eingegebene Koordinate ist keine Zahl!</value>
+  </data>
+  <data name="SelektiertePosition" xml:space="preserve">
+    <value>       Ausgewählte Position: [{0}|{1}]</value>
+  </data>
+  <data name="DameSpielstein" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="UmwandlungSpielsteinInDame" xml:space="preserve">
+    <value>Der Spielstein [{0}|{1}] wurde zu einer Dame umgewandelt!</value>
+  </data>
+  <data name="SelektiereGegnerischenSpielstein" xml:space="preserve">
+    <value>Sie dürfen keine gegnerischen Spielsteine bewegen!</value>
+  </data>
+  <data name="PlatziereSpielsteinAufWeißesFeld" xml:space="preserve">
+    <value>Die Spielsteine dürfen nicht auf weißen Felder platziert werden!</value>
+  </data>
+  <data name="UngültigeBewegung" xml:space="preserve">
+    <value>Ungültige Bewegung!</value>
+  </data>
+  <data name="ÜngültigeBewegungHinweis" xml:space="preserve">
+    <value>Sie können Ihre Spielsteine nur auf ein diagonales, freies Feld setzen!</value>
+  </data>
+  <data name="SelektiereLeeresFeld" xml:space="preserve">
+    <value>Auf diesem Feld befindet sich kein Spielstein!</value>
+  </data>
+  <data name="FeldBereitsBesetzt" xml:space="preserve">
+    <value>Auf diesem Feld befindet sich bereits ein Spielstein!</value>
+  </data>
+  <data name="SpielsteinIstNichtBewegbar1" xml:space="preserve">
+    <value>Dieser Spielstein kann nicht bewegt werden!</value>
+  </data>
+  <data name="SpielsteinIstNichtBewegbar2" xml:space="preserve">
+    <value>Bitte wähle einen anderen Spielstein aus.</value>
+  </data>
+  <data name="SpielerIstAmSpielzug" xml:space="preserve">
+    <value>                    {0} ist am Spielzug (Farbe: {1})</value>
+  </data>
+  <data name="SpielzugTrennzeichen" xml:space="preserve">
+    <value>----------------------------------------------------------------------</value>
+  </data>
+  <data name="SprungWurdeGefunden" xml:space="preserve">
+    <value>Ein Sprung wurde gefunden!</value>
+  </data>
+  <data name="SpielsteinHatSprung" xml:space="preserve">
+    <value>Bitte wählen Sie Ihren Spielstein an der Position [{0}|{1}] aus.</value>
+  </data>
+  <data name="Sprung2SpielsteineWurdeGefunden" xml:space="preserve">
+    <value>Für zwei Spielsteine wurde ein Sprung gefunden!</value>
+  </data>
+  <data name="ZweiSpielsteineHabenSprung" xml:space="preserve">
+    <value>Bitte wählen Sie einen der folgenden Spielsteine aus: [{0}|{1}] ODER [{2}|{3}]</value>
+  </data>
+  <data name="AnzahlSprüngeSpielstein" xml:space="preserve">
+    <value>Der Spielstein [{0}|{1}] verfügt über {2} Sprünge!</value>
+  </data>
+  <data name="SpielsteinHatWenigerSprünge" xml:space="preserve">
+    <value>Der von Ihnen selektierte Spielstein hat weniger Sprünge als der andere!</value>
+  </data>
+  <data name="HinweisSelektiereAnderenSpielstein" xml:space="preserve">
+    <value>Sie müssen mit Spielstein [{0}|{1}] den Sprung ausführen!</value>
+  </data>
+  <data name="EineSprungPositionVorhanden" xml:space="preserve">
+    <value>Sie müssen den vorhandenen Sprung nach [{0}|{1}] nehmen!</value>
+  </data>
+  <data name="ZweiSprungPositionenVorhanden" xml:space="preserve">
+    <value>Sie müssen den vorhandenen Sprung nach [{0}|{1}] ODER [{2}|{3}] nehmen!</value>
+  </data>
+  <data name="DreiSprungPositionenVorhanden" xml:space="preserve">
+    <value>Sie müssen den vorhandenen Sprung nach [{0}|{1}] , [{2}|{3}] ODER [{4}|{5}] nehmen!</value>
+  </data>
+  <data name="VierSprungPositionenVorhanden" xml:space="preserve">
+    <value>Sie müssen den vorhandenen Sprung nach [{0}|{1}] , [{2}|{3}] , [{4}|{5}] ODER [{6}|{7}] nehmen!</value>
+  </data>
+  <data name="SchlageSpielstein" xml:space="preserve">
+    <value>Sie haben einen gegnerischen Spielstein geschlagen!</value>
+  </data>
+  <data name="HinweisAnzahlSpielsteine" xml:space="preserve">
+    <value>                 Aktuelle Anzahl der Spielsteine:</value>
+  </data>
+  <data name="AnzahlSpielsteineProSpieler" xml:space="preserve">
+    <value>                  {0}: {1}  |  {2}: {3}</value>
+  </data>
+  <data name="VerstricheneZeit" xml:space="preserve">
+    <value>Spielzeit: {0:00}:{1:00}</value>
+  </data>
+  <data name="VerliererDerPartie" xml:space="preserve">
+    <value>{0} hat das Spiel aufgegeben...</value>
+  </data>
+  <data name="GewinnerDerPartie" xml:space="preserve">
+    <value>Herzlichen Glückwunsch {0} - Sie sind der Gewinner dieser Partie!</value>
+  </data>
+  <data name="SpielBeenden" xml:space="preserve">
+    <value>Das Spiel wurde beendet!</value>
+  </data>
+  <data name="VerabschiedeNutzer" xml:space="preserve">
+    <value>Bis zum nächsten Mal.</value>
+  </data>
+  <data name="Rot" xml:space="preserve">
+    <value>rot</value>
+  </data>
+  <data name="Blau" xml:space="preserve">
+    <value>blau</value>
+  </data>
+  <data name="Grün" xml:space="preserve">
+    <value>grün</value>
+  </data>
+  <data name="Gelb" xml:space="preserve">
+    <value>gelb</value>
+  </data>
+</root>

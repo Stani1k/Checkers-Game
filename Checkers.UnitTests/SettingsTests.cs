@@ -1,0 +1,47 @@
+﻿using System.Globalization;
+using Checkers.Console;
+using Checkers.Console.Interfaces;
+using Moq;
+using NUnit.Framework;
+
+namespace Checkers.UnitTests
+{
+    [TestFixture]
+    public class SettingsTests
+    {
+        private Mock<IView> _view;
+        private Settings _settings;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _view = new Mock<IView>();
+            _settings = new Settings();
+        }
+
+        [Test]
+        [TestCase(1, "en-US")]
+        [TestCase(2, "de-DE")]
+        [TestCase(3, "pl-PL")]
+        public void WähleSprache_BeimAufruf_ÄndereSpracheDerAnwendung(int number, string erwarteteSprache)
+        {
+            // Act
+            _settings.WähleSprache(number);
+
+            // Assert
+            Assert.That(CultureInfo.CurrentUICulture, Is.EqualTo(CultureInfo.GetCultureInfo(erwarteteSprache)));
+        }
+
+        [Test]
+        [TestCase(Variant.Amerikanisch, Variant.Amerikanisch)]
+        [TestCase(Variant.Europäisch, Variant.Europäisch)]
+        public void WähleSpielvariante_NutzerWähltVariante_SetzePropertyWertAufVariante(Variant selektierteVariante, Variant erwartung)
+        {
+            // Act
+            _view.Setup(v => v.EingabeSpielvariante()).Returns(selektierteVariante);
+
+            // Assert
+            Assert.That(_settings.Variante, Is.EqualTo(erwartung));
+        }
+    }
+}
