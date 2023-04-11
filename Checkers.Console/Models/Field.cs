@@ -37,7 +37,7 @@
                 }
 
                 // Prüft ob die übergebenen x und y-Koordinaten, der Position eines Checker entsprechen
-                if (spielFigur.Position.Equals(new Position(xKoordinate, yKoordinate, spieler.SpielRichtung)))
+                if (spielFigur.CurrentPosition.Equals(new Position(xKoordinate, yKoordinate, spieler.SpielRichtung)))
                 {
                     return false;
                 }

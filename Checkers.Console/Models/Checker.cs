@@ -6,40 +6,40 @@ namespace Checkers.Console.Models
 {
     public class Checker
     {
-        public ConsoleColor Farbe { get; set; }
+        public ConsoleColor Color { get; }
 
-        public Position Position { get; set; }
+        public Position CurrentPosition { get; set; }
 
-        public int AnzahlSprünge { get; set; }
+        public int PossibleJumpCount { get; set; }
 
-        public bool IstEineDame { get; set; }
+        public bool IsQueen { get; set; }
 
-        public List<Position> ZugMöglichkeiten { get; set; }
+        public List<Position> Moves { get; set; }
 
-        public Checker(ConsoleColor farbe, Position position)
+        public Checker(ConsoleColor color, Position currentPosition)
         {
-            Farbe = farbe;
-            Position = position;
+            Color = color;
+            CurrentPosition = currentPosition;
         }
 
         public Checker() {}
 
-        public bool IstEinCheckerBereitsAufDemFeld(Player spieler, Position zielPosition)
+        public bool IsFieldAlreadyOccupied(Player player, Position destination)
         {
-            return spieler.Spielsteine.Any(posSpielstein => zielPosition.Equals(posSpielstein.Position));
+            return player.Spielsteine.Any(checker => destination.Equals(checker.CurrentPosition));
         }
 
-        public void UmwandlungSpielfigurInDame()
+        public void TransformCheckerInQueen()
         {
-            IstEineDame = true;
+            IsQueen = true;
         }
 
-        public bool PrüfeBewegung(Position zielPosition)
+        public bool IsNextPositionValid(Position destination)
         {
-            if (Position.XKoordinateRechts == zielPosition.XKoordinate ||
-                Position.XKoordinateLinks == zielPosition.XKoordinate)
+            if (CurrentPosition.XKoordinateRechts == destination.XKoordinate ||
+                CurrentPosition.XKoordinateLinks == destination.XKoordinate)
             {
-                if (Position.NächsteYKoordinate == zielPosition.YKoordinate)
+                if (CurrentPosition.NächsteYKoordinate == destination.YKoordinate)
                 {
                     return true;
                 }
@@ -48,12 +48,12 @@ namespace Checkers.Console.Models
             return false;
         }
 
-        public bool PrüfeBewegungAmerikanischerDame(Position zielPosition)
+        public bool IsAmericanQueenMoveValid(Position destination)
         {
-            // Amerikanische Variante: Dame darf nur ein Feld vorwärts oder rückwärts ziehen
-            if (Position.XKoordinateRechts == zielPosition.XKoordinate || Position.XKoordinateLinks == zielPosition.XKoordinate)
+            // American Checkers: Queen can only move one field forward and backwards
+            if (CurrentPosition.XKoordinateRechts == destination.XKoordinate || CurrentPosition.XKoordinateLinks == destination.XKoordinate)
             {
-                if (Position.NächsteYKoordinate == zielPosition.YKoordinate || Position.NächsteYKoordinateRückwärts == zielPosition.YKoordinate)
+                if (CurrentPosition.NächsteYKoordinate == destination.YKoordinate || CurrentPosition.NächsteYKoordinateRückwärts == destination.YKoordinate)
                 {
                     return true;
                 }
@@ -62,11 +62,12 @@ namespace Checkers.Console.Models
             return false;
         }
 
-        public bool PrüfeBewegungEuropäischerDame(Position zielPosition)
+        public bool IsEuropeanQueenMoveValid(Position destination)
         {
-            // Europäische Variante: Dame darf beliebig weit vorwärts oder rückwärts ziehen
-            return ZugMöglichkeiten.Where(gültigePosition => gültigePosition.XKoordinate == zielPosition.XKoordinate).Any
-                (gültigePosition => gültigePosition.YKoordinate == zielPosition.YKoordinate);
+            // European Checkers: Queen can move unlimited fields forward and backwards
+            return Moves
+                .Where(currentPosition => currentPosition.XKoordinate == destination.XKoordinate)
+                .Any(position => position.YKoordinate == destination.YKoordinate);
         }
     }
 }

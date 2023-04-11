@@ -337,9 +337,9 @@ namespace Checkers.Console.Views
 
         public void DruckeSpielstein(Checker checker)
         {
-            System.Console.SetCursorPosition(Feldbreite * checker.Position.XKoordinate + 6, Feldhöhe * checker.Position.YKoordinate + 2);
+            System.Console.SetCursorPosition(Feldbreite * checker.CurrentPosition.XKoordinate + 6, Feldhöhe * checker.CurrentPosition.YKoordinate + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = checker.Farbe;
+            System.Console.ForegroundColor = checker.Color;
             System.Console.Write(GlobalStrings.Spielstein);
             // Nachdem der letzte Spielstein platziert wurde, werden die Farben der Konsole wieder auf "Default" gesetzt
             SetzeKonsolenFarben();
@@ -430,10 +430,10 @@ namespace Checkers.Console.Views
 
         public void PlatziereSpielstein(Checker bewegenderSpielstein)
         {
-            System.Console.SetCursorPosition(Feldbreite * bewegenderSpielstein.Position.XKoordinate + 6, Feldhöhe * bewegenderSpielstein.Position.YKoordinate + 2);
+            System.Console.SetCursorPosition(Feldbreite * bewegenderSpielstein.CurrentPosition.XKoordinate + 6, Feldhöhe * bewegenderSpielstein.CurrentPosition.YKoordinate + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = bewegenderSpielstein.Farbe;
-            if (bewegenderSpielstein.IstEineDame)
+            System.Console.ForegroundColor = bewegenderSpielstein.Color;
+            if (bewegenderSpielstein.IsQueen)
             {
                 DruckeDame();
             }
@@ -445,9 +445,9 @@ namespace Checkers.Console.Views
 
         public void EntferneSpielstein(Checker geschlagenerSpielstein)
         {
-            System.Console.SetCursorPosition(Feldbreite * geschlagenerSpielstein.Position.XKoordinate + 6, Feldhöhe * geschlagenerSpielstein.Position.YKoordinate + 2);
+            System.Console.SetCursorPosition(Feldbreite * geschlagenerSpielstein.CurrentPosition.XKoordinate + 6, Feldhöhe * geschlagenerSpielstein.CurrentPosition.YKoordinate + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = geschlagenerSpielstein.Farbe;
+            System.Console.ForegroundColor = geschlagenerSpielstein.Color;
             System.Console.Write(" ");
         }
 
@@ -546,19 +546,19 @@ namespace Checkers.Console.Views
         {
             SetzeKonsolenFarben();
             // Umgewandelte x und y Koordinaten des ERSTEN gefundenen Spielsteins, welcher über einen Sprung verfügt
-            var xKoordinateUmgewandelt = Convert.ToChar(spielsteine[0].Position.XKoordinate + 97);
-            var yKoordinateUmgewandelt = (spielsteine[0].Position.YKoordinate - UmwandlungswertYKoordinate) * -1;
+            var xKoordinateUmgewandelt = Convert.ToChar(spielsteine[0].CurrentPosition.XKoordinate + 97);
+            var yKoordinateUmgewandelt = (spielsteine[0].CurrentPosition.YKoordinate - UmwandlungswertYKoordinate) * -1;
 
             System.Console.SetCursorPosition(CursorXPosition, 21);
-            System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinateUmgewandelt, yKoordinateUmgewandelt, spielsteine[0].AnzahlSprünge);
+            System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinateUmgewandelt, yKoordinateUmgewandelt, spielsteine[0].PossibleJumpCount);
             // Wenn der zweite Spielstein nicht null ist, bedeutet es, dass zwei verschiedene Spielsteine gleichzeitig springen können
             if (spielsteine.Count == 2)
             {
                 // Umgewandelte x und y Koordinaten des ZWEITEN gefundenen Spielsteins, welcher über einen Sprung verfügt
-                var xKoordinate2Umgewandelt = Convert.ToChar(spielsteine[1].Position.XKoordinate + 97);
-                var yKoordinate2Umgewandelt = (spielsteine[1].Position.YKoordinate - UmwandlungswertYKoordinate) * -1;
+                var xKoordinate2Umgewandelt = Convert.ToChar(spielsteine[1].CurrentPosition.XKoordinate + 97);
+                var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.YKoordinate - UmwandlungswertYKoordinate) * -1;
                 System.Console.SetCursorPosition(CursorXPosition, 22);
-                System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinate2Umgewandelt, yKoordinate2Umgewandelt, spielsteine[1].AnzahlSprünge);
+                System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinate2Umgewandelt, yKoordinate2Umgewandelt, spielsteine[1].PossibleJumpCount);
             }
         }
 
@@ -567,8 +567,8 @@ namespace Checkers.Console.Views
             EntferneText(CursorXPosition, 21);
             EntferneText(CursorXPosition, 22);
             SetzeKonsolenFarben();
-            var xKoordinateUmgewandelt = Convert.ToChar(spielstein.Position.XKoordinate + 97);
-            var yKoordinateUmgewandelt = (spielstein.Position.YKoordinate - UmwandlungswertYKoordinate) * -1;
+            var xKoordinateUmgewandelt = Convert.ToChar(spielstein.CurrentPosition.XKoordinate + 97);
+            var yKoordinateUmgewandelt = (spielstein.CurrentPosition.YKoordinate - UmwandlungswertYKoordinate) * -1;
             System.Console.SetCursorPosition(CursorXPosition, 21);
             System.Console.WriteLine(GlobalStrings.SpielsteinHatWenigerSprünge);
             System.Console.SetCursorPosition(CursorXPosition, 22);

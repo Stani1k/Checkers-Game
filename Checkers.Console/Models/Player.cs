@@ -55,7 +55,7 @@ namespace Checkers.Console.Models
         {
             foreach (var spielstein in spielsteine)
             {
-                if (startPosition.Equals(spielstein.Position))
+                if (startPosition.Equals(spielstein.CurrentPosition))
                 {
                     return spielstein;
                 }
@@ -68,7 +68,7 @@ namespace Checkers.Console.Models
         {
             foreach (var spielstein in Spielsteine)
             {
-                if (spielstein.Position.Equals(startPosition))
+                if (spielstein.CurrentPosition.Equals(startPosition))
                 {
                     return spielstein;
                 }
