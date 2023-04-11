@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Checkers.Console
+namespace Checkers.Console.Models
 {
-    // Die Spielfiguren kennen ihre Positionen
     public class Checker
     {
         public ConsoleColor Farbe { get; set; }

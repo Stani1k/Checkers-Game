@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Threading;
 
-namespace Checkers.Console
+namespace Checkers.Console.Models
 {
     public class Settings
     {

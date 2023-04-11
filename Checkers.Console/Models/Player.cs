@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Checkers.Console.Interfaces;
 
-namespace Checkers.Console
+namespace Checkers.Console.Models
 {
     public class Player
     {

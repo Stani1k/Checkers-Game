@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Checkers.Console.Interfaces;
+using Checkers.Console.Models;
 
 namespace Checkers.Console
 {

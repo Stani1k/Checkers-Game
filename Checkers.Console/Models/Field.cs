@@ -1,4 +1,4 @@
-﻿namespace Checkers.Console
+﻿namespace Checkers.Console.Models
 {
     public class Field
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Checkers.Console.Models;
 
 namespace Checkers.Console.Interfaces
 {

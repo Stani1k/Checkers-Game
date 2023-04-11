@@ -1,4 +1,4 @@
-﻿namespace Checkers.Console
+﻿namespace Checkers.Console.Models
 {
     // Klasse Position enthält alle möglichen Koordinaten, welche für eine normale Bewegung oder einen Sprung benötigt werden
     public class Position

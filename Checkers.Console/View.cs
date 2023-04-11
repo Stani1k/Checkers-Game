@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using Checkers.Console.Interfaces;
+using Checkers.Console.Models;
 using Checkers.Console.Resources;
 
 namespace Checkers.Console
