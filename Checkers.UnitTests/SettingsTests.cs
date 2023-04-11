@@ -27,7 +27,7 @@ namespace Checkers.UnitTests
         public void WähleSprache_BeimAufruf_ÄndereSpracheDerAnwendung(int number, string erwarteteSprache)
         {
             // Act
-            _settings.WähleSprache(number);
+            Settings.SetGameLanguage(number);
 
             // Assert
             Assert.That(CultureInfo.CurrentUICulture, Is.EqualTo(CultureInfo.GetCultureInfo(erwarteteSprache)));
@@ -42,7 +42,7 @@ namespace Checkers.UnitTests
             _view.Setup(v => v.EingabeSpielvariante()).Returns(selektierteVariante);
 
             // Assert
-            Assert.That(_settings.Variante, Is.EqualTo(erwartung));
+            Assert.That(_settings.Variant, Is.EqualTo(erwartung));
         }
     }
 }
