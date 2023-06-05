@@ -9,68 +9,68 @@ namespace Checkers.Console.Models
         private readonly IView _view;
         public string Name { get; set; }
         public int Nummer { get; set; }
-        public ConsoleColor Farbe { get; set; }
-        public int SpielRichtung { get; set; }
-        public List<Checker> Spielsteine { get; set; }
+        public ConsoleColor CheckersColor { get; set; }
+        // Todo: Is this property really needed? Refactor to Enum?
+        public int GameDirection { get; set; }
+        public List<Checker> Checkers { get; set; }
 
         public Player(IView view = null)
         {
             _view = view ?? new View();
         }
 
-        public void WähleSeite(string seitenwahl)
+        public void SetGameDirection(string direction)
         {
-            switch (seitenwahl)
+            switch (direction)
             {
                 case "1":
-                    SpielRichtung = 1;
+                    GameDirection = 1;
                     break;
 
                 case "2":
-                    SpielRichtung = -1;
+                    GameDirection = -1;
                     break;
             }
         }
 
-        public bool MöchteAufgeben(Position eingabeStartKoordinaten)
+        public bool IsSurrendering(Position coordinates)
         {
-            if (eingabeStartKoordinaten == null) return true;
+            if (coordinates == null) return true;
             return false;
         }
 
-
-        public Checker SelektiereSpielstein(Player spieler, List<Checker> spielsteineMaxSprünge)
+        public Checker ChooseChecker(Player player, List<Checker> checkersWithMaxJumps)
         {
-            Checker selektierterSpielstein;
+            Checker checker;
             do
             {
-                var startPosition = _view.EingabeKoordinaten(true, spieler);
-                selektierterSpielstein = PrüfeSelektiertenSpielstein(spielsteineMaxSprünge, startPosition);
-            } while (selektierterSpielstein == null);
+                var startingPosition = _view.EingabeKoordinaten(true, player);
+                checker = CheckSelectedChecker(checkersWithMaxJumps, startingPosition);
+            } while (checker == null);
 
-            return selektierterSpielstein;
+            return checker;
         }
 
-        private Checker PrüfeSelektiertenSpielstein(List<Checker> spielsteine, Position startPosition)
+        private Checker CheckSelectedChecker(List<Checker> checkers, Position startPosition)
         {
-            foreach (var spielstein in spielsteine)
+            foreach (var checker in checkers)
             {
-                if (startPosition.Equals(spielstein.CurrentPosition))
+                if (startPosition.Equals(checker.CurrentPosition))
                 {
-                    return spielstein;
+                    return checker;
                 }
             }
 
             return null;
         }
 
-        public Checker SucheSpielsteinFürStartKoordinaten(Position startPosition)
+        public Checker GetCheckerWithMatchingCoordinates(Position startPosition)
         {
-            foreach (var spielstein in Spielsteine)
+            foreach (var checker in Checkers)
             {
-                if (spielstein.CurrentPosition.Equals(startPosition))
+                if (checker.CurrentPosition.Equals(startPosition))
                 {
-                    return spielstein;
+                    return checker;
                 }
             }
             return null;

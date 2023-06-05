@@ -26,7 +26,7 @@ namespace Checkers.Console.Models
 
         public bool IsFieldAlreadyOccupied(Player player, Position destination)
         {
-            return player.Spielsteine.Any(checker => destination.Equals(checker.CurrentPosition));
+            return player.Checkers.Any(checker => destination.Equals(checker.CurrentPosition));
         }
 
         public void TransformCheckerInQueen()
