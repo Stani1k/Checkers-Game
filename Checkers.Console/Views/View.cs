@@ -418,7 +418,7 @@ namespace Checkers.Console.Views
             EntferneText(CursorXPosition, 17);
             EntferneText(CursorXPosition, 18);
             EntferneText(CursorXPosition, 21);
-            return new Position(xKoordinateAlsZahl, yKoordinateUmgewandelt, spieler.SpielRichtung);
+            return new Position(xKoordinateAlsZahl, yKoordinateUmgewandelt, spieler.GameDirection);
         }
 
         public void AktuellePositionAnzeigen(char xKoordinate, int yKoordinate)

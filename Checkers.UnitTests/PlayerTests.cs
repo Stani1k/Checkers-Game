@@ -18,9 +18,9 @@ namespace Checkers.UnitTests
         {
             _view = new Mock<IView>();
             _player = new Player(_view.Object);
-            _player.SpielRichtung = 1;
-            _player.Spielsteine = new List<Checker> { new Checker(ConsoleColor.Blue, new Position(1, 0, _player.SpielRichtung)), 
-                new Checker(ConsoleColor.Blue, new Position(2, 1, _player.SpielRichtung)) };
+            _player.GameDirection = 1;
+            _player.Checkers = new List<Checker> { new Checker(ConsoleColor.Blue, new Position(1, 0, _player.GameDirection)), 
+                new Checker(ConsoleColor.Blue, new Position(2, 1, _player.GameDirection)) };
         }
 
         [Test]
@@ -29,24 +29,24 @@ namespace Checkers.UnitTests
         public void WähleSeite_BeimAufruf_SetzeSpielRichtungVonSpieler1(string spieler1Seitenwahl, int erwartung)
         {
             // Act
-            _player.WähleSeite(spieler1Seitenwahl);
+            _player.SetGameDirection(spieler1Seitenwahl);
 
             // Assert
-            Assert.That(_player.SpielRichtung, Is.EqualTo(erwartung));
+            Assert.That(_player.GameDirection, Is.EqualTo(erwartung));
         }
 
         [Test]
         public void SucheSpielsteinFürStartKoordinaten_StartPositionEntsprichtPositionEinemChecker_ReturnChecker()
         { 
-            var result = _player.SucheSpielsteinFürStartKoordinaten(new Position(1, 0, _player.SpielRichtung));
+            var result = _player.GetCheckerWithMatchingCoordinates(new Position(1, 0, _player.GameDirection));
 
-            Assert.That(result, Is.EqualTo(_player.Spielsteine[0]));
+            Assert.That(result, Is.EqualTo(_player.Checkers[0]));
         }
 
         [Test]
         public void SucheSpielsteinFürStartKoordinaten_StartPositionEntsprichtKeinemChecker_ReturnNull()
         {
-            var result = _player.SucheSpielsteinFürStartKoordinaten(new Position(3, 0, _player.SpielRichtung));
+            var result = _player.GetCheckerWithMatchingCoordinates(new Position(3, 0, _player.GameDirection));
 
             Assert.That(result, Is.Null);
         }

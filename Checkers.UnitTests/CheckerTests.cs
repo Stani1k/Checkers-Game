@@ -19,17 +19,17 @@ namespace Checkers.UnitTests
         public void SetUp()
         {
             _view = new Mock<IView>();
-            _player = new Player{SpielRichtung = 1};
-            _player.Spielsteine = new List<Checker> { new Checker(ConsoleColor.Blue, new Position(1, 0, _player.SpielRichtung)), new Checker(ConsoleColor.Blue, new Position(2, 1, _player.SpielRichtung)) };
+            _player = new Player{GameDirection = 1};
+            _player.Checkers = new List<Checker> { new Checker(ConsoleColor.Blue, new Position(1, 0, _player.GameDirection)), new Checker(ConsoleColor.Blue, new Position(2, 1, _player.GameDirection)) };
 
-            _checker = new Checker(ConsoleColor.Blue, new Position(1, 2, _player.SpielRichtung)) {Moves = new List<Position> {new Position(2, 3, _player.SpielRichtung)}};
+            _checker = new Checker(ConsoleColor.Blue, new Position(1, 2, _player.GameDirection)) {Moves = new List<Position> {new Position(2, 3, _player.GameDirection)}};
         }
 
         [Test]
         public void IstEinCheckerBereitsAufDemFeld_FeldIstBesetzt_ReturnTrue()
         {
             // Act
-            var ergebnis = _checker.IsFieldAlreadyOccupied(_player, new Position(1, 0, _player.SpielRichtung));
+            var ergebnis = _checker.IsFieldAlreadyOccupied(_player, new Position(1, 0, _player.GameDirection));
 
             // Assert
             Assert.That(ergebnis, Is.True);
@@ -48,7 +48,7 @@ namespace Checkers.UnitTests
         [Test]
         public void PrüfeBewegung_ZielPositionIstGültig_ReturnTrue()
         {
-            var ergebnis = _checker.IsNextPositionValid(new Position(2, 3, _player.SpielRichtung));
+            var ergebnis = _checker.IsNextPositionValid(new Position(2, 3, _player.GameDirection));
 
             Assert.That(ergebnis, Is.True);
         }
@@ -56,7 +56,7 @@ namespace Checkers.UnitTests
         [Test]
         public void PrüfeBewegung_ZielPositionIstUnGültig_ReturnFalse()
         {
-            var ergebnis = _checker.IsNextPositionValid(new Position(1, 3, _player.SpielRichtung));
+            var ergebnis = _checker.IsNextPositionValid(new Position(1, 3, _player.GameDirection));
 
             Assert.That(ergebnis, Is.False);
         }
@@ -68,7 +68,7 @@ namespace Checkers.UnitTests
             _checker.IsQueen = true;
 
             // Act
-            var ergebnis = _checker.IsAmericanQueenMoveValid(new Position(0, 1, _player.SpielRichtung));
+            var ergebnis = _checker.IsAmericanQueenMoveValid(new Position(0, 1, _player.GameDirection));
 
             // Assert
             Assert.That(ergebnis, Is.True);
@@ -77,7 +77,7 @@ namespace Checkers.UnitTests
         [Test]
         public void PrüfeBewegungEuropäischerDame_ZielPositionIstGültig_ReturnTrue()
         {
-            var ergebnis = _checker.IsEuropeanQueenMoveValid(new Position(2, 3, _player.SpielRichtung));
+            var ergebnis = _checker.IsEuropeanQueenMoveValid(new Position(2, 3, _player.GameDirection));
 
             Assert.That(ergebnis, Is.True);
         }
