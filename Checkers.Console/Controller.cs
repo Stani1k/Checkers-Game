@@ -17,14 +17,14 @@ namespace Checkers.Console
 
         private readonly IView _view;
         private readonly Settings _settings;
-        private readonly GameBoard _spielfeld;
+        private readonly Gameboard _spielfeld;
         private readonly Stopwatch _zeitMessung = new Stopwatch();
 
         public Controller(IView view = null)
         {
             _view = view ?? new View();
             _settings = new Settings();
-            _spielfeld = new GameBoard(_settings);
+            _spielfeld = new Gameboard(_settings);
         }
 
         // Wert für die Umwandlung der yKoordinate

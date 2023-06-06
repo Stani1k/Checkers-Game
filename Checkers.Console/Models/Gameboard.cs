@@ -9,20 +9,20 @@
             _settings = settings;
         }
 
-        public int ColumnCount => _settings.Variante == Variant.Amerikanisch ? 10 : 8;
-        public int RowCount => _settings.Variante == Variant.Amerikanisch ? 10 : 8;
+        public int ColumnCount => _settings.Variant == Variant.Amerikanisch ? 10 : 8;
+        public int RowCount => _settings.Variant == Variant.Amerikanisch ? 10 : 8;
 
         /// <summary>
         /// Starting checker number for upper row
         /// </summary>
-        public int StartingUpperRow => _settings.Variante == Variant.Amerikanisch ? 4 : 3;
+        public int StartingUpperRow => _settings.Variant == Variant.Amerikanisch ? 4 : 3;
 
         /// <summary>
         /// Starting checker number for lower row
         /// </summary>
-        public int StartingLowerRow => _settings.Variante == Variant.Amerikanisch ? 5 : 4;
+        public int StartingLowerRow => _settings.Variant == Variant.Amerikanisch ? 5 : 4;
 
-        public int LastPlayableRowNumber => _settings.Variante == Variant.Amerikanisch ? 9 : 7;
+        public int LastPlayableRowNumber => _settings.Variant == Variant.Amerikanisch ? 9 : 7;
         public int FirstPlayableRowNumber => 0;
 
         public bool IsDiagonalFieldEmpty(int xCoordinate, int yCoordinate, Player player)
