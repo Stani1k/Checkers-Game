@@ -17,14 +17,14 @@ namespace Checkers.Console
 
         private readonly IView _view;
         private readonly Settings _settings;
-        private readonly Gameboard _spielfeld;
+        private readonly GameBoard _spielfeld;
         private readonly Stopwatch _zeitMessung = new Stopwatch();
 
         public Controller(IView view = null)
         {
             _view = view ?? new View();
             _settings = new Settings();
-            _spielfeld = new Gameboard(_settings);
+            _spielfeld = new GameBoard(_settings);
         }
 
         // Wert für die Umwandlung der yKoordinate
@@ -260,8 +260,8 @@ namespace Checkers.Console
             if (!checker.IsQueen)
             {
                 // Prüft ob der Checker auf der gegnerischen Grundreihe angekommen ist
-                if (zielPosition.Equals(new Position(zielPosition.XKoordinate, _spielfeld.FirstPlayableRowNumber, spieler.GameDirection)) ^
-                    zielPosition.Equals(new Position(zielPosition.XKoordinate, _spielfeld.LastPlayableRowNumber, spieler.GameDirection)))
+                if (zielPosition.Equals(new Position(zielPosition.XKoordinate, _spielfeld.StartingLowerRow, spieler.GameDirection)) ^
+                    zielPosition.Equals(new Position(zielPosition.XKoordinate, _spielfeld.StartingUpperRow, spieler.GameDirection)))
                 {
                     return true;
                 }
@@ -649,12 +649,12 @@ namespace Checkers.Console
 
         private bool SindKoordinatenAußerhalbSpielfeld(int xKoordinate, int yKoordinate = 0)
         {
-            if (xKoordinate > _spielfeld.LastPlayableRowNumber || xKoordinate < _spielfeld.FirstPlayableRowNumber)
+            if (xKoordinate > _spielfeld.StartingUpperRow || xKoordinate < _spielfeld.StartingLowerRow)
             {
                 return true;
             }
 
-            if (yKoordinate > _spielfeld.LastPlayableRowNumber || yKoordinate < _spielfeld.FirstPlayableRowNumber)
+            if (yKoordinate > _spielfeld.StartingUpperRow || yKoordinate < _spielfeld.StartingLowerRow)
             {
                 return true;
             }
