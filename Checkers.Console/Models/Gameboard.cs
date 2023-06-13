@@ -9,17 +9,17 @@
             this.settings = settings;
         }
 
-        public int ColumnCount => settings.Variant == Variant.Amerikanisch ? 10 : 8;
-        public int RowCount => settings.Variant == Variant.Amerikanisch ? 10 : 8;
+        public int ColumnCount => settings.Variant == Variant.American ? 10 : 8;
+        public int RowCount => settings.Variant == Variant.American ? 10 : 8;
         /// <summary>
         /// Row number for placing Checkers for Player 1
         /// </summary>
-        public int StartingUpperRow => settings.Variant == Variant.Amerikanisch ? 4 : 3;
+        public int StartingUpperRow => settings.Variant == Variant.American ? 4 : 3;
         /// <summary>
         /// Row number for placing Checkers for Player 2
         /// </summary>
-        public int StartingLowerRow => settings.Variant == Variant.Amerikanisch ? 5 : 4;
-        public int RowEndNumber => settings.Variant == Variant.Amerikanisch ? 9 : 7;
+        public int StartingLowerRow => settings.Variant == Variant.American ? 5 : 4;
+        public int RowEndNumber => settings.Variant == Variant.American ? 9 : 7;
         public const int RowStartNumber = 0;
 
         public bool IsDiagonalFieldEmpty(int x, int y, Player player)
