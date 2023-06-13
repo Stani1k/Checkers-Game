@@ -11,10 +11,10 @@ namespace Checkers.Console.Views
 {
     public class View : IView
     {
-        public int AnzahlSpalten => Variant == Variant.Amerikanisch ? 10 : 8;
-        public int AnzahlZeilen => Variant == Variant.Amerikanisch ? 10 : 8;
-        public int CursorXPosition => Variant == Variant.Amerikanisch ? 76 : 62;
-        public int UmwandlungswertYKoordinate => Variant == Variant.Amerikanisch ? 10: 8;
+        public int AnzahlSpalten => Variant == Variant.American ? 10 : 8;
+        public int AnzahlZeilen => Variant == Variant.American ? 10 : 8;
+        public int CursorXPosition => Variant == Variant.American ? 76 : 62;
+        public int UmwandlungswertYKoordinate => Variant == Variant.American ? 10: 8;
         public Variant Variant { get; set; }
 
         private const int Feldbreite = 7;
@@ -95,11 +95,11 @@ namespace Checkers.Console.Views
 
             if (spielversion == "1")
             {
-                Variant = Variant.Amerikanisch;
+                Variant = Variant.American;
             }
             if (spielversion == "2")
             {
-                Variant = Variant.Europäisch;
+                Variant = Variant.European;
             }
             // Entfernt den "Willkommenstext"
             EntferneText(55, 1);
@@ -290,7 +290,7 @@ namespace Checkers.Console.Views
         {
             System.Console.BackgroundColor = ConsoleColor.DarkYellow;
             System.Console.ForegroundColor = ConsoleColor.Black;
-            if (Variant == Variant.Amerikanisch && zeile == 0)
+            if (Variant == Variant.American && zeile == 0)
             {
                 // der Wert 10 der y-Achse, wird hier mittig ausgegeben
                 System.Console.Write((AnzahlZeilen - zeile) + " ");
@@ -337,7 +337,7 @@ namespace Checkers.Console.Views
 
         public void DruckeSpielstein(Checker checker)
         {
-            System.Console.SetCursorPosition(Feldbreite * checker.CurrentPosition.XKoordinate + 6, Feldhöhe * checker.CurrentPosition.YKoordinate + 2);
+            System.Console.SetCursorPosition(Feldbreite * checker.CurrentPosition.X + 6, Feldhöhe * checker.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
             System.Console.ForegroundColor = checker.Color;
             System.Console.Write(GlobalStrings.Spielstein);
@@ -430,7 +430,7 @@ namespace Checkers.Console.Views
 
         public void PlatziereSpielstein(Checker bewegenderSpielstein)
         {
-            System.Console.SetCursorPosition(Feldbreite * bewegenderSpielstein.CurrentPosition.XKoordinate + 6, Feldhöhe * bewegenderSpielstein.CurrentPosition.YKoordinate + 2);
+            System.Console.SetCursorPosition(Feldbreite * bewegenderSpielstein.CurrentPosition.X + 6, Feldhöhe * bewegenderSpielstein.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
             System.Console.ForegroundColor = bewegenderSpielstein.Color;
             if (bewegenderSpielstein.IsQueen)
@@ -445,7 +445,7 @@ namespace Checkers.Console.Views
 
         public void EntferneSpielstein(Checker geschlagenerSpielstein)
         {
-            System.Console.SetCursorPosition(Feldbreite * geschlagenerSpielstein.CurrentPosition.XKoordinate + 6, Feldhöhe * geschlagenerSpielstein.CurrentPosition.YKoordinate + 2);
+            System.Console.SetCursorPosition(Feldbreite * geschlagenerSpielstein.CurrentPosition.X + 6, Feldhöhe * geschlagenerSpielstein.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
             System.Console.ForegroundColor = geschlagenerSpielstein.Color;
             System.Console.Write(" ");
@@ -464,8 +464,8 @@ namespace Checkers.Console.Views
         public void SpielsteinWurdeInDameUmgewandelt(Position positionSpielstein)
         {
             SetzeKonsolenFarben();
-            var xKoordinateUmgewandelt = Convert.ToChar(positionSpielstein.XKoordinate + 97);
-            var yKoordinateUmgewandelt = (positionSpielstein.YKoordinate - UmwandlungswertYKoordinate) * - 1;
+            var xKoordinateUmgewandelt = Convert.ToChar(positionSpielstein.X + 97);
+            var yKoordinateUmgewandelt = (positionSpielstein.Y - UmwandlungswertYKoordinate) * - 1;
             System.Console.SetCursorPosition(CursorXPosition, 21);
             System.Console.WriteLine(GlobalStrings.UmwandlungSpielsteinInDame, xKoordinateUmgewandelt, yKoordinateUmgewandelt);
         }
@@ -546,8 +546,8 @@ namespace Checkers.Console.Views
         {
             SetzeKonsolenFarben();
             // Umgewandelte x und y Koordinaten des ERSTEN gefundenen Spielsteins, welcher über einen Sprung verfügt
-            var xKoordinateUmgewandelt = Convert.ToChar(spielsteine[0].CurrentPosition.XKoordinate + 97);
-            var yKoordinateUmgewandelt = (spielsteine[0].CurrentPosition.YKoordinate - UmwandlungswertYKoordinate) * -1;
+            var xKoordinateUmgewandelt = Convert.ToChar(spielsteine[0].CurrentPosition.X + 97);
+            var yKoordinateUmgewandelt = (spielsteine[0].CurrentPosition.Y - UmwandlungswertYKoordinate) * -1;
 
             System.Console.SetCursorPosition(CursorXPosition, 21);
             System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinateUmgewandelt, yKoordinateUmgewandelt, spielsteine[0].PossibleJumpCount);
@@ -555,8 +555,8 @@ namespace Checkers.Console.Views
             if (spielsteine.Count == 2)
             {
                 // Umgewandelte x und y Koordinaten des ZWEITEN gefundenen Spielsteins, welcher über einen Sprung verfügt
-                var xKoordinate2Umgewandelt = Convert.ToChar(spielsteine[1].CurrentPosition.XKoordinate + 97);
-                var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.YKoordinate - UmwandlungswertYKoordinate) * -1;
+                var xKoordinate2Umgewandelt = Convert.ToChar(spielsteine[1].CurrentPosition.X + 97);
+                var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.Y - UmwandlungswertYKoordinate) * -1;
                 System.Console.SetCursorPosition(CursorXPosition, 22);
                 System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinate2Umgewandelt, yKoordinate2Umgewandelt, spielsteine[1].PossibleJumpCount);
             }
@@ -567,8 +567,8 @@ namespace Checkers.Console.Views
             EntferneText(CursorXPosition, 21);
             EntferneText(CursorXPosition, 22);
             SetzeKonsolenFarben();
-            var xKoordinateUmgewandelt = Convert.ToChar(spielstein.CurrentPosition.XKoordinate + 97);
-            var yKoordinateUmgewandelt = (spielstein.CurrentPosition.YKoordinate - UmwandlungswertYKoordinate) * -1;
+            var xKoordinateUmgewandelt = Convert.ToChar(spielstein.CurrentPosition.X + 97);
+            var yKoordinateUmgewandelt = (spielstein.CurrentPosition.Y - UmwandlungswertYKoordinate) * -1;
             System.Console.SetCursorPosition(CursorXPosition, 21);
             System.Console.WriteLine(GlobalStrings.SpielsteinHatWenigerSprünge);
             System.Console.SetCursorPosition(CursorXPosition, 22);
@@ -578,8 +578,8 @@ namespace Checkers.Console.Views
         public void ErzwingeSprung(List<Position> sprungPositionen)
         {
             SetzeKonsolenFarben();
-            var xKoordinate1 = Convert.ToChar(sprungPositionen.ElementAt(0).XKoordinate + 97);
-            var yKoordinate1 = (sprungPositionen.ElementAt(0).YKoordinate - UmwandlungswertYKoordinate) * -1;
+            var xKoordinate1 = Convert.ToChar(sprungPositionen.ElementAt(0).X + 97);
+            var yKoordinate1 = (sprungPositionen.ElementAt(0).Y - UmwandlungswertYKoordinate) * -1;
 
             if (sprungPositionen.Count == 1)
             {
@@ -588,28 +588,28 @@ namespace Checkers.Console.Views
             }
             else if (sprungPositionen.Count == 2)
             {
-                var xKoordinate2 = Convert.ToChar(sprungPositionen.ElementAt(1).XKoordinate + 97);
-                var yKoordinate2 = (sprungPositionen.ElementAt(1).YKoordinate - UmwandlungswertYKoordinate) * -1;
+                var xKoordinate2 = Convert.ToChar(sprungPositionen.ElementAt(1).X + 97);
+                var yKoordinate2 = (sprungPositionen.ElementAt(1).Y - UmwandlungswertYKoordinate) * -1;
                 System.Console.SetCursorPosition(CursorXPosition, 18);
                 System.Console.WriteLine(GlobalStrings.ZweiSprungPositionenVorhanden, xKoordinate1, yKoordinate1, xKoordinate2, yKoordinate2);
             }
             else if (sprungPositionen.Count == 3)
             {
-                var xKoordinate2 = Convert.ToChar(sprungPositionen.ElementAt(1).XKoordinate + 97);
-                var yKoordinate2 = (sprungPositionen.ElementAt(1).YKoordinate - UmwandlungswertYKoordinate) * -1;
-                var xKoordinate3 = Convert.ToChar(sprungPositionen.ElementAt(2).XKoordinate + 97);
-                var yKoordinate3 = (sprungPositionen.ElementAt(2).YKoordinate - UmwandlungswertYKoordinate) * -1;
+                var xKoordinate2 = Convert.ToChar(sprungPositionen.ElementAt(1).X + 97);
+                var yKoordinate2 = (sprungPositionen.ElementAt(1).Y - UmwandlungswertYKoordinate) * -1;
+                var xKoordinate3 = Convert.ToChar(sprungPositionen.ElementAt(2).X + 97);
+                var yKoordinate3 = (sprungPositionen.ElementAt(2).Y - UmwandlungswertYKoordinate) * -1;
                 System.Console.SetCursorPosition(CursorXPosition, 18);
                 System.Console.WriteLine(GlobalStrings.DreiSprungPositionenVorhanden, xKoordinate1, yKoordinate1, xKoordinate2, yKoordinate2, xKoordinate3, yKoordinate3);
             }
             else if (sprungPositionen.Count == 4)
             {
-                var xKoordinate2 = Convert.ToChar(sprungPositionen.ElementAt(1).XKoordinate + 97);
-                var yKoordinate2 = (sprungPositionen.ElementAt(1).YKoordinate - UmwandlungswertYKoordinate) * -1;
-                var xKoordinate3 = Convert.ToChar(sprungPositionen.ElementAt(2).XKoordinate + 97);
-                var yKoordinate3 = (sprungPositionen.ElementAt(2).YKoordinate - UmwandlungswertYKoordinate) * -1;
-                var xKoordinate4 = Convert.ToChar(sprungPositionen.ElementAt(3).XKoordinate + 97);
-                var yKoordinate4 = (sprungPositionen.ElementAt(3).YKoordinate - UmwandlungswertYKoordinate) * -1;
+                var xKoordinate2 = Convert.ToChar(sprungPositionen.ElementAt(1).X + 97);
+                var yKoordinate2 = (sprungPositionen.ElementAt(1).Y - UmwandlungswertYKoordinate) * -1;
+                var xKoordinate3 = Convert.ToChar(sprungPositionen.ElementAt(2).X + 97);
+                var yKoordinate3 = (sprungPositionen.ElementAt(2).Y - UmwandlungswertYKoordinate) * -1;
+                var xKoordinate4 = Convert.ToChar(sprungPositionen.ElementAt(3).X + 97);
+                var yKoordinate4 = (sprungPositionen.ElementAt(3).Y - UmwandlungswertYKoordinate) * -1;
                 System.Console.SetCursorPosition(CursorXPosition, 18);
                 System.Console.WriteLine(GlobalStrings.VierSprungPositionenVorhanden, xKoordinate1, yKoordinate1, xKoordinate2, yKoordinate2, xKoordinate3, yKoordinate3, xKoordinate4, yKoordinate4);
             }
@@ -626,12 +626,12 @@ namespace Checkers.Console.Views
         {
             var xPosition1 = 0;
             var xPosition2 = 0;
-            if (Variant == Variant.Europäisch)
+            if (Variant == Variant.European)
             {
                 xPosition1 = 27;
                 xPosition2 = 28;
             }
-            if (Variant == Variant.Amerikanisch)
+            if (Variant == Variant.American)
             {
                 xPosition1 = 33;
                 xPosition2 = 34;

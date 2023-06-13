@@ -1,42 +1,49 @@
 ﻿namespace Checkers.Console.Models
 {
-    // Klasse Position enthält alle möglichen Koordinaten, welche für eine normale Bewegung oder einen Sprung benötigt werden
+    /// <summary>
+    /// Contains all possible coordinates, which are needed for a normal movement or a jump
+    /// </summary>
     public class Position
     {
-        public int XKoordinate { get; set; }
-        public int YKoordinate { get; set; }
-        // sogenannte calculated properties
-        public int XKoordinateRechts => XKoordinate + 1;
-        public int XKoordinateLinks => XKoordinate - 1;
-        public int ÜbernächsteXKoordinateRechts => XKoordinate + 2;
-        public int ÜbernächsteXKoordinateLinks => XKoordinate - 2;
-        public int NächsteYKoordinate { get; set; }
-        public int ÜbernächsteYKoordinate { get; set; }
-        public int NächsteYKoordinateRückwärts { get; set; }
-        public int ÜbernächsteYKoordinateRückwärts { get; set; }
-        public SprungRichtung SprungRechtsHinten { get; set; }
-        public SprungRichtung SprungLinksHinten { get; set; }
-        public SprungRichtung SprungRechtsVorne { get; set; }
-        public SprungRichtung SprungLinksVorne { get; set; }
+        /// <summary>
+        /// Current X-Coordinate
+        /// </summary>
+        public int X { get; set; }
+        /// <summary>
+        /// Current Y-Coordinate
+        /// </summary>
+        public int Y { get; set; }
+        public int XRight => X + 1;
+        public int XLeft => X - 1;
+        public int SecondXRight => X + 2;
+        public int SecondXLeft => X - 2;
+        public int NextYCoordinate { get; set; }
+        public int SecondNextYCoordinate { get; set; }
+        public int NextYCoordinateBackwards { get; set; }
+        public int SecondYCoordinateBackwards { get; set; }
+        public SprungRichtung RightBackwardsJump { get; set; }
+        public SprungRichtung LeftBackwardsJump { get; set; }
+        public SprungRichtung RightJump { get; set; }
+        public SprungRichtung LeftJump { get; set; }
 
-        public Position(int xKoordinate, int yKoordinate, int spielRichtung)
+        public Position(int x, int y, int gameDirection)
         {
-            XKoordinate = xKoordinate;
-            YKoordinate = yKoordinate;
-            NächsteYKoordinate = yKoordinate + spielRichtung;
-            ÜbernächsteYKoordinate = yKoordinate + 2 * spielRichtung;
-            NächsteYKoordinateRückwärts = yKoordinate - spielRichtung;
-            ÜbernächsteYKoordinateRückwärts = yKoordinate - 2 * spielRichtung;
+            X = x;
+            Y = y;
+            NextYCoordinate = y + gameDirection;
+            SecondNextYCoordinate = y + 2 * gameDirection;
+            NextYCoordinateBackwards = y - gameDirection;
+            SecondYCoordinateBackwards = y - 2 * gameDirection;
 
-            SprungRechtsHinten = new SprungRichtung(XKoordinateRechts, NächsteYKoordinateRückwärts, ÜbernächsteXKoordinateRechts, ÜbernächsteYKoordinateRückwärts);
-            SprungLinksHinten = new SprungRichtung(XKoordinateLinks, NächsteYKoordinateRückwärts, ÜbernächsteXKoordinateLinks, ÜbernächsteYKoordinateRückwärts);
-            SprungRechtsVorne = new SprungRichtung(XKoordinateRechts, NächsteYKoordinate, ÜbernächsteXKoordinateRechts, ÜbernächsteYKoordinate);
-            SprungLinksVorne = new SprungRichtung(XKoordinateLinks, NächsteYKoordinate, ÜbernächsteXKoordinateLinks, ÜbernächsteYKoordinate);
+            RightBackwardsJump = new SprungRichtung(XRight, NextYCoordinateBackwards, SecondXRight, SecondYCoordinateBackwards);
+            LeftBackwardsJump = new SprungRichtung(XLeft, NextYCoordinateBackwards, SecondXLeft, SecondYCoordinateBackwards);
+            RightJump = new SprungRichtung(XRight, NextYCoordinate, SecondXRight, SecondNextYCoordinate);
+            LeftJump = new SprungRichtung(XLeft, NextYCoordinate, SecondXLeft, SecondNextYCoordinate);
         }
 
         protected bool Equals(Position other)
         {
-            return XKoordinate == other.XKoordinate && YKoordinate == other.YKoordinate;
+            return X == other.X && Y == other.Y;
         }
 
         public override bool Equals(object obj)
@@ -63,16 +70,14 @@
         {
             unchecked
             {
-                return (XKoordinate * 397) ^ YKoordinate;
+                return (X * 397) ^ Y;
             }
         }
 
-        public bool IstDasEinWeißesFeld(Position zielPosition)
+        public bool IsWhiteField(Position destination)
         {
-            // Prüft ob die eingegebenen Koordinaten einem weißen Feld entsprechen
-            var istEinWeißesFeld = (zielPosition.XKoordinate + zielPosition.YKoordinate) % 2 == 0;
-
-            return istEinWeißesFeld;
+            var isWhiteField = (destination.X + destination.Y) % 2 == 0;
+            return isWhiteField;
         }
     }
 }

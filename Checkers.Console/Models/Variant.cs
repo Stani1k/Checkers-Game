@@ -2,7 +2,7 @@
 {
     public enum Variant
     {
-        Amerikanisch,
-        Europäisch
+        American,
+        European
     }
 }

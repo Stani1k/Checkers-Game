@@ -34,8 +34,8 @@ namespace Checkers.UnitTests
         }
 
         [Test]
-        [TestCase(Variant.Amerikanisch, Variant.Amerikanisch)]
-        [TestCase(Variant.Europäisch, Variant.Europäisch)]
+        [TestCase(Variant.American, Variant.American)]
+        [TestCase(Variant.European, Variant.European)]
         public void WähleSpielvariante_NutzerWähltVariante_SetzePropertyWertAufVariante(Variant selektierteVariante, Variant erwartung)
         {
             // Act

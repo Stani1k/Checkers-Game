@@ -36,10 +36,10 @@ namespace Checkers.Console.Models
 
         public bool IsNextPositionValid(Position destination)
         {
-            if (CurrentPosition.XKoordinateRechts == destination.XKoordinate ||
-                CurrentPosition.XKoordinateLinks == destination.XKoordinate)
+            if (CurrentPosition.XRight == destination.X ||
+                CurrentPosition.XLeft == destination.X)
             {
-                if (CurrentPosition.NächsteYKoordinate == destination.YKoordinate)
+                if (CurrentPosition.NextYCoordinate == destination.Y)
                 {
                     return true;
                 }
@@ -51,9 +51,9 @@ namespace Checkers.Console.Models
         public bool IsAmericanQueenMoveValid(Position destination)
         {
             // American Checkers: Queen can only move one field forward and backwards
-            if (CurrentPosition.XKoordinateRechts == destination.XKoordinate || CurrentPosition.XKoordinateLinks == destination.XKoordinate)
+            if (CurrentPosition.XRight == destination.X || CurrentPosition.XLeft == destination.X)
             {
-                if (CurrentPosition.NächsteYKoordinate == destination.YKoordinate || CurrentPosition.NächsteYKoordinateRückwärts == destination.YKoordinate)
+                if (CurrentPosition.NextYCoordinate == destination.Y || CurrentPosition.NextYCoordinateBackwards == destination.Y)
                 {
                     return true;
                 }
@@ -66,8 +66,8 @@ namespace Checkers.Console.Models
         {
             // European Checkers: Queen can move unlimited fields forward and backwards
             return Moves
-                .Where(currentPosition => currentPosition.XKoordinate == destination.XKoordinate)
-                .Any(position => position.YKoordinate == destination.YKoordinate);
+                .Where(currentPosition => currentPosition.X == destination.X)
+                .Any(position => position.Y == destination.Y);
         }
     }
 }
