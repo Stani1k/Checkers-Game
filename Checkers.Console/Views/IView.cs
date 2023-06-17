@@ -7,29 +7,32 @@ namespace Checkers.Console.Views
 {
     public interface IView
     {
-        int AnzahlSpalten { get; }
-        int AnzahlZeilen { get; }
-        int CursorXPosition { get; }
-        int UmwandlungswertYKoordinate { get; }
+        int ColumnCount { get; }
+        int RowCount { get; }
+        int CursorXCoordinate { get; }
+        int CursorYCoordinate { get; }
         Variant Variant { get; set; }
-        void KonfiguriereKonsolenfenster();
-        void GrüßeNutzer();
-        int Sprachauswahl();
-        Variant EingabeSpielvariante();
-        string EingabeSpielername(int spielerNummer);
-        string ErmittleSeiten(string spielername);
-        ConsoleColor FarbeDerSpielsteineErmitteln(string spielername, int spielerNummer);
-        void NutzerSelektierenZweiGleicheFarben();
-        void NutzerWählenZweiGleicheNamen();
-        void ErstelleSpielbrett();
-        void ErstelleYAchse(int zeile);
-        void ErstelleSpalten(int reihe);
+        /// <summary>
+        /// SetUp everything related to View like culture, window size etc.
+        /// </summary>
+        void SetUp();
+        void GreetPlayer();
+        int ChooseLanguage();
+        Variant SelectGameVariant();
+        string EnterPlayerName(int playerID);
+        string SelectStartingSite(string playerName);
+        ConsoleColor SelectCheckersColor(string spielername, int spielerNummer);
+        void PlayerSelectSameCheckerColor();
+        void PlayerSelectEqualNames();
+        void CreateGameboard();
+        void CreateColumns(int columnNumber);
+        void CreateRows(int rowNumber);
         void ErstelleXAchse();
-        void DruckeSpielstein(Checker checker);
-        void SpielinformationenZumAufgeben();
-        Position EingabeKoordinaten(bool istStartKoordinate, Player spieler);
-        void AktuellePositionAnzeigen(char xKoordinate, int yKoordinate);
-        void PlatziereSpielstein(Checker bewegenderSpielstein);
+        void PrintChecker(Checker checker);
+        void ShowSurrenderOption();
+        Position GetPosition(bool isStartingCoordinate, Player player);
+        void ShowCurrentPosition(char x, int y);
+        void MoveChecker(Checker bewegenderSpielstein);
         void EntferneSpielstein(Checker geschlagenerSpielstein);
         void SpielsteinWurdeInDameUmgewandelt(Position positionSpielstein);
         void BewegeGegnerischenSpielstein();

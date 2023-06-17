@@ -44,7 +44,7 @@ namespace Checkers.Console.Models
             Checker checker;
             do
             {
-                var startingPosition = _view.EingabeKoordinaten(true, player);
+                var startingPosition = _view.GetPosition(true, player);
                 checker = CheckSelectedChecker(checkersWithMaxJumps, startingPosition);
             } while (checker == null);
 

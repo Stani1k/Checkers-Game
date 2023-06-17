@@ -39,7 +39,7 @@ namespace Checkers.UnitTests
         public void WähleSpielvariante_NutzerWähltVariante_SetzePropertyWertAufVariante(Variant selektierteVariante, Variant erwartung)
         {
             // Act
-            _view.Setup(v => v.EingabeSpielvariante()).Returns(selektierteVariante);
+            _view.Setup(v => v.SelectGameVariant()).Returns(selektierteVariante);
 
             // Assert
             Assert.That(_settings.Variant, Is.EqualTo(erwartung));

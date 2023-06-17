@@ -21,10 +21,10 @@
         public int SecondNextYCoordinate { get; set; }
         public int NextYCoordinateBackwards { get; set; }
         public int SecondYCoordinateBackwards { get; set; }
-        public SprungRichtung RightBackwardsJump { get; set; }
-        public SprungRichtung LeftBackwardsJump { get; set; }
-        public SprungRichtung RightJump { get; set; }
-        public SprungRichtung LeftJump { get; set; }
+        public JumpDestination RightBackwardsJump { get; set; }
+        public JumpDestination LeftBackwardsJump { get; set; }
+        public JumpDestination RightJump { get; set; }
+        public JumpDestination LeftJump { get; set; }
 
         public Position(int x, int y, int gameDirection)
         {
@@ -35,10 +35,10 @@
             NextYCoordinateBackwards = y - gameDirection;
             SecondYCoordinateBackwards = y - 2 * gameDirection;
 
-            RightBackwardsJump = new SprungRichtung(XRight, NextYCoordinateBackwards, SecondXRight, SecondYCoordinateBackwards);
-            LeftBackwardsJump = new SprungRichtung(XLeft, NextYCoordinateBackwards, SecondXLeft, SecondYCoordinateBackwards);
-            RightJump = new SprungRichtung(XRight, NextYCoordinate, SecondXRight, SecondNextYCoordinate);
-            LeftJump = new SprungRichtung(XLeft, NextYCoordinate, SecondXLeft, SecondNextYCoordinate);
+            RightBackwardsJump = new JumpDestination(XRight, NextYCoordinateBackwards, SecondXRight, SecondYCoordinateBackwards);
+            LeftBackwardsJump = new JumpDestination(XLeft, NextYCoordinateBackwards, SecondXLeft, SecondYCoordinateBackwards);
+            RightJump = new JumpDestination(XRight, NextYCoordinate, SecondXRight, SecondNextYCoordinate);
+            LeftJump = new JumpDestination(XLeft, NextYCoordinate, SecondXLeft, SecondNextYCoordinate);
         }
 
         protected bool Equals(Position other)
