@@ -128,23 +128,23 @@ namespace Checkers.Console
                 var startPosition = _view.GetPosition(true, spieler);
                 if (spieler.IsSurrendering(startPosition))
                 {
-                    _view.SpielerHatAufgegeben(spieler, gegner);
+                    _view.PlayerHasSurrendered(spieler, gegner);
                     Environment.Exit(0);
                 }
                 bewegenderChecker = spieler.GetCheckerWithMatchingCoordinates(startPosition);
                 if (IstDasEinGegnerischerSpielstein(gegner, startPosition))
                 {
-                    _view.BewegeGegnerischenSpielstein();
+                    _view.TryMovingOpponentChecker();
                     continue;
                 }
                 if (IstDasEinLeeresFeld(bewegenderChecker))
                 {
-                    _view.SelektiereLeeresFeld();
+                    _view.SelectEmptyField();
                     continue;
                 }
                 if (!IstDieserSpielsteinBewegbar(bewegenderChecker, spieler, gegner))
                 {
-                    _view.BewegeSpielsteinNichtMöglich();
+                    _view.MovingNotPossible();
                     continue;
                 }
                 if (IstDieserSpielsteinBewegbar(bewegenderChecker, spieler, gegner))
@@ -166,12 +166,12 @@ namespace Checkers.Console
                 var zielPosition = _view.GetPosition(false, spieler);
                 if (zielPosition.IsWhiteField(zielPosition))
                 {
-                    _view.BewegeSpielsteinAufWeißesFeld();
+                    _view.MoveCheckerOnWhiteField();
                     continue;
                 }
                 if (checker.IsFieldAlreadyOccupied(spieler, zielPosition) || checker.IsFieldAlreadyOccupied(gegner, zielPosition))
                 {
-                    _view.BewegeCheckerAufAnderenChecker();
+                    _view.MoveCheckerOnOccupiedField();
                     continue;
                 }
                 if (istSprungVerfügbar)
@@ -181,14 +181,14 @@ namespace Checkers.Console
                 }
                 if (!IstDasEineGültigeDiagonaleBewegung(checker, zielPosition))
                 {
-                    _view.BewegeSpielsteinWeiterAlsErlaubt();
+                    _view.TryMovingCheckerToFarAway();
                     continue;
                 }
                 checker.CurrentPosition = zielPosition;
                 if (IstUmwandlungInDameMöglich(spieler, checker, zielPosition))
                 {
                     checker.TransformCheckerInQueen();
-                    _view.SpielsteinWurdeInDameUmgewandelt(checker.CurrentPosition);
+                    _view.TransformCheckerToQueen(checker.CurrentPosition);
                     _view.MoveChecker(checker);
                 }
                 else
@@ -203,15 +203,15 @@ namespace Checkers.Console
         {
             while (!SindDasGültigeSprungKoordinaten(spieler, gegner, checker, zielPosition))
             {
-                _view.ErzwingeSprung(_sprungPositionen);
+                _view.ForceJump(_sprungPositionen);
                 zielPosition = _view.GetPosition(false, spieler);
             }
-            _view.EntferneSpielstein(checker);
+            _view.RemoveChecker(checker);
             checker.CurrentPosition = zielPosition;
             if (IstUmwandlungInDameMöglich(spieler, checker, zielPosition))
             {
                 checker.TransformCheckerInQueen();
-                _view.SpielsteinWurdeInDameUmgewandelt(checker.CurrentPosition);
+                _view.TransformCheckerToQueen(checker.CurrentPosition);
                 _view.MoveChecker(checker);
             }
             else
@@ -230,7 +230,7 @@ namespace Checkers.Console
                 {
                     var spielsteine = BestimmeSpielsteineMitMaxSprüngen(spielsteineHabenSprung);
                     var selektierterChecker = spieler.ChooseChecker(spieler, spielsteine);
-                    _view.EntferneSpielstein(selektierterChecker);
+                    _view.RemoveChecker(selektierterChecker);
                     // Je nach Anzahl der Sprünge, werden für jeden einzelnen Sprung folgende Anweisungen wiederholt
                     for (var i = 0; i < selektierterChecker.PossibleJumpCount; i++)
                     {
@@ -239,7 +239,7 @@ namespace Checkers.Console
                             if (SprungWurdeGefunden(selektierterChecker, spieler, gegner)) { }
                         }
                         BewegeSpielstein(selektierterChecker, spieler, gegner, true);
-                        _view.ZeigeAktuelleAnzahlDerSpielsteine(_spieler1.Name, _spieler1.Checkers.Count, _spieler2.Name, _spieler2.Checkers.Count);
+                        _view.ShowCurrentCheckerAmount(_spieler1.Name, _spieler1.Checkers.Count, _spieler2.Name, _spieler2.Checkers.Count);
                     }
                     break;
                 }
@@ -247,9 +247,9 @@ namespace Checkers.Console
                 // Falls einer der Checker des Spielers keinen Sprung zur Verfügung hat, wird geprüft ob der ausgewählte Checker sich diagonal bewegen kann
                 if (IstDieserSpielsteinBewegbar(bewegenderChecker, spieler, gegner))
                 {
-                    _view.EntferneSpielstein(bewegenderChecker);
+                    _view.RemoveChecker(bewegenderChecker);
                     BewegeSpielstein(bewegenderChecker, spieler, gegner, false);
-                    _view.ZeigeAktuelleAnzahlDerSpielsteine(_spieler1.Name, _spieler1.Checkers.Count, _spieler2.Name, _spieler2.Checkers.Count);
+                    _view.ShowCurrentCheckerAmount(_spieler1.Name, _spieler1.Checkers.Count, _spieler2.Name, _spieler2.Checkers.Count);
                     break;
                 }
             }
@@ -707,7 +707,7 @@ namespace Checkers.Console
         {
             var spielsteineGleichVieleSprünge = spielsteine.Where(c => c.PossibleJumpCount == spielsteine.Max(s => s.PossibleJumpCount)).ToList();
             ZeigeUmgewandelteKoordinatenAn(spielsteineGleichVieleSprünge);
-            _view.ZeigeAnzahlGefundenerSprünge(spielsteineGleichVieleSprünge);
+            _view.ShowPossibleJumpCount(spielsteineGleichVieleSprünge);
 
             return spielsteineGleichVieleSprünge;
         }
@@ -818,14 +818,14 @@ namespace Checkers.Console
 
             if (spielsteine.Count == 1)
             {
-                _view.ZeigeEinenSprungAn(xKoordinateAlsBuchstabe, yKoordinateUmgewandelt);
+                _view.ShowPossibleJump(xKoordinateAlsBuchstabe, yKoordinateUmgewandelt);
             }
             else if (spielsteine.Count == 2)
             {
                 // Umgewandelte x und y Koordinaten des ZWEITEN gefundenen Spielstein, welcher über einen Sprung verfügt
                 var xKoordinate2AlsBuchstabe = Convert.ToChar(spielsteine[1].CurrentPosition.X + 97);
                 var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.Y - UmwandlungsWertYKoordinate) * -1;
-                _view.ZeigeZweiMöglicheSprüngeAn(xKoordinateAlsBuchstabe, yKoordinateUmgewandelt, xKoordinate2AlsBuchstabe, yKoordinate2Umgewandelt);
+                _view.ShowTwoPossibleJumps(xKoordinateAlsBuchstabe, yKoordinateUmgewandelt, xKoordinate2AlsBuchstabe, yKoordinate2Umgewandelt);
             }
         }
 
@@ -879,10 +879,10 @@ namespace Checkers.Console
                 if (gegnerischeSpielsteine[i].CurrentPosition.Equals(geschlagenerSpielstein))
                 {
                     // Entfernt den geschlagenen Spielstein aus der Klasse View
-                    _view.EntferneSpielstein(gegnerischeSpielsteine[i]);
+                    _view.RemoveChecker(gegnerischeSpielsteine[i]);
                     // Entfernt den geschlagenen Spielstein aus der Liste der Spielfiguren
                     gegnerischeSpielsteine.Remove(gegnerischeSpielsteine[i]);
-                    _view.SchlageGegnerischenSpielstein();
+                    _view.BeatChecker();
                     break;
                 }
             }
@@ -894,7 +894,7 @@ namespace Checkers.Console
             _zeitMessung.Start();
             if (_zeitMessung.ElapsedMilliseconds >= 15000)
             {
-                _view.ZeigeVerstricheneZeitAn(_zeitMessung);
+                _view.ShowPassedTime(_zeitMessung);
                 Thread.Sleep(1000);
             }
         }
@@ -915,13 +915,13 @@ namespace Checkers.Console
             {
                 if ((zähleSpielzüge + spieler2AmZug) % 2 != 0)
                 {
-                    _view.ZeigeSpielzugAn(_spieler1.Name, _spieler1.CheckersColor);
+                    _view.ShowPlayerTurn(_spieler1.Name, _spieler1.CheckersColor);
                     SpielzugDurchführen(_spieler1, _spieler2);
                     zähleSpielzüge++;
                 }
                 else
                 {
-                    _view.ZeigeSpielzugAn(_spieler2.Name, _spieler2.CheckersColor);
+                    _view.ShowPlayerTurn(_spieler2.Name, _spieler2.CheckersColor);
                     SpielzugDurchführen(_spieler2, _spieler1);
                     spieler2AmZug++;
                 }
@@ -933,17 +933,17 @@ namespace Checkers.Console
         {
             if (_spieler1.Checkers.Count == 0)
             {
-                _view.ZeigeGewinnerAn(_spieler2.Name);
+                _view.ShowWinner(_spieler2.Name);
             }
             else if (_spieler2.Checkers.Count == 0)
             {
-                _view.ZeigeGewinnerAn(_spieler1.Name);
+                _view.ShowWinner(_spieler1.Name);
             }
         }
 
         private void BeendeAnwendung()
         {
-            _view.BeendeSpiel();
+            _view.QuitGame();
             Environment.Exit(0);
         }
     }
