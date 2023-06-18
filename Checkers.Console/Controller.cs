@@ -8,87 +8,88 @@ using Checkers.Console.Views;
 
 namespace Checkers.Console
 {
-    // Controller kennt die View
-
     public class Controller
     {
-        private Player _spieler1;
-        private Player _spieler2;
+        private Player player1;
+        private Player player2;
 
         private readonly IView _view;
         private readonly Settings _settings;
-        private readonly GameBoard _spielfeld;
-        private readonly Stopwatch _zeitMessung = new Stopwatch();
+        private readonly GameBoard gameboard;
+        private readonly Stopwatch stopwatch = new Stopwatch();
 
         public Controller(IView view = null)
         {
             _view = view ?? new View();
             _settings = new Settings();
-            _spielfeld = new GameBoard(_settings);
+            gameboard = new GameBoard(_settings);
         }
 
-        // Wert für die Umwandlung der yKoordinate
-        private int UmwandlungsWertYKoordinate => _settings.Variant == Variant.American ? 10 : 8;
-        // Liste um alle möglichen Sprung Positionen, pro Sprung, zu speichern (max 4. Möglichkeiten)
-        private readonly List<Position> _sprungPositionen = new List<Position>();
-        private readonly List<Position> _übersprungeneSpielsteine = new List<Position>();
-        private List<int> _möglichkeitenEuropäischerDame= new List<int>();
+        /// <summary>
+        /// Contains all possible jump positions (max. 4 per Checker)
+        /// </summary>
+        private readonly List<Position> jumpPositions = new List<Position>();
+        /// <summary>
+        /// Contains all Checkers that have been skipped
+        /// </summary>
+        private readonly List<Position> skippedCheckers = new List<Position>();
+        private List<int> queenPossiblePositionCount= new List<int>();
 
-        public void StarteAnwendung()
+        public void RunApplication()
         {
             _view.SetUp();
             _view.GreetPlayer();
             Settings.SetGameLanguage(_view.ChooseLanguage());
             _settings.SetGameVariant(_view.SelectGameVariant());
             _view.CreateGameboard();
-            WähleSpielernamen();
+            SelectPlayerNames();
             ErmittleSpielsteinFarben();
             SeitenZuweisen();
-            ErzeugeSpielsteine(_spieler1);
-            ErzeugeSpielsteine(_spieler2);
-            PlatziereSpielsteineVorStart(_spieler1);
-            PlatziereSpielsteineVorStart(_spieler2);
+            ErzeugeSpielsteine(player1);
+            ErzeugeSpielsteine(player2);
+            PlatziereSpielsteineVorStart(player1);
+            PlatziereSpielsteineVorStart(player2);
             WiederholeSpielzüge();
             GewinnerErmitteln();
             BeendeAnwendung();
         }
 
-        private void WähleSpielernamen()
+        private void SelectPlayerNames()
         {
-            _spieler1 = new Player(_view) {Nummer = 1};
-            _spieler2 = new Player(_view){Nummer = 2};
-            _spieler1.Name = _view.EnterPlayerName(_spieler1.Nummer);
-            _spieler2.Name = _view.EnterPlayerName(_spieler2.Nummer);
-            while (_spieler1.Name.Equals(_spieler2.Name))
+            player1 = new Player(_view) {Nummer = 1};
+            player2 = new Player(_view){Nummer = 2};
+            player1.Name = _view.EnterPlayerName(player1.Nummer);
+            player2.Name = _view.EnterPlayerName(player2.Nummer);
+            while (player1.Name.Equals(player2.Name))
             {
                 _view.PlayerSelectEqualNames();
-                _spieler1.Name = _view.EnterPlayerName(_spieler1.Nummer);
-                _spieler2.Name = _view.EnterPlayerName(_spieler2.Nummer);
+                player1.Name = _view.EnterPlayerName(player1.Nummer);
+                player2.Name = _view.EnterPlayerName(player2.Nummer);
             }
         }
 
         private void ErmittleSpielsteinFarben()
         {
-            _spieler1.CheckersColor = _view.SelectCheckersColor(_spieler1.Name, _spieler1.Nummer);
-            _spieler2.CheckersColor = _view.SelectCheckersColor(_spieler2.Name, _spieler2.Nummer);
-            while (_spieler1.CheckersColor.Equals(_spieler2.CheckersColor))
+            player1.CheckersColor = _view.SelectCheckersColor(player1.Name, player1.Nummer);
+            player2.CheckersColor = _view.SelectCheckersColor(player2.Name, player2.Nummer);
+            while (player1.CheckersColor.Equals(player2.CheckersColor))
             {
                 _view.PlayerSelectSameCheckerColor();
-                _spieler1.CheckersColor = _view.SelectCheckersColor(_spieler1.Name, _spieler1.Nummer);
-                _spieler2.CheckersColor = _view.SelectCheckersColor(_spieler2.Name, _spieler2.Nummer);
+                player1.CheckersColor = _view.SelectCheckersColor(player1.Name, player1.Nummer);
+                player2.CheckersColor = _view.SelectCheckersColor(player2.Name, player2.Nummer);
             }
         }
 
         private void SeitenZuweisen()
         {
-            _spieler1.SetGameDirection(_view.SelectStartingSite(_spieler1.Name));
-            if (_spieler1.GameDirection == 1)
+            player1.SetGameDirection(_view.SelectStartingSite(player1.Name));
+            if (player1.GameDirection == 1)
             {
-                _spieler2.GameDirection = -1;
+                player2.GameDirection = -1;
             }
-            else if (_spieler1.GameDirection == -1)
+            else if (player1.GameDirection == -1)
             {
-                _spieler2.GameDirection = 1;
+                player2.GameDirection = 1;
             }
         }
 
@@ -96,11 +97,11 @@ namespace Checkers.Console
         {
             spieler.Checkers = new List<Checker>();
             // y = y-Koordinate ; x = x-Koordinate
-            for (var y = 0; y < _spielfeld.RowCount; y++)
+            for (var y = 0; y < gameboard.RowCount; y++)
             {
-                for (var x = 0; x < _spielfeld.ColumnCount; x++)
+                for (var x = 0; x < gameboard.ColumnCount; x++)
                 {
-                    if (spieler.GameDirection == 1 && y < _spielfeld.StartingUpperRow || spieler.GameDirection == -1 && y > _spielfeld.StartingLowerRow)
+                    if (spieler.GameDirection == 1 && y < gameboard.StartingUpperRow || spieler.GameDirection == -1 && y > gameboard.StartingLowerRow)
                     {
                         // != Ungleich Null bedeutet, dass die Spielsteine auf einem schwarzen Feld positioniert werden
                         if ((x + y) % 2 != 0)
@@ -203,7 +204,7 @@ namespace Checkers.Console
         {
             while (!SindDasGültigeSprungKoordinaten(spieler, gegner, checker, zielPosition))
             {
-                _view.ForceJump(_sprungPositionen);
+                _view.ForceJump(jumpPositions);
                 zielPosition = _view.GetPosition(false, spieler);
             }
             _view.RemoveChecker(checker);
@@ -239,7 +240,7 @@ namespace Checkers.Console
                             if (SprungWurdeGefunden(selektierterChecker, spieler, gegner)) { }
                         }
                         BewegeSpielstein(selektierterChecker, spieler, gegner, true);
-                        _view.ShowCurrentCheckerAmount(_spieler1.Name, _spieler1.Checkers.Count, _spieler2.Name, _spieler2.Checkers.Count);
+                        _view.ShowCurrentCheckerAmount(player1.Name, player1.Checkers.Count, player2.Name, player2.Checkers.Count);
                     }
                     break;
                 }
@@ -249,7 +250,7 @@ namespace Checkers.Console
                 {
                     _view.RemoveChecker(bewegenderChecker);
                     BewegeSpielstein(bewegenderChecker, spieler, gegner, false);
-                    _view.ShowCurrentCheckerAmount(_spieler1.Name, _spieler1.Checkers.Count, _spieler2.Name, _spieler2.Checkers.Count);
+                    _view.ShowCurrentCheckerAmount(player1.Name, player1.Checkers.Count, player2.Name, player2.Checkers.Count);
                     break;
                 }
             }
@@ -260,8 +261,8 @@ namespace Checkers.Console
             if (!checker.IsQueen)
             {
                 // Prüft ob der Checker auf der gegnerischen Grundreihe angekommen ist
-                if (zielPosition.Equals(new Position(zielPosition.X, _spielfeld.StartingLowerRow, spieler.GameDirection)) ^
-                    zielPosition.Equals(new Position(zielPosition.X, _spielfeld.StartingUpperRow, spieler.GameDirection)))
+                if (zielPosition.Equals(new Position(zielPosition.X, gameboard.StartingLowerRow, spieler.GameDirection)) ^
+                    zielPosition.Equals(new Position(zielPosition.X, gameboard.StartingUpperRow, spieler.GameDirection)))
                 {
                     return true;
                 }
@@ -369,7 +370,7 @@ namespace Checkers.Console
 
         private int BerechneSprüngeEuropäischerDame(Player spieler, Player gegner, Checker checker, Position position)
         {
-            _möglichkeitenEuropäischerDame.Clear();
+            queenPossiblePositionCount.Clear();
             var dameSprungRechts = SucheSprungNachRechts(spieler, gegner, position);
             Position sprungMöglichkeit = null;
             if (dameSprungRechts != null)
@@ -401,18 +402,18 @@ namespace Checkers.Console
                 return 0;
             }
 
-            _übersprungeneSpielsteine.Clear();
-            return _möglichkeitenEuropäischerDame.Max();
+            skippedCheckers.Clear();
+            return queenPossiblePositionCount.Max();
         }
 
         private Position FügeSprungZurListeHinzu(Player spieler, Player gegner, Checker checker, Position dameSprung, Position geschlagenerSpielstein)
         {
             if (dameSprung != null)
             {
-                if (!_übersprungeneSpielsteine.Contains(geschlagenerSpielstein))
+                if (!skippedCheckers.Contains(geschlagenerSpielstein))
                 {
-                    _übersprungeneSpielsteine.Add(geschlagenerSpielstein);
-                    _möglichkeitenEuropäischerDame.Add(1 + BerechneSprüngeEuropäischerDame(spieler, gegner, checker, dameSprung));
+                    skippedCheckers.Add(geschlagenerSpielstein);
+                    queenPossiblePositionCount.Add(1 + BerechneSprüngeEuropäischerDame(spieler, gegner, checker, dameSprung));
                 }
                 else
                 {
@@ -428,13 +429,13 @@ namespace Checkers.Console
             while (!SindKoordinatenAußerhalbSpielfeld(neuPosSpielstein.X, neuPosSpielstein.Y))
             {
                 // Falls von der neu berechneten Position, sich diagonal rechts ein eigener Spielstein befindet, wird die "Suche" beendet
-                if (!_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.XRight, neuPosSpielstein.NextYCoordinate, spieler))
+                if (!gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.XRight, neuPosSpielstein.NextYCoordinate, spieler))
                 {
                     return null;
                 }
                 // Falls diagonal rechts UND auf dem übernächsten diagonalen Feld rechts sich ein gegnerischer Spielstein befindet, wird die "Suche" ebenfalls beendet
-                if (!_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.XRight, neuPosSpielstein.NextYCoordinate, gegner) && 
-                    !_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.SecondXRight, neuPosSpielstein.SecondNextYCoordinate, gegner))
+                if (!gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.XRight, neuPosSpielstein.NextYCoordinate, gegner) && 
+                    !gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.SecondXRight, neuPosSpielstein.SecondNextYCoordinate, gegner))
                 {
                     return null;
                 }
@@ -452,12 +453,12 @@ namespace Checkers.Console
         {
             while (!SindKoordinatenAußerhalbSpielfeld(neuPosSpielstein.X, neuPosSpielstein.Y))
             {
-                if (!_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.XLeft, neuPosSpielstein.NextYCoordinate, spieler))
+                if (!gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.XLeft, neuPosSpielstein.NextYCoordinate, spieler))
                 {
                     return null;
                 }
-                if (!_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.XLeft, neuPosSpielstein.NextYCoordinate, gegner) && 
-                    !_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.SecondXLeft, neuPosSpielstein.SecondNextYCoordinate, gegner))
+                if (!gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.XLeft, neuPosSpielstein.NextYCoordinate, gegner) && 
+                    !gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.SecondXLeft, neuPosSpielstein.SecondNextYCoordinate, gegner))
                 {
                     return null;
                 }
@@ -476,13 +477,13 @@ namespace Checkers.Console
             while (!SindKoordinatenAußerhalbSpielfeld(neuPosSpielstein.X, neuPosSpielstein.Y))
             {
                 // Falls von der neu berechneten Position, sich diagonal rechts ein eigener Spielstein befindet, wird die "Suche" beendet
-                if (!_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.XRight, neuPosSpielstein.NextYCoordinateBackwards, spieler))
+                if (!gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.XRight, neuPosSpielstein.NextYCoordinateBackwards, spieler))
                 {
                     return null;
                 }
                 // Falls diagonal rechts UND auf dem übernächsten diagonalen Feld rechts sich ein gegnerischer Spielstein befindet, wird die "Suche" ebenfalls beendet
-                if (!_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.XRight, neuPosSpielstein.NextYCoordinateBackwards, gegner) && 
-                    !_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.SecondXRight, neuPosSpielstein.SecondYCoordinateBackwards, gegner))
+                if (!gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.XRight, neuPosSpielstein.NextYCoordinateBackwards, gegner) && 
+                    !gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.SecondXRight, neuPosSpielstein.SecondYCoordinateBackwards, gegner))
                 {
                     return null;
                 }
@@ -501,13 +502,13 @@ namespace Checkers.Console
             while (!SindKoordinatenAußerhalbSpielfeld(neuPosSpielstein.X, neuPosSpielstein.Y))
             {
                 // Falls von der neu berechneten Position, sich diagonal rechts ein eigener Spielstein befindet, wird die "Suche" beendet
-                if (!_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.XLeft, neuPosSpielstein.NextYCoordinateBackwards, spieler))
+                if (!gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.XLeft, neuPosSpielstein.NextYCoordinateBackwards, spieler))
                 {
                     return null;
                 }
                 // Falls diagonal rechts UND auf dem übernächsten diagonalen Feld rechts sich ein gegnerischer Spielstein befindet, wird die "Suche" ebenfalls beendet
-                if (!_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.XLeft, neuPosSpielstein.NextYCoordinateBackwards, gegner) && 
-                    !_spielfeld.IsDiagonalFieldEmpty(neuPosSpielstein.SecondXLeft, neuPosSpielstein.SecondYCoordinateBackwards, gegner))
+                if (!gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.XLeft, neuPosSpielstein.NextYCoordinateBackwards, gegner) && 
+                    !gameboard.IsDiagonalFieldEmpty(neuPosSpielstein.SecondXLeft, neuPosSpielstein.SecondYCoordinateBackwards, gegner))
                 {
                     return null;
                 }
@@ -618,8 +619,8 @@ namespace Checkers.Console
             if (!checker.IsQueen)
             {
                 // Bedingung trifft zu, wenn BEIDE diagonalen Felder mit eigenen oder gegnerischen Spielsteinen besetzt sind
-                if ((!_spielfeld.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, spieler) || !_spielfeld.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, gegner)) 
-                    && (!_spielfeld.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, spieler) || !_spielfeld.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, gegner)))
+                if ((!gameboard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, spieler) || !gameboard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, gegner)) 
+                    && (!gameboard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, spieler) || !gameboard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, gegner)))
                 {
                     return false;
                 }
@@ -628,16 +629,16 @@ namespace Checkers.Console
             if (checker.IsQueen)
             {
                 // Bedingung trifft zu, wenn BEIDE diagonalen Felder nach OBEN mit eigenen oder gegnerischen Spielsteinen besetzt sind
-                if ((!_spielfeld.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, spieler) ||
-                     !_spielfeld.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, gegner))
-                    && (!_spielfeld.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, spieler) ||
-                        !_spielfeld.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, gegner)))
+                if ((!gameboard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, spieler) ||
+                     !gameboard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, gegner))
+                    && (!gameboard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, spieler) ||
+                        !gameboard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, gegner)))
                 {
                     // Bedingung trifft zu, wenn BEIDE diagonalen Felder nach UNTEN ebenfalls mit eigenen oder gegnerischen Spielsteinen besetzt sind
-                    if ((!_spielfeld.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinateBackwards, spieler) ||
-                         !_spielfeld.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinateBackwards, gegner))
-                        && (!_spielfeld.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinateBackwards, spieler) ||
-                            !_spielfeld.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinateBackwards, gegner)))
+                    if ((!gameboard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinateBackwards, spieler) ||
+                         !gameboard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinateBackwards, gegner))
+                        && (!gameboard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinateBackwards, spieler) ||
+                            !gameboard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinateBackwards, gegner)))
                     {
                         return false;
                     }
@@ -649,12 +650,12 @@ namespace Checkers.Console
 
         private bool SindKoordinatenAußerhalbSpielfeld(int xKoordinate, int yKoordinate = 0)
         {
-            if (xKoordinate > _spielfeld.StartingUpperRow || xKoordinate < _spielfeld.StartingLowerRow)
+            if (xKoordinate > gameboard.StartingUpperRow || xKoordinate < gameboard.StartingLowerRow)
             {
                 return true;
             }
 
-            if (yKoordinate > _spielfeld.StartingUpperRow || yKoordinate < _spielfeld.StartingLowerRow)
+            if (yKoordinate > gameboard.StartingUpperRow || yKoordinate < gameboard.StartingLowerRow)
             {
                 return true;
             }
@@ -665,7 +666,7 @@ namespace Checkers.Console
         private bool IstEineDameBewegungMöglich(Player spieler, Player gegner, Position zielPosition)
         {
             // Prüft ob das diagonale Feld, mit den als Parameter übergebenen Koordinaten, frei ist
-            if (_spielfeld.IsDiagonalFieldEmpty(zielPosition.X, zielPosition.Y, spieler) && _spielfeld.IsDiagonalFieldEmpty(zielPosition.X, zielPosition.Y, gegner))
+            if (gameboard.IsDiagonalFieldEmpty(zielPosition.X, zielPosition.Y, spieler) && gameboard.IsDiagonalFieldEmpty(zielPosition.X, zielPosition.Y, gegner))
             {
                 return true;
             }
@@ -675,10 +676,10 @@ namespace Checkers.Console
         private bool IstEinSprungVerfügbar(Player spieler, Player gegner, JumpDestination sprungRichtung)
         {
             // Prüft ob das nächste diagonale Feld besetzt ist
-            if (!_spielfeld.IsDiagonalFieldEmpty(sprungRichtung.X, sprungRichtung.Y, gegner))
+            if (!gameboard.IsDiagonalFieldEmpty(sprungRichtung.X, sprungRichtung.Y, gegner))
             {
                 // Prüft ob das übernächste diagonale Feld frei ist, d.h. es befindet sich auf diesem Feld weder ein gegnerischer, noch ein eigener Checker
-                if (_spielfeld.IsDiagonalFieldEmpty(sprungRichtung.XNext, sprungRichtung.YNext, gegner) && _spielfeld.IsDiagonalFieldEmpty(sprungRichtung.XNext, sprungRichtung.YNext, spieler))
+                if (gameboard.IsDiagonalFieldEmpty(sprungRichtung.XNext, sprungRichtung.YNext, gegner) && gameboard.IsDiagonalFieldEmpty(sprungRichtung.XNext, sprungRichtung.YNext, spieler))
                 {
                     return true;
                 }
@@ -804,9 +805,9 @@ namespace Checkers.Console
 
         private void FügeSprungZurListeHinzu(Position sprungPosition)
         {
-            if (!_sprungPositionen.Contains(sprungPosition))
+            if (!jumpPositions.Contains(sprungPosition))
             {
-                _sprungPositionen.Add(sprungPosition);
+                jumpPositions.Add(sprungPosition);
             }
         }
 
@@ -814,7 +815,7 @@ namespace Checkers.Console
         {
             // Umgewandelte x und y Koordinaten des ERSTEN gefundenen Spielstein, welcher über einen Sprung verfügt
             var xKoordinateAlsBuchstabe = Convert.ToChar(spielsteine[0].CurrentPosition.X + 97);
-            var yKoordinateUmgewandelt = (spielsteine[0].CurrentPosition.Y - UmwandlungsWertYKoordinate) * -1;
+            var yKoordinateUmgewandelt = (spielsteine[0].CurrentPosition.Y - gameboard.ColumnCount) * -1;
 
             if (spielsteine.Count == 1)
             {
@@ -824,7 +825,7 @@ namespace Checkers.Console
             {
                 // Umgewandelte x und y Koordinaten des ZWEITEN gefundenen Spielstein, welcher über einen Sprung verfügt
                 var xKoordinate2AlsBuchstabe = Convert.ToChar(spielsteine[1].CurrentPosition.X + 97);
-                var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.Y - UmwandlungsWertYKoordinate) * -1;
+                var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.Y - gameboard.ColumnCount) * -1;
                 _view.ShowTwoPossibleJumps(xKoordinateAlsBuchstabe, yKoordinateUmgewandelt, xKoordinate2AlsBuchstabe, yKoordinate2Umgewandelt);
             }
         }
@@ -833,39 +834,39 @@ namespace Checkers.Console
         {
             Position geschlagenerSpielstein;
             // Sprung nach rechts unten
-            var sprungMöglichkeit1 = _sprungPositionen.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
+            var sprungMöglichkeit1 = jumpPositions.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
             if (zielPosition.Equals(sprungMöglichkeit1))
             {
                 geschlagenerSpielstein = new Position(sprungMöglichkeit1.X - 1, sprungMöglichkeit1.Y - 1, spieler.GameDirection);
                 EntferneGegnerischenSpielstein(gegner.Checkers, geschlagenerSpielstein);
-                _sprungPositionen.Clear();
+                jumpPositions.Clear();
                 return true;
             }
             // Sprung nach links unten
-            var sprungMöglichkeit2 = _sprungPositionen.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
+            var sprungMöglichkeit2 = jumpPositions.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
             if (zielPosition.Equals(sprungMöglichkeit2))
             {
                 geschlagenerSpielstein = new Position(sprungMöglichkeit2.X + 1, sprungMöglichkeit2.Y - 1, spieler.GameDirection);
                 EntferneGegnerischenSpielstein(gegner.Checkers, geschlagenerSpielstein);
-                _sprungPositionen.Clear();
+                jumpPositions.Clear();
                 return true;
             }
             // Sprung nach rechts oben
-            var sprungMöglichkeit3 = _sprungPositionen.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
+            var sprungMöglichkeit3 = jumpPositions.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
             if (zielPosition.Equals(sprungMöglichkeit3))
             {
                 geschlagenerSpielstein = new Position(sprungMöglichkeit3.X - 1, sprungMöglichkeit3.Y + 1, spieler.GameDirection);
                 EntferneGegnerischenSpielstein(gegner.Checkers, geschlagenerSpielstein);
-                _sprungPositionen.Clear();
+                jumpPositions.Clear();
                 return true;
             }
             // Sprung nach links oben
-            var sprungMöglichkeit4 = _sprungPositionen.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
+            var sprungMöglichkeit4 = jumpPositions.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
             if (zielPosition.Equals(sprungMöglichkeit4))
             {
                 geschlagenerSpielstein = new Position(sprungMöglichkeit4.X + 1, sprungMöglichkeit4.Y + 1, spieler.GameDirection);
                 EntferneGegnerischenSpielstein(gegner.Checkers, geschlagenerSpielstein);
-                _sprungPositionen.Clear();
+                jumpPositions.Clear();
                 return true;
             }
 
@@ -891,17 +892,17 @@ namespace Checkers.Console
         // ToDo: mit Implementierung eines Timers fortsetzen (Idee: Den Timer z.B. jede 15 Sekunden aktualisieren lassen)
         private void GeneriereZeitMesser()
         {
-            _zeitMessung.Start();
-            if (_zeitMessung.ElapsedMilliseconds >= 15000)
+            stopwatch.Start();
+            if (stopwatch.ElapsedMilliseconds >= 15000)
             {
-                _view.ShowPassedTime(_zeitMessung);
+                _view.ShowPassedTime(stopwatch);
                 Thread.Sleep(1000);
             }
         }
 
         private void BeendeZeitMessung()
         {
-            _zeitMessung.Stop();
+            stopwatch.Stop();
         }
 
         private void WiederholeSpielzüge()
@@ -911,18 +912,18 @@ namespace Checkers.Console
             var spieler2AmZug = 0;
             //GeneriereZeitMesser();
             // Das Spiel geht solange, bis einer der beiden Spieler keine Spielfiguren mehr hat
-            while (_spieler1.Checkers.Count != 0 || _spieler2.Checkers.Count != 0)
+            while (player1.Checkers.Count != 0 || player2.Checkers.Count != 0)
             {
                 if ((zähleSpielzüge + spieler2AmZug) % 2 != 0)
                 {
-                    _view.ShowPlayerTurn(_spieler1.Name, _spieler1.CheckersColor);
-                    SpielzugDurchführen(_spieler1, _spieler2);
+                    _view.ShowPlayerTurn(player1.Name, player1.CheckersColor);
+                    SpielzugDurchführen(player1, player2);
                     zähleSpielzüge++;
                 }
                 else
                 {
-                    _view.ShowPlayerTurn(_spieler2.Name, _spieler2.CheckersColor);
-                    SpielzugDurchführen(_spieler2, _spieler1);
+                    _view.ShowPlayerTurn(player2.Name, player2.CheckersColor);
+                    SpielzugDurchführen(player2, player1);
                     spieler2AmZug++;
                 }
             }
@@ -931,13 +932,13 @@ namespace Checkers.Console
 
         private void GewinnerErmitteln()
         {
-            if (_spieler1.Checkers.Count == 0)
+            if (player1.Checkers.Count == 0)
             {
-                _view.ShowWinner(_spieler2.Name);
+                _view.ShowWinner(player2.Name);
             }
-            else if (_spieler2.Checkers.Count == 0)
+            else if (player2.Checkers.Count == 0)
             {
-                _view.ShowWinner(_spieler1.Name);
+                _view.ShowWinner(player1.Name);
             }
         }
 
