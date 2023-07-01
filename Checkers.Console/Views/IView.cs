@@ -19,11 +19,11 @@ namespace Checkers.Console.Views
         void GreetPlayer();
         int ChooseLanguage();
         Variant SelectGameVariant();
-        string EnterPlayerName(int playerID);
-        string SelectStartingSite(string playerName);
-        ConsoleColor SelectCheckersColor(string spielername, int spielerNummer);
-        void PlayerSelectSameCheckerColor();
-        void PlayerSelectEqualNames();
+        string GetPlayerName(int playerID);
+        string GetStartingSite(string playerName);
+        ConsoleColor GetSelectedColor(string spielername, int spielerNummer);
+        void EqualCheckerColorNotAllowed();
+        void EqualNamesNotAllowed();
         void CreateGameboard();
         void CreateColumns(int columnNumber);
         void CreateRows(int rowNumber);
@@ -35,7 +35,7 @@ namespace Checkers.Console.Views
         void MoveChecker(Checker checker);
         void RemoveChecker(Checker checkerToRemove);
         void TransformCheckerToQueen(Position position);
-        void TryMovingOpponentChecker();
+        void TryMovingEnemyChecker();
         void MoveCheckerOnWhiteField();
         void TryMovingCheckerToFarAway();
         void SelectEmptyField();

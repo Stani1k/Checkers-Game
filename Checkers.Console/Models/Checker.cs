@@ -29,7 +29,7 @@ namespace Checkers.Console.Models
             return player.Checkers.Any(checker => destination.Equals(checker.CurrentPosition));
         }
 
-        public void TransformCheckerInQueen()
+        public void TransformCheckerToQueen()
         {
             IsQueen = true;
         }

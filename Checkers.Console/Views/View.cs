@@ -111,7 +111,7 @@ namespace Checkers.Console.Views
             return Variant;
         }
 
-        public string EnterPlayerName(int spielerNummer)
+        public string GetPlayerName(int spielerNummer)
         {
             var gültigeEingabe = false;
             var eingabeSpielerName = "";
@@ -133,7 +133,7 @@ namespace Checkers.Console.Views
             return eingabeSpielerName;
         }
 
-        public string SelectStartingSite(string spielername)
+        public string GetStartingSite(string spielername)
         {
             // Entfernt den Fehlertext "NutzerSelektiertZweiGleicheFarben"
             ClearText(CursorXCoordinate, 10);
@@ -168,7 +168,7 @@ namespace Checkers.Console.Views
             return eingabeSeitenwahl;
         }
 
-        public ConsoleColor SelectCheckersColor(string spielername, int spielerNummer)
+        public ConsoleColor GetSelectedColor(string spielername, int spielerNummer)
         {
             System.Console.SetCursorPosition(CursorXCoordinate, 4);
             System.Console.WriteLine(GlobalStrings.InfoText1FarbAuswahl);
@@ -231,13 +231,13 @@ namespace Checkers.Console.Views
             return spielsteinFarbe;
         }
 
-        public void PlayerSelectSameCheckerColor()
+        public void EqualCheckerColorNotAllowed()
         {
             System.Console.SetCursorPosition(CursorXCoordinate, 10);
             System.Console.WriteLine(GlobalStrings.SelektiereZweiGleicheFarben);
         }
 
-        public void PlayerSelectEqualNames()
+        public void EqualNamesNotAllowed()
         {
             System.Console.SetCursorPosition(CursorXCoordinate, 10);
             System.Console.WriteLine(GlobalStrings.SelektiereZweiGleicheNamen);
@@ -470,7 +470,7 @@ namespace Checkers.Console.Views
             System.Console.WriteLine(GlobalStrings.UmwandlungSpielsteinInDame, xKoordinateUmgewandelt, yKoordinateUmgewandelt);
         }
 
-        public void TryMovingOpponentChecker()
+        public void TryMovingEnemyChecker()
         {
             SetGameColors();
             System.Console.SetCursorPosition(CursorXCoordinate, 17);
