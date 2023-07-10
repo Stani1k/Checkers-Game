@@ -225,44 +225,43 @@ namespace Checkers.Console
         {
             while (true)
             {
-                // Zu Beginn eines Spielzugs wird geprüft, ob der Spieler der gerade am Zug ist, einen oder mehrere, Sprünge vorhanden hat
-                var spielsteineHabenSprung = SucheNachSprung();
-                if (spielsteineHabenSprung.Any())
+                // At the beginning of a turn it is checked whether the player has one or more jumps
+                var checkersToJump = SearchForJumps();
+                if (checkersToJump.Any())
                 {
-                    var spielsteine = BestimmeSpielsteineMitMaxSprüngen(spielsteineHabenSprung);
-                    var selektierterChecker = currentSelectedPlayer.ChooseChecker(currentSelectedPlayer, spielsteine);
-                    _view.RemoveChecker(selektierterChecker);
-                    // Je nach Anzahl der Sprünge, werden für jeden einzelnen Sprung folgende Anweisungen wiederholt
-                    for (var i = 0; i < selektierterChecker.PossibleJumpCount; i++)
+                    var checkersWithMaxJumps = GetCheckersWithMostJumps(checkersToJump);
+                    var selectedChecker = currentSelectedPlayer.ChooseChecker(currentSelectedPlayer, checkersWithMaxJumps);
+                    _view.RemoveChecker(selectedChecker);
+
+                    for (var i = 0; i < selectedChecker.PossibleJumpCount; i++)
                     {
                         if (i > 0)
                         {
-                            if (SprungWurdeGefunden(selektierterChecker)) { }
+                            if (JumpIsAvailable(selectedChecker)) { }
                         }
-                        MoveChecker(selektierterChecker, currentSelectedPlayer, player2, true);
+                        MoveChecker(selectedChecker, currentSelectedPlayer, player2, true);
                         _view.ShowCurrentCheckerAmount(player1.Name, player1.Checkers.Count, player2.Name, player2.Checkers.Count);
                     }
                     break;
                 }
-                var bewegenderChecker = GetStartingCoordinates(currentSelectedPlayer, player2);
-                // Falls einer der Checker des Spielers keinen Sprung zur Verfügung hat, wird geprüft ob der ausgewählte Checker sich diagonal bewegen kann
-                if (MovingPossible(bewegenderChecker))
+                var checkerToMove = GetStartingCoordinates(currentSelectedPlayer, player2);
+                // If no jumps are available, check if checker can be moved diagonally
+                if (MovingPossible(checkerToMove))
                 {
-                    _view.RemoveChecker(bewegenderChecker);
-                    MoveChecker(bewegenderChecker, currentSelectedPlayer, player2, false);
+                    _view.RemoveChecker(checkerToMove);
+                    MoveChecker(checkerToMove, currentSelectedPlayer, player2, false);
                     _view.ShowCurrentCheckerAmount(player1.Name, player1.Checkers.Count, player2.Name, player2.Checkers.Count);
                     break;
                 }
             }
         }
 
-        private bool QueenTransformationAvailable(Player currentPlayer, Checker checker, Position zielPosition)
+        private bool QueenTransformationAvailable(Player currentPlayer, Checker checker, Position destination)
         {
             if (!checker.IsQueen)
             {
-                // Prüft ob der Checker auf der gegnerischen Grundreihe angekommen ist
-                if (zielPosition.Equals(new Position(zielPosition.X, gameboard.StartingLowerRow, currentPlayer.GameDirection)) ^
-                    zielPosition.Equals(new Position(zielPosition.X, gameboard.StartingUpperRow, currentPlayer.GameDirection)))
+                if (destination.Equals(new Position(destination.X, gameboard.StartingLowerRow, currentPlayer.GameDirection)) ^
+                    destination.Equals(new Position(destination.X, gameboard.StartingUpperRow, currentPlayer.GameDirection)))
                 {
                     return true;
                 }
@@ -272,24 +271,24 @@ namespace Checkers.Console
         }
 
         // ToDo - FRAGE: Warum erhalte ich eine "StackOverflowException" wenn ich den Parameter "positionSpielstein" entferne und dafür checker.Position verwende??
-        private int ZähleAnzahlSprünge(Checker checker, Position positionSpielstein)
+        private int ZähleAnzahlSprünge(Checker checker, Position checkerPosition)
         {
             if (!checker.IsQueen)
             {
-                return BerechneSprüngeFürSpielstein(checker, positionSpielstein);
+                return CalculateJumpAmount(checker, checkerPosition);
             }
             if (checker.IsQueen && _settings.Variant == Variant.American)
             {
-                return BerechneSprüngeAmerikanischerDame(checker, positionSpielstein);
+                return GetJumpsForAmericanQueen(checker, checkerPosition);
             }
             if (checker.IsQueen && _settings.Variant == Variant.European)
             {
-                return BerechneSprüngeEuropäischerDame(checker, positionSpielstein);
+                return BerechneSprüngeEuropäischerDame(checker, checkerPosition);
             }
             return 0;
         }
 
-        private int BerechneSprüngeFürSpielstein(Checker checker, Position position)
+        private int CalculateJumpAmount(Checker checker, Position position)
         {
             var zielPos1 = new Position(position.SecondXRight,
                 position.SecondNextYCoordinate, player1.GameDirection);
@@ -301,7 +300,7 @@ namespace Checkers.Console
             int anzahlSprüngeRechts;
             if (istSprungMöglichRechts)
             {
-                anzahlSprüngeRechts = 1 + BerechneSprüngeFürSpielstein(checker, zielPos1);
+                anzahlSprüngeRechts = 1 + CalculateJumpAmount(checker, zielPos1);
             }
             else
             {
@@ -310,7 +309,7 @@ namespace Checkers.Console
             int anzahlSprüngeLinks;
             if (istSprungMöglichLinks)
             {
-                anzahlSprüngeLinks = 1 + BerechneSprüngeFürSpielstein(checker, zielPos2);
+                anzahlSprüngeLinks = 1 + CalculateJumpAmount(checker, zielPos2);
             }
             else
             {
@@ -320,7 +319,7 @@ namespace Checkers.Console
             return Math.Max(anzahlSprüngeRechts, anzahlSprüngeLinks);
         }
 
-        private int BerechneSprüngeAmerikanischerDame(Checker checker, Position position)
+        private int GetJumpsForAmericanQueen(Checker checker, Position position)
         {
             // ToDo - FRAGE: Kann man, und wenn ja wie am besten, eine rekursive Methode wie diese hier, verkürzen? (Clean Code)
             var zielPos1 = new Position(position.SecondXRight,
@@ -340,7 +339,7 @@ namespace Checkers.Console
             int anzahlSprüngeRechts;
             if (istSprungMöglichRechts)
             {
-                anzahlSprüngeRechts = 1 + BerechneSprüngeAmerikanischerDame(checker, zielPos1);
+                anzahlSprüngeRechts = 1 + GetJumpsForAmericanQueen(checker, zielPos1);
             }
             else if (istSprungMöglichRechtsRückwärts)
             {
@@ -354,7 +353,7 @@ namespace Checkers.Console
             int anzahlSprüngeLinks;
             if (istSprungMöglichLinks)
             {
-                anzahlSprüngeLinks = 1 + BerechneSprüngeAmerikanischerDame(checker, zielPos2);
+                anzahlSprüngeLinks = 1 + GetJumpsForAmericanQueen(checker, zielPos2);
             }
             else if (istSprungMöglichLinksRückwärts)
             {
@@ -375,25 +374,25 @@ namespace Checkers.Console
             Position sprungMöglichkeit = null;
             if (dameSprungRechts != null)
             {
-                sprungMöglichkeit = FügeSprungZurListeHinzu(checker, dameSprungRechts, new Position(dameSprungRechts.X - 1, dameSprungRechts.Y - 1, player1.GameDirection));
+                sprungMöglichkeit = GetQueenJumpPosition(checker, dameSprungRechts, new Position(dameSprungRechts.X - 1, dameSprungRechts.Y - 1, player1.GameDirection));
             }
 
             var dameSprungLinks = SucheSprungNachLinks(position);
             if (dameSprungLinks != null)
             {
-                sprungMöglichkeit = FügeSprungZurListeHinzu(checker, dameSprungLinks, new Position(dameSprungLinks.X + 1, dameSprungLinks.Y - 1, player1.GameDirection));
+                sprungMöglichkeit = GetQueenJumpPosition(checker, dameSprungLinks, new Position(dameSprungLinks.X + 1, dameSprungLinks.Y - 1, player1.GameDirection));
             }
 
             var dameSprungRechtsRückwärts = SucheSprungNachRechtsRückwärts(position);
             if (dameSprungRechtsRückwärts != null)
             {
-                sprungMöglichkeit = FügeSprungZurListeHinzu(checker, dameSprungRechtsRückwärts, new Position(dameSprungRechtsRückwärts.X - 1, dameSprungRechtsRückwärts.Y + 1, player1.GameDirection));
+                sprungMöglichkeit = GetQueenJumpPosition(checker, dameSprungRechtsRückwärts, new Position(dameSprungRechtsRückwärts.X - 1, dameSprungRechtsRückwärts.Y + 1, player1.GameDirection));
             }
 
             var dameSprungLinksRückwärts = SucheSprungNachLinksRückwärts(position);
             if (dameSprungLinksRückwärts != null)
             {
-                sprungMöglichkeit = FügeSprungZurListeHinzu(checker, dameSprungLinksRückwärts, new Position(dameSprungLinksRückwärts.X + 1, dameSprungLinksRückwärts.Y + 1, player1.GameDirection));
+                sprungMöglichkeit = GetQueenJumpPosition(checker, dameSprungLinksRückwärts, new Position(dameSprungLinksRückwärts.X + 1, dameSprungLinksRückwärts.Y + 1, player1.GameDirection));
             }
 
             // Falls der Spielstein hier noch null ist, hat er keine Sprünge und wir geben den Wert 0 zurück
@@ -406,22 +405,22 @@ namespace Checkers.Console
             return queenPossiblePositionCount.Max();
         }
 
-        private Position FügeSprungZurListeHinzu(Checker checker, Position dameSprung, Position geschlagenerSpielstein)
+        private Position GetQueenJumpPosition(Checker checker, Position destination, Position checkerToHit)
         {
-            if (dameSprung != null)
+            if (destination != null)
             {
-                if (!skippedCheckers.Contains(geschlagenerSpielstein))
+                if (!skippedCheckers.Contains(checkerToHit))
                 {
-                    skippedCheckers.Add(geschlagenerSpielstein);
-                    queenPossiblePositionCount.Add(1 + BerechneSprüngeEuropäischerDame(checker, dameSprung));
+                    skippedCheckers.Add(checkerToHit);
+                    queenPossiblePositionCount.Add(1 + BerechneSprüngeEuropäischerDame(checker, destination));
                 }
                 else
                 {
-                    dameSprung = null;
+                    destination = null;
                 }
             }
 
-            return dameSprung;
+            return destination;
         }
 
         private Position SucheSprungNachRechts(Position neuPosSpielstein)
@@ -688,23 +687,22 @@ namespace Checkers.Console
             return false;
         }
 
-        private List<Checker> SucheNachSprung()
+        private List<Checker> SearchForJumps()
         {
-            List<Checker> spielsteine = new List<Checker>();
-            foreach (var spielstein in player1.Checkers)
+            List<Checker> checkersToJump = new List<Checker>();
+            foreach (var checker in player1.Checkers)
             {
-                // Prüft ob der Spielstein aus dem aktuellen Durchlauf, über einen Sprung verfügt
-                if (SprungWurdeGefunden(spielstein))
+                if (JumpIsAvailable(checker))
                 {
-                    spielstein.PossibleJumpCount = ZähleAnzahlSprünge(spielstein, spielstein.CurrentPosition);
-                    spielsteine.Add(spielstein);
+                    checker.PossibleJumpCount = ZähleAnzahlSprünge(checker, checker.CurrentPosition);
+                    checkersToJump.Add(checker);
                 }
             }
 
-            return spielsteine;
+            return checkersToJump;
         }
 
-        private List<Checker> BestimmeSpielsteineMitMaxSprüngen(List<Checker> spielsteine)
+        private List<Checker> GetCheckersWithMostJumps(List<Checker> spielsteine)
         {
             var spielsteineGleichVieleSprünge = spielsteine.Where(c => c.PossibleJumpCount == spielsteine.Max(s => s.PossibleJumpCount)).ToList();
             ZeigeUmgewandelteKoordinatenAn(spielsteineGleichVieleSprünge);
@@ -713,7 +711,7 @@ namespace Checkers.Console
             return spielsteineGleichVieleSprünge;
         }
 
-        private bool SprungWurdeGefunden(Checker checker)
+        private bool JumpIsAvailable(Checker checker)
         {
             var sprungMöglichkeit3 = false;
             var sprungMöglichkeit4 = false;
