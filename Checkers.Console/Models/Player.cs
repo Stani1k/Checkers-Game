@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Checkers.Console.Views;
 
 namespace Checkers.Console.Models
@@ -37,6 +38,11 @@ namespace Checkers.Console.Models
         {
             if (coordinates == null) return true;
             return false;
+        }
+
+        public bool IsPositionOccupied(Position destination)
+        {
+            return Checkers.Any(checker => destination.Equals(checker.CurrentPosition));
         }
 
         public Checker ChooseChecker(Player player, List<Checker> checkersWithMaxJumps)

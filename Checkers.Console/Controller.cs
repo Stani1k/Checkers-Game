@@ -164,31 +164,31 @@ namespace Checkers.Console
         {
             while (true)
             {
-                var zielPosition = _view.GetPosition(false, player);
-                if (zielPosition.IsWhiteField(zielPosition))
+                var destination = _view.GetPosition(false, player);
+                if (destination.IsWhiteField(destination))
                 {
                     _view.MoveCheckerOnWhiteField();
                     continue;
                 }
-                if (checker.IsFieldAlreadyOccupied(player, zielPosition) || checker.IsFieldAlreadyOccupied(enemy, zielPosition))
+                if (player.IsPositionOccupied(destination) || enemy.IsPositionOccupied(destination))
                 {
                     _view.MoveCheckerOnOccupiedField();
                     continue;
                 }
                 if (jumpAvailable)
                 {
-                    Jump(player, checker, zielPosition);
+                    Jump(player, checker, destination);
                     break;
                 }
-                if (!MoveIsValid(checker, zielPosition))
+                if (!MoveIsValid(checker, destination))
                 {
                     _view.TryMovingCheckerToFarAway();
                     continue;
                 }
-                checker.CurrentPosition = zielPosition;
-                if (QueenTransformationAvailable(player, checker, zielPosition))
+                checker.CurrentPosition = destination;
+                if (QueenTransformationAvailable(player, checker, destination))
                 {
-                    checker.TransformCheckerToQueen();
+                    checker.SetQueen();
                     _view.TransformCheckerToQueen(checker.CurrentPosition);
                     _view.MoveChecker(checker);
                 }
@@ -211,7 +211,7 @@ namespace Checkers.Console
             checker.CurrentPosition = destination;
             if (QueenTransformationAvailable(player, checker, destination))
             {
-                checker.TransformCheckerToQueen();
+                checker.SetQueen();
                 _view.TransformCheckerToQueen(checker.CurrentPosition);
                 _view.MoveChecker(checker);
             }
@@ -233,7 +233,7 @@ namespace Checkers.Console
                     var selectedChecker = currentSelectedPlayer.ChooseChecker(currentSelectedPlayer, checkersWithMaxJumps);
                     _view.RemoveChecker(selectedChecker);
 
-                    for (var i = 0; i < selectedChecker.PossibleJumpCount; i++)
+                    for (var i = 0; i < selectedChecker.Jumps; i++)
                     {
                         if (i > 0)
                         {
@@ -623,7 +623,7 @@ namespace Checkers.Console
             {
                 if (JumpIsAvailable(checker))
                 {
-                    checker.PossibleJumpCount = ZähleAnzahlSprünge(checker, checker.CurrentPosition);
+                    checker.Jumps = ZähleAnzahlSprünge(checker, checker.CurrentPosition);
                     checkersToJump.Add(checker);
                 }
             }
@@ -633,7 +633,7 @@ namespace Checkers.Console
 
         private List<Checker> GetCheckersWithMostJumps(List<Checker> spielsteine)
         {
-            var spielsteineGleichVieleSprünge = spielsteine.Where(c => c.PossibleJumpCount == spielsteine.Max(s => s.PossibleJumpCount)).ToList();
+            var spielsteineGleichVieleSprünge = spielsteine.Where(c => c.Jumps == spielsteine.Max(s => s.Jumps)).ToList();
             ZeigeUmgewandelteKoordinatenAn(spielsteineGleichVieleSprünge);
             _view.ShowPossibleJumpCount(spielsteineGleichVieleSprünge);
 

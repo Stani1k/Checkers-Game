@@ -10,9 +10,9 @@ namespace Checkers.Console.Models
 
         public Position CurrentPosition { get; set; }
 
-        public int PossibleJumpCount { get; set; }
+        public int Jumps { get; set; }
 
-        public bool IsQueen { get; set; }
+        public bool IsQueen { get; private set; }
 
         public List<Position> Moves { get; set; }
 
@@ -24,12 +24,8 @@ namespace Checkers.Console.Models
 
         public Checker() {}
 
-        public bool IsFieldAlreadyOccupied(Player player, Position destination)
-        {
-            return player.Checkers.Any(checker => destination.Equals(checker.CurrentPosition));
-        }
 
-        public void TransformCheckerToQueen()
+        public void SetQueen()
         {
             IsQueen = true;
         }
@@ -48,9 +44,13 @@ namespace Checkers.Console.Models
             return false;
         }
 
+        /// <summary>
+        /// American Checkers => Queen can only move one field forward and backwards
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <returns></returns>
         public bool IsAmericanQueenMoveValid(Position destination)
         {
-            // American Checkers: Queen can only move one field forward and backwards
             if (CurrentPosition.XRight == destination.X || CurrentPosition.XLeft == destination.X)
             {
                 if (CurrentPosition.NextYCoordinate == destination.Y || CurrentPosition.NextYCoordinateBackwards == destination.Y)
@@ -62,11 +62,14 @@ namespace Checkers.Console.Models
             return false;
         }
 
+        /// <summary>
+        /// European Checkers => Queen can move unlimited fields forward and backwards
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <returns></returns>
         public bool IsEuropeanQueenMoveValid(Position destination)
         {
-            // European Checkers: Queen can move unlimited fields forward and backwards
-            return Moves
-                .Where(currentPosition => currentPosition.X == destination.X)
+            return Moves.Where(currentPosition => currentPosition.X == destination.X)
                 .Any(position => position.Y == destination.Y);
         }
     }

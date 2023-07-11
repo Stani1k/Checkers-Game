@@ -24,6 +24,16 @@ namespace Checkers.UnitTests
         }
 
         [Test]
+        public void IstEinCheckerBereitsAufDemFeld_FeldIstBesetzt_ReturnTrue()
+        {
+            // Act
+            var ergebnis = _player.IsPositionOccupied(new Position(1, 0, _player.GameDirection));
+
+            // Assert
+            Assert.That(ergebnis, Is.True);
+        }
+
+        [Test]
         [TestCase("1", 1)]
         [TestCase("2", -1)]
         public void WähleSeite_BeimAufruf_SetzeSpielRichtungVonSpieler1(string spieler1Seitenwahl, int erwartung)

@@ -550,7 +550,7 @@ namespace Checkers.Console.Views
             var yKoordinateUmgewandelt = (spielsteine[0].CurrentPosition.Y - CursorYCoordinate) * -1;
 
             System.Console.SetCursorPosition(CursorXCoordinate, 21);
-            System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinateUmgewandelt, yKoordinateUmgewandelt, spielsteine[0].PossibleJumpCount);
+            System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinateUmgewandelt, yKoordinateUmgewandelt, spielsteine[0].Jumps);
             // Wenn der zweite Spielstein nicht null ist, bedeutet es, dass zwei verschiedene Spielsteine gleichzeitig springen können
             if (spielsteine.Count == 2)
             {
@@ -558,7 +558,7 @@ namespace Checkers.Console.Views
                 var xKoordinate2Umgewandelt = Convert.ToChar(spielsteine[1].CurrentPosition.X + 97);
                 var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.Y - CursorYCoordinate) * -1;
                 System.Console.SetCursorPosition(CursorXCoordinate, 22);
-                System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinate2Umgewandelt, yKoordinate2Umgewandelt, spielsteine[1].PossibleJumpCount);
+                System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinate2Umgewandelt, yKoordinate2Umgewandelt, spielsteine[1].Jumps);
             }
         }
 

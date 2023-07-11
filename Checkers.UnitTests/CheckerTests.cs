@@ -25,21 +25,12 @@ namespace Checkers.UnitTests
             _checker = new Checker(ConsoleColor.Blue, new Position(1, 2, _player.GameDirection)) {Moves = new List<Position> {new Position(2, 3, _player.GameDirection)}};
         }
 
-        [Test]
-        public void IstEinCheckerBereitsAufDemFeld_FeldIstBesetzt_ReturnTrue()
-        {
-            // Act
-            var ergebnis = _checker.IsFieldAlreadyOccupied(_player, new Position(1, 0, _player.GameDirection));
-
-            // Assert
-            Assert.That(ergebnis, Is.True);
-        }
 
         [Test]
         public void UmwandlungSpielfigurInDame_CheckerIstDame_PropertyIstEineDameIstTrue()
         {
             // Act
-            _checker.TransformCheckerToQueen();
+            _checker.SetQueen();
 
             // Assert
             Assert.That(_checker.IsQueen, Is.True);
@@ -65,7 +56,7 @@ namespace Checkers.UnitTests
         public void PrüfeBewegungAmerikanischerDame_ZielPositionIstGültig_ReturnTrue()
         {
             // Arrange
-            _checker.IsQueen = true;
+            _checker.SetQueen();
 
             // Act
             var ergebnis = _checker.IsAmericanQueenMoveValid(new Position(0, 1, _player.GameDirection));
