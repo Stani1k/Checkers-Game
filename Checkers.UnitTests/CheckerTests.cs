@@ -39,7 +39,7 @@ namespace Checkers.UnitTests
         public void UmwandlungSpielfigurInDame_CheckerIstDame_PropertyIstEineDameIstTrue()
         {
             // Act
-            _checker.TransformCheckerInQueen();
+            _checker.TransformCheckerToQueen();
 
             // Assert
             Assert.That(_checker.IsQueen, Is.True);

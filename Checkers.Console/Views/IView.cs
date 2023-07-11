@@ -7,50 +7,53 @@ namespace Checkers.Console.Views
 {
     public interface IView
     {
-        int AnzahlSpalten { get; }
-        int AnzahlZeilen { get; }
-        int CursorXPosition { get; }
-        int UmwandlungswertYKoordinate { get; }
+        int ColumnCount { get; }
+        int RowCount { get; }
+        int CursorXCoordinate { get; }
+        int CursorYCoordinate { get; }
         Variant Variant { get; set; }
-        void KonfiguriereKonsolenfenster();
-        void GrüßeNutzer();
-        int Sprachauswahl();
-        Variant EingabeSpielvariante();
-        string EingabeSpielername(int spielerNummer);
-        string ErmittleSeiten(string spielername);
-        ConsoleColor FarbeDerSpielsteineErmitteln(string spielername, int spielerNummer);
-        void NutzerSelektierenZweiGleicheFarben();
-        void NutzerWählenZweiGleicheNamen();
-        void ErstelleSpielbrett();
-        void ErstelleYAchse(int zeile);
-        void ErstelleSpalten(int reihe);
-        void ErstelleXAchse();
-        void DruckeSpielstein(Checker checker);
-        void SpielinformationenZumAufgeben();
-        Position EingabeKoordinaten(bool istStartKoordinate, Player spieler);
-        void AktuellePositionAnzeigen(char xKoordinate, int yKoordinate);
-        void PlatziereSpielstein(Checker bewegenderSpielstein);
-        void EntferneSpielstein(Checker geschlagenerSpielstein);
-        void SpielsteinWurdeInDameUmgewandelt(Position positionSpielstein);
-        void BewegeGegnerischenSpielstein();
-        void BewegeSpielsteinAufWeißesFeld();
-        void BewegeSpielsteinWeiterAlsErlaubt();
-        void SelektiereLeeresFeld();
-        void BewegeCheckerAufAnderenChecker();
-        void BewegeSpielsteinNichtMöglich();
-        void ZeigeSpielzugAn(string spielername, ConsoleColor spielsteinFarbe);
-        void ZeigeEinenSprungAn(char xKoordinate, int yKoordinate);
-        void ZeigeZweiMöglicheSprüngeAn(char xKoordinateRechts, int yKoordinateRechts, char xKoordinateLinks, int yKoordinateLinks);
-        void ZeigeAnzahlGefundenerSprünge(List<Checker> spielsteine);
-        void SpielsteinHatWenigerSprünge(Checker spielstein);
-        void ErzwingeSprung(List<Position> sprungPositionen);
-        void SchlageGegnerischenSpielstein();
-        void ZeigeAktuelleAnzahlDerSpielsteine(string spieler1Name, int anzahlSpielsteineSpieler1, string spieler2Name, int anzahlSpielsteineSpieler2);
-        void ZeigeVerstricheneZeitAn(Stopwatch zeitMessung);
-        void EntferneText(int xPosition, int yPosition);
-        void SetzeKonsolenFarben();
-        void SpielerHatAufgegeben(Player verlierer, Player gewinner);
-        void ZeigeGewinnerAn(string gewinnerName);
-        void BeendeSpiel();
+        /// <summary>
+        /// SetUp everything related to View like culture, window size etc.
+        /// </summary>
+        void SetUp();
+        void GreetPlayer();
+        int ChooseLanguage();
+        Variant SelectGameVariant();
+        string GetPlayerName(int playerID);
+        string GetStartingSite(string playerName);
+        ConsoleColor GetSelectedColor(string spielername, int spielerNummer);
+        void EqualCheckerColorNotAllowed();
+        void EqualNamesNotAllowed();
+        void CreateGameboard();
+        void CreateColumns(int columnNumber);
+        void CreateRows(int rowNumber);
+        void CreateXAxis();
+        void PrintChecker(Checker checker);
+        void ShowSurrenderOption();
+        Position GetPosition(bool isStartingCoordinate, Player player);
+        void ShowCurrentPosition(char x, int y);
+        void MoveChecker(Checker checker);
+        void RemoveChecker(Checker checkerToRemove);
+        void TransformCheckerToQueen(Position position);
+        void TryMovingEnemyChecker();
+        void MoveCheckerOnWhiteField();
+        void TryMovingCheckerToFarAway();
+        void SelectEmptyField();
+        void MoveCheckerOnOccupiedField();
+        void MovingNotPossible();
+        void ShowPlayerTurn(string playerName, ConsoleColor color);
+        void ShowPossibleJump(char x, int y);
+        void ShowTwoPossibleJumps(char xKoordinateRechts, int yKoordinateRechts, char xKoordinateLinks, int yKoordinateLinks);
+        void ShowPossibleJumpCount(List<Checker> checkers);
+        void CheckerHasLessJumps(Checker spielstein);
+        void ForceJump(List<Position> availableJumps);
+        void BeatChecker();
+        void ShowCurrentCheckerAmount(string playerName1, int checkerAmount1, string playerName2, int checkerAmount2);
+        void ShowPassedTime(Stopwatch stopwatch);
+        void ClearText(int x, int y);
+        void SetGameColors();
+        void PlayerHasSurrendered(Player loser, Player winner);
+        void ShowWinner(string winnerName);
+        void QuitGame();
     }
 }

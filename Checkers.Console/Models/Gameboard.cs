@@ -1,45 +1,40 @@
 ﻿namespace Checkers.Console.Models
 {
-    public class Gameboard
+    public class GameBoard
     {
-        private readonly Settings _settings;
+        private readonly Settings settings;
 
-        public Gameboard(Settings settings)
+        public GameBoard(Settings settings)
         {
-            _settings = settings;
+            this.settings = settings;
         }
 
-        public int ColumnCount => _settings.Variante == Variant.Amerikanisch ? 10 : 8;
-        public int RowCount => _settings.Variante == Variant.Amerikanisch ? 10 : 8;
-
+        public int ColumnCount => settings.Variant == Variant.American ? 10 : 8;
+        public int RowCount => settings.Variant == Variant.American ? 10 : 8;
         /// <summary>
-        /// Starting checker number for upper row
+        /// Row number for placing Checkers for Player 1
         /// </summary>
-        public int StartingUpperRow => _settings.Variante == Variant.Amerikanisch ? 4 : 3;
-
+        public int StartingUpperRow => settings.Variant == Variant.American ? 4 : 3;
         /// <summary>
-        /// Starting checker number for lower row
+        /// Row number for placing Checkers for Player 2
         /// </summary>
-        public int StartingLowerRow => _settings.Variante == Variant.Amerikanisch ? 5 : 4;
+        public int StartingLowerRow => settings.Variant == Variant.American ? 5 : 4;
+        public int RowEndNumber => settings.Variant == Variant.American ? 9 : 7;
+        public const int RowStartNumber = 0;
 
-        public int LastPlayableRowNumber => _settings.Variante == Variant.Amerikanisch ? 9 : 7;
-        public int FirstPlayableRowNumber => 0;
-
-        public bool IsDiagonalFieldEmpty(int xCoordinate, int yCoordinate, Player player)
+        public bool IsDiagonalFieldEmpty(int x, int y, Player player)
         {
             foreach (var checker in player.Checkers)
             {
-                // When x- or y-Coordinates are outside the game area they are marked as not empty
-                if (xCoordinate > LastPlayableRowNumber || xCoordinate < FirstPlayableRowNumber)
+                // Coordinates are out of boundary
+                if (x > RowEndNumber || x < RowStartNumber || 
+                    y > RowEndNumber || y < RowStartNumber)
                 {
                     return false;
                 }
-                if (yCoordinate > LastPlayableRowNumber || yCoordinate < FirstPlayableRowNumber)
-                {
-                    return false;
-                }
-                // Check if provided position is already occupied by another Checker
-                if (checker.CurrentPosition.Equals(new Position(xCoordinate, yCoordinate, player.GameDirection)))
+                
+                // Destination coordinates are occupied
+                if (checker.CurrentPosition.Equals(new Position(x, y, player.GameDirection)))
                 {
                     return false;
                 }

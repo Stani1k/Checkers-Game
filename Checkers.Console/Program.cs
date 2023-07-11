@@ -11,7 +11,7 @@ namespace Checkers.Console
         private static void Main()
         {
             var controller = new Controller(new View());
-            controller.StarteAnwendung();
+            controller.RunApplication();
 
             System.Console.ReadKey();
         }

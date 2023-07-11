@@ -521,7 +521,7 @@ namespace Checkers.Console.Resources {
         /// </summary>
         internal static string SprungWurdeGefunden {
             get {
-                return ResourceManager.GetString("SprungWurdeGefunden", resourceCulture);
+                return ResourceManager.GetString("JumpIsAvailable", resourceCulture);
             }
         }
         

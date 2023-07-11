@@ -27,22 +27,22 @@ namespace Checkers.UnitTests
         public void WähleSprache_BeimAufruf_ÄndereSpracheDerAnwendung(int number, string erwarteteSprache)
         {
             // Act
-            _settings.WähleSprache(number);
+            Settings.SetGameLanguage(number);
 
             // Assert
             Assert.That(CultureInfo.CurrentUICulture, Is.EqualTo(CultureInfo.GetCultureInfo(erwarteteSprache)));
         }
 
         [Test]
-        [TestCase(Variant.Amerikanisch, Variant.Amerikanisch)]
-        [TestCase(Variant.Europäisch, Variant.Europäisch)]
+        [TestCase(Variant.American, Variant.American)]
+        [TestCase(Variant.European, Variant.European)]
         public void WähleSpielvariante_NutzerWähltVariante_SetzePropertyWertAufVariante(Variant selektierteVariante, Variant erwartung)
         {
             // Act
-            _view.Setup(v => v.EingabeSpielvariante()).Returns(selektierteVariante);
+            _view.Setup(v => v.SelectGameVariant()).Returns(selektierteVariante);
 
             // Assert
-            Assert.That(_settings.Variante, Is.EqualTo(erwartung));
+            Assert.That(_settings.Variant, Is.EqualTo(erwartung));
         }
     }
 }
