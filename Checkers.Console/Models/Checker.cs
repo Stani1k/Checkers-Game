@@ -4,26 +4,21 @@ using System.Linq;
 
 namespace Checkers.Console.Models
 {
-    public class Checker
+    public class Checker : GamePiece
     {
-        public ConsoleColor Color { get; }
-
-        public Position CurrentPosition { get; set; }
-
-        public int Jumps { get; set; }
+        public int Jumps { get; private set; }
 
         public bool IsQueen { get; private set; }
 
-        public List<Position> Moves { get; set; }
-
-        public Checker(ConsoleColor color, Position currentPosition)
+        public Checker(ConsoleColor color, Position currentPosition) : base(color)
         {
-            Color = color;
             CurrentPosition = currentPosition;
         }
 
-        public Checker() {}
-
+        public void AddJumps(int jumps)
+        {
+            Jumps = jumps;
+        }
 
         public void SetQueen()
         {

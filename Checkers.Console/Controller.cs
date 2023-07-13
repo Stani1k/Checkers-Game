@@ -623,7 +623,7 @@ namespace Checkers.Console
             {
                 if (JumpIsAvailable(checker))
                 {
-                    checker.Jumps = ZähleAnzahlSprünge(checker, checker.CurrentPosition);
+                    checker.AddJumps(ZähleAnzahlSprünge(checker, checker.CurrentPosition));
                     checkersToJump.Add(checker);
                 }
             }
