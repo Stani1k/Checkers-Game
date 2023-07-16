@@ -6,18 +6,31 @@ namespace Checkers.Console.Models
 {
     public class Checker : GamePiece
     {
-        public int Jumps { get; private set; }
+        /// <summary>
+        /// Contains all possible jump positions
+        /// </summary>
+        public List<Position> Jumps { get; }
+        public int JumpCount => Jumps.Count;
 
         public bool IsQueen { get; private set; }
 
         public Checker(ConsoleColor color, Position currentPosition) : base(color)
         {
             CurrentPosition = currentPosition;
+            Jumps = new List<Position>();
         }
 
-        public void AddJumps(int jumps)
+        public void AddJump(Position jumpDestination)
         {
-            Jumps = jumps;
+            if (Jumps.Contains(jumpDestination) == false)
+            {
+                Jumps.Add(jumpDestination);
+            }
+        }
+
+        public void ClearJumps()
+        {
+            Jumps.Clear();
         }
 
         public void SetQueen()

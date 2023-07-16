@@ -26,10 +26,6 @@ namespace Checkers.Console
         }
 
         /// <summary>
-        /// Contains all possible jump positions (max. 4 per Checker)
-        /// </summary>
-        private readonly List<Position> jumpPositions = new List<Position>();
-        /// <summary>
         /// Contains all Checkers that have been skipped
         /// </summary>
         private readonly List<Position> skippedCheckers = new List<Position>();
@@ -204,7 +200,7 @@ namespace Checkers.Console
         {
             while (!CoordinatesAreValid(checker, destination))
             {
-                _view.ForceJump(jumpPositions);
+                _view.ForceJump(checker.Jumps);
                 destination = _view.GetPosition(false, player);
             }
             _view.RemoveChecker(checker);
@@ -233,7 +229,7 @@ namespace Checkers.Console
                     var selectedChecker = currentSelectedPlayer.ChooseChecker(currentSelectedPlayer, checkersWithMaxJumps);
                     _view.RemoveChecker(selectedChecker);
 
-                    for (var i = 0; i < selectedChecker.Jumps; i++)
+                    for (var i = 0; i < selectedChecker.JumpCount; i++)
                     {
                         if (i > 0)
                         {
@@ -623,7 +619,6 @@ namespace Checkers.Console
             {
                 if (JumpIsAvailable(checker))
                 {
-                    checker.AddJumps(ZähleAnzahlSprünge(checker, checker.CurrentPosition));
                     checkersToJump.Add(checker);
                 }
             }
@@ -633,7 +628,7 @@ namespace Checkers.Console
 
         private List<Checker> GetCheckersWithMostJumps(List<Checker> spielsteine)
         {
-            var spielsteineGleichVieleSprünge = spielsteine.Where(c => c.Jumps == spielsteine.Max(s => s.Jumps)).ToList();
+            var spielsteineGleichVieleSprünge = spielsteine.Where(c => c.JumpCount == spielsteine.Max(s => s.JumpCount)).ToList();
             ZeigeUmgewandelteKoordinatenAn(spielsteineGleichVieleSprünge);
             _view.ShowPossibleJumpCount(spielsteineGleichVieleSprünge);
 
@@ -649,16 +644,16 @@ namespace Checkers.Console
             var sprungMöglichkeit7 = false;
             var sprungMöglichkeit8 = false;
 
-            var sprungMöglichkeit1 = IsJumpOnNextFieldPossible(checker.CurrentPosition.LeftJump, new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondNextYCoordinate,
+            var sprungMöglichkeit1 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.LeftJump, new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondNextYCoordinate,
                 player1.GameDirection));
-            var sprungMöglichkeit2 = IsJumpOnNextFieldPossible(checker.CurrentPosition.RightJump, new Position(checker.CurrentPosition.SecondXRight,
+            var sprungMöglichkeit2 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.RightJump, new Position(checker.CurrentPosition.SecondXRight,
                 checker.CurrentPosition.SecondNextYCoordinate, player1.GameDirection));
 
             if (checker.IsQueen && _settings.Variant == Variant.American)
             {
-                sprungMöglichkeit3 = IsJumpOnNextFieldPossible(checker.CurrentPosition.LeftBackwardsJump, new Position(checker.CurrentPosition.SecondXLeft,
+                sprungMöglichkeit3 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.LeftBackwardsJump, new Position(checker.CurrentPosition.SecondXLeft,
                     checker.CurrentPosition.SecondYCoordinateBackwards, player1.GameDirection));
-                sprungMöglichkeit4 = IsJumpOnNextFieldPossible(checker.CurrentPosition.RightBackwardsJump, new Position(checker.CurrentPosition.SecondXRight,
+                sprungMöglichkeit4 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.RightBackwardsJump, new Position(checker.CurrentPosition.SecondXRight,
                     checker.CurrentPosition.SecondYCoordinateBackwards, player1.GameDirection));
             }
             if (checker.IsQueen && _settings.Variant == Variant.European)
@@ -678,11 +673,11 @@ namespace Checkers.Console
             return false;
         }
 
-        private bool IsJumpOnNextFieldPossible(JumpDestination richtung, Position jumpDestination)
+        private bool IsJumpOnNextFieldPossible(Checker checker, JumpDestination richtung, Position jumpDestination)
         {
             if (JumpIsAvailable(richtung))
             {
-                AddJump(jumpDestination);
+                checker.AddJump(jumpDestination);
                 return true;
             }
 
@@ -695,7 +690,7 @@ namespace Checkers.Console
             while (!CoordinatesOutOfFieldRange(checker.CurrentPosition.X))
             {
                 // Durchsucht alle diagonalen Felder, in eine bestimmte Richtung, nach einem Sprung
-                if (IsJumpOnNextFieldPossible(richtung, sprungPosition))
+                if (IsJumpOnNextFieldPossible(checker, richtung, sprungPosition))
                 {
                     checker.CurrentPosition = startPosition;
                     return true;
@@ -730,14 +725,6 @@ namespace Checkers.Console
             return false;
         }
 
-        private void AddJump(Position sprungPosition)
-        {
-            if (!jumpPositions.Contains(sprungPosition))
-            {
-                jumpPositions.Add(sprungPosition);
-            }
-        }
-
         private void ZeigeUmgewandelteKoordinatenAn(List<Checker> spielsteine)
         {
             // Umgewandelte x und y Koordinaten des ERSTEN gefundenen Spielstein, welcher über einen Sprung verfügt
@@ -761,39 +748,39 @@ namespace Checkers.Console
         {
             Position geschlagenerSpielstein;
             // Sprung nach rechts unten
-            var sprungMöglichkeit1 = jumpPositions.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
+            var sprungMöglichkeit1 = checker.Jumps.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
             if (zielPosition.Equals(sprungMöglichkeit1))
             {
                 geschlagenerSpielstein = new Position(sprungMöglichkeit1.X - 1, sprungMöglichkeit1.Y - 1, player1.GameDirection);
                 RemoveEnemyChecker(player2.Checkers, geschlagenerSpielstein);
-                jumpPositions.Clear();
+                checker.ClearJumps();
                 return true;
             }
             // Sprung nach links unten
-            var sprungMöglichkeit2 = jumpPositions.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
+            var sprungMöglichkeit2 = checker.Jumps.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
             if (zielPosition.Equals(sprungMöglichkeit2))
             {
                 geschlagenerSpielstein = new Position(sprungMöglichkeit2.X + 1, sprungMöglichkeit2.Y - 1, player1.GameDirection);
                 RemoveEnemyChecker(player2.Checkers, geschlagenerSpielstein);
-                jumpPositions.Clear();
+                checker.ClearJumps();
                 return true;
             }
             // Sprung nach rechts oben
-            var sprungMöglichkeit3 = jumpPositions.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
+            var sprungMöglichkeit3 = checker.Jumps.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
             if (zielPosition.Equals(sprungMöglichkeit3))
             {
                 geschlagenerSpielstein = new Position(sprungMöglichkeit3.X - 1, sprungMöglichkeit3.Y + 1, player1.GameDirection);
                 RemoveEnemyChecker(player2.Checkers, geschlagenerSpielstein);
-                jumpPositions.Clear();
+                checker.ClearJumps();
                 return true;
             }
             // Sprung nach links oben
-            var sprungMöglichkeit4 = jumpPositions.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
+            var sprungMöglichkeit4 = checker.Jumps.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
             if (zielPosition.Equals(sprungMöglichkeit4))
             {
                 geschlagenerSpielstein = new Position(sprungMöglichkeit4.X + 1, sprungMöglichkeit4.Y + 1, player1.GameDirection);
                 RemoveEnemyChecker(player2.Checkers, geschlagenerSpielstein);
-                jumpPositions.Clear();
+                checker.ClearJumps();
                 return true;
             }
 
