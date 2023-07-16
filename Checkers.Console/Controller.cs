@@ -41,8 +41,8 @@ namespace Checkers.Console
             CreatePlayers();
             SelectPlayerColors();
             SelectSites();
-            CreateCheckers(player1);
-            CreateCheckers(player2);
+            player1.CreateCheckers(gameboard);
+            player2.CreateCheckers(gameboard);
             PrintCheckers(player1);
             PrintCheckers(player2);
             StartGame();
@@ -86,26 +86,6 @@ namespace Checkers.Console
             else if (player1.GameDirection == -1)
             {
                 player2.GameDirection = 1;
-            }
-        }
-
-        private void CreateCheckers(Player player)
-        {
-            player.Checkers = new List<Checker>();
-            for (var y = 0; y < gameboard.RowCount; y++)
-            {
-                for (var x = 0; x < gameboard.ColumnCount; x++)
-                {
-                    if (player.GameDirection == 1 && y < gameboard.StartingUpperRow || player.GameDirection == -1 && y > gameboard.StartingLowerRow)
-                    {
-                        // "!=" means that the checkers are positioned on a black square
-                        if ((x + y) % 2 != 0)
-                        {
-                            Checker checker = new(player.CheckersColor, new Position(x, y, player.GameDirection));
-                            player.Checkers.Add(checker);
-                        }
-                    }
-                }
             }
         }
 

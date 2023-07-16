@@ -13,11 +13,12 @@ namespace Checkers.Console.Models
         public ConsoleColor CheckersColor { get; set; }
         // Todo: Is this property really needed? Refactor to Enum?
         public int GameDirection { get; set; }
-        public List<Checker> Checkers { get; set; }
+        public List<Checker> Checkers { get; }
 
         public Player(IView view = null)
         {
             _view = view ?? new View();
+            Checkers = new List<Checker>();
         }
 
         public void SetGameDirection(string direction)
@@ -31,6 +32,26 @@ namespace Checkers.Console.Models
                 case "2":
                     GameDirection = -1;
                     break;
+            }
+        }
+
+        public void CreateCheckers(GameBoard gameBoard)
+        {
+            for (var y = 0; y < gameBoard.RowCount; y++)
+            {
+                for (var x = 0; x < gameBoard.ColumnCount; x++)
+                {
+                    if (GameDirection == 1 && y < gameBoard.StartingUpperRow || 
+                        GameDirection == -1 && y > gameBoard.StartingLowerRow)
+                    {
+                        // "!=" means that the checkers are positioned on a black square
+                        if ((x + y) % 2 != 0)
+                        {
+                            Checker checker = new(CheckersColor, new Position(x, y, GameDirection));
+                            Checkers.Add(checker);
+                        }
+                    }
+                }
             }
         }
 
