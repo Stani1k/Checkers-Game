@@ -19,8 +19,9 @@ namespace Checkers.UnitTests
         public void SetUp()
         {
             _view = new Mock<IView>();
-            _player = new Player{GameDirection = 1};
-            _player.Checkers = new List<Checker> { new Checker(ConsoleColor.Blue, new Position(1, 0, _player.GameDirection)), new Checker(ConsoleColor.Blue, new Position(2, 1, _player.GameDirection)) };
+            _player = new Player("Max", 1);
+            var checkersToTest = new List<Checker> { new Checker(ConsoleColor.Blue, new Position(1, 0, _player.GameDirection)), new Checker(ConsoleColor.Blue, new Position(2, 1, _player.GameDirection)) };
+            _player.CreateCheckers(checkersToTest);
 
             _checker = new Checker(ConsoleColor.Blue, new Position(1, 2, _player.GameDirection)) {Moves = new List<Position> {new Position(2, 3, _player.GameDirection)}};
         }

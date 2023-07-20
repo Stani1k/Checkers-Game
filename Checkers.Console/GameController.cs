@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Checkers.Console
 {
-    public class Controller
+    public class GameController
     {
         private Player player1;
         private Player player2;
@@ -18,7 +18,7 @@ namespace Checkers.Console
         private readonly GameBoard gameboard;
         private readonly Stopwatch stopwatch = new Stopwatch();
 
-        public Controller(IView view = null)
+        public GameController(IView view = null)
         {
             _view = view ?? new View();
             _settings = new Settings();
@@ -52,27 +52,28 @@ namespace Checkers.Console
 
         private void CreatePlayers()
         {
-            player1 = new Player(_view) { Nummer = 1 };
-            player2 = new Player(_view) { Nummer = 2 };
-            player1.Name = _view.GetPlayerName(player1.Nummer);
-            player2.Name = _view.GetPlayerName(player2.Nummer);
+            string player1Name = _view.GetPlayerName(1);
+            string player2Name = _view.GetPlayerName(2);
             while (player1.Name.Equals(player2.Name))
             {
                 _view.EqualNamesNotAllowed();
-                player1.Name = _view.GetPlayerName(player1.Nummer);
-                player2.Name = _view.GetPlayerName(player2.Nummer);
+                player1Name = _view.GetPlayerName(player1.Number);
+                player2Name = _view.GetPlayerName(player2.Number);
             }
+
+            player1 = new Player(player1Name, 1, _view);
+            player2 = new Player(player2Name, 2, _view);
         }
 
         private void SelectPlayerColors()
         {
-            player1.CheckersColor = _view.GetSelectedColor(player1.Name, player1.Nummer);
-            player2.CheckersColor = _view.GetSelectedColor(player2.Name, player2.Nummer);
+            player1.CheckersColor = _view.GetSelectedColor(player1.Name, player1.Number);
+            player2.CheckersColor = _view.GetSelectedColor(player2.Name, player2.Number);
             while (player1.CheckersColor.Equals(player2.CheckersColor))
             {
                 _view.EqualCheckerColorNotAllowed();
-                player1.CheckersColor = _view.GetSelectedColor(player1.Name, player1.Nummer);
-                player2.CheckersColor = _view.GetSelectedColor(player2.Name, player2.Nummer);
+                player1.CheckersColor = _view.GetSelectedColor(player1.Name, player1.Number);
+                player2.CheckersColor = _view.GetSelectedColor(player2.Name, player2.Number);
             }
         }
 

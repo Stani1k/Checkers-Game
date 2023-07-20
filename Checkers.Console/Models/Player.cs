@@ -8,16 +8,19 @@ namespace Checkers.Console.Models
     public class Player
     {
         private readonly IView _view;
-        public string Name { get; set; }
-        public int Nummer { get; set; }
+
+        public string Name { get; }
+        public int Number { get; set; }
         public ConsoleColor CheckersColor { get; set; }
-        // Todo: Is this property really needed? Refactor to Enum?
+        // Todo: Refactor type to Enum 'GameDirection'?
         public int GameDirection { get; set; }
         public List<Checker> Checkers { get; }
 
-        public Player(IView view = null)
+        public Player(string name, int gameDirection, IView view = null)
         {
-            _view = view ?? new View();
+            _view = view;
+            Name = name;
+            GameDirection = gameDirection;
             Checkers = new List<Checker>();
         }
 
@@ -52,6 +55,14 @@ namespace Checkers.Console.Models
                         }
                     }
                 }
+            }
+        }
+
+        public void CreateCheckers(List<Checker> checkers) 
+        {
+            foreach (var checker in checkers)
+            {
+                Checkers.Add(checker);
             }
         }
 
