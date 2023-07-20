@@ -5,7 +5,6 @@ namespace Checkers.Console.Models
 {
     public class Settings
     {
-        public Variant Variant { get; private set; }
 
         public static void SetGameLanguage(int languageId)
         {
@@ -21,11 +20,6 @@ namespace Checkers.Console.Models
                     Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("pl-PL");
                     break;
             }
-        }
-
-        public void SetGameVariant(Variant variant)
-        {
-            Variant = variant;
         }
     }
 }

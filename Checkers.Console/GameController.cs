@@ -22,7 +22,7 @@ namespace Checkers.Console
         {
             _view = view ?? new View();
             _settings = new Settings();
-            gameboard = new GameBoard(_settings);
+            gameboard = new GameBoard();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Checkers.Console
             _view.SetUp();
             _view.GreetPlayer();
             Settings.SetGameLanguage(_view.ChooseLanguage());
-            _settings.SetGameVariant(_view.SelectGameVariant());
+            gameboard.SetGameVariant(_view.SelectGameVariant());
             _view.CreateGameboard();
             CreatePlayers();
             SelectPlayerColors();
@@ -127,7 +127,7 @@ namespace Checkers.Console
                 }
                 if (MovingPossible(checkerToMove))
                 {
-                    if (checkerToMove.IsQueen && _settings.Variant == Variant.European)
+                    if (checkerToMove.IsQueen && gameboard.Variant == Variant.European)
                     {
                         DetermineQueenMoves(checkerToMove);
                     }
@@ -254,11 +254,11 @@ namespace Checkers.Console
             {
                 return CalculateJumpAmount(checker, checkerPosition);
             }
-            if (checker.IsQueen && _settings.Variant == Variant.American)
+            if (checker.IsQueen && gameboard.Variant == Variant.American)
             {
                 return GetJumpsForAmericanQueen(checker, checkerPosition);
             }
-            if (checker.IsQueen && _settings.Variant == Variant.European)
+            if (checker.IsQueen && gameboard.Variant == Variant.European)
             {
                 return BerechneSprüngeEuropäischerDame(checker, checkerPosition);
             }
@@ -473,11 +473,11 @@ namespace Checkers.Console
             {
                 if (checker.IsNextPositionValid(zielPosition)) return true;
             }
-            if (checker.IsQueen && _settings.Variant == Variant.American)
+            if (checker.IsQueen && gameboard.Variant == Variant.American)
             {
                 if (checker.IsAmericanQueenMoveValid(zielPosition)) return true;
             }
-            if (checker.IsQueen && _settings.Variant == Variant.European)
+            if (checker.IsQueen && gameboard    .Variant == Variant.European)
             {
                 if (checker.IsEuropeanQueenMoveValid(zielPosition)) return true;
             }
@@ -630,14 +630,14 @@ namespace Checkers.Console
             var sprungMöglichkeit2 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.RightJump, new Position(checker.CurrentPosition.SecondXRight,
                 checker.CurrentPosition.SecondNextYCoordinate, player1.GameDirection));
 
-            if (checker.IsQueen && _settings.Variant == Variant.American)
+            if (checker.IsQueen && gameboard.Variant == Variant.American)
             {
                 sprungMöglichkeit3 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.LeftBackwardsJump, new Position(checker.CurrentPosition.SecondXLeft,
                     checker.CurrentPosition.SecondYCoordinateBackwards, player1.GameDirection));
                 sprungMöglichkeit4 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.RightBackwardsJump, new Position(checker.CurrentPosition.SecondXRight,
                     checker.CurrentPosition.SecondYCoordinateBackwards, player1.GameDirection));
             }
-            if (checker.IsQueen && _settings.Variant == Variant.European)
+            if (checker.IsQueen && gameboard.Variant == Variant.European)
             {
                 sprungMöglichkeit5 = IsAnyJumpPossible(checker.CurrentPosition.LeftJump, new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondNextYCoordinate, player1.GameDirection), checker);
                 sprungMöglichkeit6 = IsAnyJumpPossible(checker.CurrentPosition.RightJump, new Position(checker.CurrentPosition.SecondXRight, checker.CurrentPosition.SecondNextYCoordinate, player1.GameDirection), checker);

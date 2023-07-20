@@ -33,16 +33,17 @@ namespace Checkers.UnitTests
             Assert.That(CultureInfo.CurrentUICulture, Is.EqualTo(CultureInfo.GetCultureInfo(erwarteteSprache)));
         }
 
-        [Test]
-        [TestCase(Variant.American, Variant.American)]
-        [TestCase(Variant.European, Variant.European)]
-        public void WähleSpielvariante_NutzerWähltVariante_SetzePropertyWertAufVariante(Variant selektierteVariante, Variant erwartung)
-        {
-            // Act
-            _view.Setup(v => v.SelectGameVariant()).Returns(selektierteVariante);
+        // ToDo: Move to GameboardTests
+        //[Test]
+        //[TestCase(Variant.American, Variant.American)]
+        //[TestCase(Variant.European, Variant.European)]
+        //public void WähleSpielvariante_NutzerWähltVariante_SetzePropertyWertAufVariante(Variant selektierteVariante, Variant erwartung)
+        //{
+        //    // Act
+        //    _view.Setup(v => v.SelectGameVariant()).Returns(selektierteVariante);
 
-            // Assert
-            Assert.That(_settings.Variant, Is.EqualTo(erwartung));
-        }
+        //    // Assert
+        //    Assert.That(gameboard.Variant, Is.EqualTo(erwartung));
+        //}
     }
 }

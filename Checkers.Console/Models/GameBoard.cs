@@ -2,25 +2,26 @@
 {
     public class GameBoard
     {
-        private readonly Settings settings;
+        private const int RowStartNumber = 0;
 
-        public GameBoard(Settings settings)
-        {
-            this.settings = settings;
-        }
+        public Variant Variant { get; private set; }
 
-        public int ColumnCount => settings.Variant == Variant.American ? 10 : 8;
-        public int RowCount => settings.Variant == Variant.American ? 10 : 8;
+        public int ColumnCount => Variant == Variant.American ? 10 : 8;
+        public int RowCount => Variant == Variant.American ? 10 : 8;
         /// <summary>
         /// Row number for placing Checkers for Player 1
         /// </summary>
-        public int StartingUpperRow => settings.Variant == Variant.American ? 4 : 3;
+        public int StartingUpperRow => Variant == Variant.American ? 4 : 3;
         /// <summary>
         /// Row number for placing Checkers for Player 2
         /// </summary>
-        public int StartingLowerRow => settings.Variant == Variant.American ? 5 : 4;
-        public int RowEndNumber => settings.Variant == Variant.American ? 9 : 7;
-        public const int RowStartNumber = 0;
+        public int StartingLowerRow => Variant == Variant.American ? 5 : 4;
+        public int RowEndNumber => Variant == Variant.American ? 9 : 7;
+
+        public void SetGameVariant(Variant variant)
+        {
+            Variant = variant;
+        }
 
         public bool IsDiagonalFieldEmpty(int x, int y, Player player)
         {
