@@ -1,9 +1,4 @@
 ﻿using System.Globalization;
-using Checkers.Console;
-using Checkers.Console.Models;
-using Checkers.Console.Views;
-using Moq;
-using NUnit.Framework;
 
 namespace Checkers.UnitTests
 {

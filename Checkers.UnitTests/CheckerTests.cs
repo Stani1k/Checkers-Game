@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Checkers.Console;
-using Checkers.Console.Models;
-using Checkers.Console.Views;
-using Moq;
-using NUnit.Framework;
-
-namespace Checkers.UnitTests
+﻿namespace Checkers.UnitTests
 {
     [TestFixture]
     public class CheckerTests
