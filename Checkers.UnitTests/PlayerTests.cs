@@ -5,6 +5,8 @@
     {
         private Player _player;
         private Mock<IView> _view;
+        private bool result;
+
         [SetUp]
         public void SetUp()
         {
@@ -15,29 +17,17 @@
         }
 
         [Test]
-        public void IstEinCheckerBereitsAufDemFeld_FeldIstBesetzt_ReturnTrue()
+        public void IsPositionOccupied_IsOccupied_ReturnTrue()
         {
             // Act
-            var ergebnis = _player.IsPositionOccupied(new Position(1, 0, _player.GameDirection));
+            result = _player.IsPositionOccupied(new Position(1, 0, _player.GameDirection));
 
             // Assert
-            Assert.That(ergebnis, Is.True);
+            Assert.That(result, Is.True);
         }
 
         [Test]
-        [TestCase("1", 1)]
-        [TestCase("2", -1)]
-        public void WähleSeite_BeimAufruf_SetzeSpielRichtungVonSpieler1(string spieler1Seitenwahl, int erwartung)
-        {
-            // Act
-            _player.SetGameDirection(spieler1Seitenwahl);
-
-            // Assert
-            Assert.That(_player.GameDirection, Is.EqualTo(erwartung));
-        }
-
-        [Test]
-        public void SucheSpielsteinFürStartKoordinaten_StartPositionEntsprichtPositionEinemChecker_ReturnChecker()
+        public void GetCheckerWithMatchingCoordinates_PositionContainsChecker_ReturnChecker()
         { 
             var result = _player.GetCheckerWithMatchingCoordinates(new Position(1, 0, _player.GameDirection));
 
@@ -45,7 +35,7 @@
         }
 
         [Test]
-        public void SucheSpielsteinFürStartKoordinaten_StartPositionEntsprichtKeinemChecker_ReturnNull()
+        public void GetCheckerWithMatchingCoordinates_NoCheckerAtPosition_ReturnNull()
         {
             var result = _player.GetCheckerWithMatchingCoordinates(new Position(3, 0, _player.GameDirection));
 

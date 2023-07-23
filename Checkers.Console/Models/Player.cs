@@ -102,7 +102,7 @@ namespace Checkers.Console.Models
             return null;
         }
 
-        public Checker GetCheckerWithMatchingCoordinates(Position startPosition)
+        public Checker? GetCheckerWithMatchingCoordinates(Position startPosition)
         {
             foreach (var checker in Checkers)
             {
