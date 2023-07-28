@@ -5,13 +5,11 @@ namespace Checkers.UnitTests
     [TestFixture]
     public class SettingsTests
     {
-        private Mock<IView> _view;
         private Settings _settings;
 
         [SetUp]
         public void SetUp()
         {
-            _view = new Mock<IView>();
             _settings = new Settings();
         }
 
@@ -19,26 +17,13 @@ namespace Checkers.UnitTests
         [TestCase(1, "en-US")]
         [TestCase(2, "de-DE")]
         [TestCase(3, "pl-PL")]
-        public void WähleSprache_BeimAufruf_ÄndereSpracheDerAnwendung(int number, string erwarteteSprache)
+        public void SetGameLanguage_WhenCalled_ChangeCurrentUiCulture(int languageId, string expectedLanguage)
         {
             // Act
-            Settings.SetGameLanguage(number);
+            Settings.SetGameLanguage(languageId);
 
             // Assert
-            Assert.That(CultureInfo.CurrentUICulture, Is.EqualTo(CultureInfo.GetCultureInfo(erwarteteSprache)));
+            Assert.That(CultureInfo.CurrentUICulture, Is.EqualTo(CultureInfo.GetCultureInfo(expectedLanguage)));
         }
-
-        // ToDo: Move to GameboardTests
-        //[Test]
-        //[TestCase(Variant.American, Variant.American)]
-        //[TestCase(Variant.European, Variant.European)]
-        //public void WähleSpielvariante_NutzerWähltVariante_SetzePropertyWertAufVariante(Variant selektierteVariante, Variant erwartung)
-        //{
-        //    // Act
-        //    _view.Setup(v => v.SelectGameVariant()).Returns(selektierteVariante);
-
-        //    // Assert
-        //    Assert.That(gameboard.Variant, Is.EqualTo(erwartung));
-        //}
     }
 }
