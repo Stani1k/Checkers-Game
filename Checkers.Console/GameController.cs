@@ -36,7 +36,7 @@ namespace Checkers.Console
             _view.SetUp();
             _view.GreetPlayer();
             Settings.SetGameLanguage(_view.ChooseLanguage());
-            gameboard.SetGameVariant(_view.SelectGameVariant());
+            gameboard.SetGameVariant(_view.GetSelectedGameVariant());
             _view.CreateGameboard();
             CreatePlayers();
             SelectPlayerColors();

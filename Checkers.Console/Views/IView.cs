@@ -15,7 +15,7 @@ namespace Checkers.Console.Views
         void SetUp();
         void GreetPlayer();
         int ChooseLanguage();
-        Variant SelectGameVariant();
+        Variant GetSelectedGameVariant();
         string GetPlayerName(int playerID);
         string GetStartingSite(string playerName);
         ConsoleColor GetSelectedColor(string spielername, int spielerNummer);

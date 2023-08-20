@@ -15,9 +15,8 @@ namespace Checkers.Console.Views
         public int CursorXCoordinate => board.Variant == Variant.American ? 76 : 62;
         public int CursorYCoordinate => board.Variant == Variant.American ? 10: 8;
 
-        // ASCII Nummer für 'a'
-        private const int AsciiNummerA = 97;
-        private const string LeeresFeld = "                                                                          ";
+        private const int AsciiNumberLetterA = 97;
+        private const string EmptyField = "                                                                          ";
 
 
         public void SetUp()
@@ -69,9 +68,9 @@ namespace Checkers.Console.Views
             return 0;
         }
 
-        public Variant SelectGameVariant()
+        public Variant GetSelectedGameVariant()
         {
-            // Entfernt die Ausgaben, für die Sprachauswahl
+            // Removes the language selection outputs
             ClearText(56, 4);
             ClearText(58, 5);
             ClearText(58, 6);
@@ -82,52 +81,58 @@ namespace Checkers.Console.Views
             System.Console.WriteLine(GlobalStrings.SpielVariantenAuswahl);
             System.Console.SetCursorPosition(46, 5);
             System.Console.Write(GlobalStrings.VerfügbareVarianten);
-            var spielversion = System.Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(spielversion) || spielversion != "1" && spielversion != "2")
-            {
-                System.Console.SetCursorPosition(46, 7);
-                System.Console.Write(GlobalStrings.FehlerKeineGültigeZahl);
-                spielversion = System.Console.ReadLine();
-            }
-
-            if (spielversion == "1")
-            {
-                board.SetGameVariant(Variant.American);
-            }
-            if (spielversion == "2")
-            {
-                board.SetGameVariant(Variant.European);
-            }
-            // Entfernt den "Willkommenstext"
+            SelectGameVariant();
+            // Remove "Welcome Text"
             ClearText(55, 1);
             ClearText(40, 2);
-            // Entfernt die Konsolenausgaben aus dieser Methode
+            // Clear Console output from this method
             ClearText(37, 4);
             ClearText(46, 5);
             ClearText(46, 7);
             return board.Variant;
         }
 
-        public string GetPlayerName(int spielerNummer)
+        private void SelectGameVariant()
         {
-            var gültigeEingabe = false;
-            var eingabeSpielerName = "";
-            while (!gültigeEingabe)
+            var gameVariant = System.Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(gameVariant) || gameVariant != "1" && gameVariant != "2")
             {
-                // Entfernt den eingegebenen Namen des ersten Spielers
+                System.Console.SetCursorPosition(46, 7);
+                System.Console.Write(GlobalStrings.FehlerKeineGültigeZahl);
+                gameVariant = System.Console.ReadLine();
+            }
+
+            if (gameVariant == "1")
+            {
+                board.SetGameVariant(Variant.American);
+            }
+            if (gameVariant == "2")
+            {
+                board.SetGameVariant(Variant.European);
+            }
+        }
+
+        public string GetPlayerName(int playerNumber)
+        {
+            var validInput = false;
+            var playerName = string.Empty;
+            while (validInput == false)
+            {
+                // Remove console output for previous player name
                 ClearText(CursorXCoordinate, 4);
                 System.Console.SetCursorPosition(CursorXCoordinate, 4);
-                System.Console.Write(GlobalStrings.EingabeSpielername, spielerNummer);
-                eingabeSpielerName = System.Console.ReadLine();
-                gültigeEingabe = true;
-                if (string.IsNullOrWhiteSpace(eingabeSpielerName))
+                System.Console.Write(GlobalStrings.EingabeSpielername, playerNumber);
+                playerName = System.Console.ReadLine();
+                validInput = true;
+                if (string.IsNullOrWhiteSpace(playerName))
                 {
                     System.Console.SetCursorPosition(CursorXCoordinate, 10);
                     System.Console.WriteLine(GlobalStrings.FehlerLeereEingabe);
-                    gültigeEingabe = false;
+                    validInput = false;
                 }
             }
-            return eingabeSpielerName;
+
+            return playerName;
         }
 
         public string GetStartingSite(string spielername)
@@ -324,7 +329,7 @@ namespace Checkers.Console.Views
         {
             for (var i = 0; i < board.ColumnCount; i++)
             {
-                var asciiAlsBuchstabe = AsciiNummerA + i;
+                var asciiAlsBuchstabe = AsciiNumberLetterA + i;
                 // Berechnung der Buchstaben auf der x-Achse um die Buchstaben mittig auszugeben
                 System.Console.SetCursorPosition(i * GameBoard.FieldWidth + GameBoard.FieldWidth / 2 + 3, board.RowCount * GameBoard.FieldHeight + 1);
                 System.Console.BackgroundColor = ConsoleColor.DarkYellow;
@@ -649,7 +654,7 @@ namespace Checkers.Console.Views
         public void ClearText(int xPosition, int yPosition)
         {
             System.Console.SetCursorPosition(xPosition, yPosition);
-            System.Console.Write(LeeresFeld);
+            System.Console.Write(EmptyField);
         }
 
         public void SetGameColors()
