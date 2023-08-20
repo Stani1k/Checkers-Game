@@ -7,11 +7,9 @@ namespace Checkers.Console.Views
 {
     public interface IView
     {
-        int ColumnCount { get; }
         int RowCount { get; }
         int CursorXCoordinate { get; }
         int CursorYCoordinate { get; }
-        Variant Variant { get; set; }
         /// <summary>
         /// SetUp everything related to View like culture, window size etc.
         /// </summary>

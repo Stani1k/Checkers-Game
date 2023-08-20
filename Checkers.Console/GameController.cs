@@ -22,7 +22,7 @@ namespace Checkers.Console
         {
             _view = view ?? new View();
             _settings = new Settings();
-            gameboard = new GameBoard();
+            gameboard = new GameBoard(Variant.American);
         }
 
         /// <summary>

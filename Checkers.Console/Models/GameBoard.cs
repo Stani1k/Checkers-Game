@@ -3,6 +3,8 @@
     public class GameBoard
     {
         private const int RowStartNumber = 0;
+        public static int FieldWidth = 7;
+        public static int FieldHeight = 3;
 
         public Variant Variant { get; private set; }
 
@@ -17,6 +19,11 @@
         /// </summary>
         public int StartingLowerRow => Variant == Variant.American ? 5 : 4;
         public int RowEndNumber => Variant == Variant.American ? 9 : 7;
+
+        public GameBoard(Variant variant)
+        {
+            Variant = variant;
+        }
 
         public void SetGameVariant(Variant variant)
         {

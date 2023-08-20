@@ -11,17 +11,15 @@ namespace Checkers.Console.Views
 {
     public class View : IView
     {
-        public int ColumnCount => Variant == Variant.American ? 10 : 8;
-        public int RowCount => Variant == Variant.American ? 10 : 8;
-        public int CursorXCoordinate => Variant == Variant.American ? 76 : 62;
-        public int CursorYCoordinate => Variant == Variant.American ? 10: 8;
-        public Variant Variant { get; set; }
+        private readonly GameBoard board;
+        public int RowCount => board.Variant == Variant.American ? 10 : 8;
+        public int CursorXCoordinate => board.Variant == Variant.American ? 76 : 62;
+        public int CursorYCoordinate => board.Variant == Variant.American ? 10: 8;
 
-        private const int Feldbreite = 7;
-        private const int Feldhöhe = 3;
         // ASCII Nummer für 'a'
         private const int AsciiNummerA = 97;
         private const string LeeresFeld = "                                                                          ";
+
 
         public void SetUp()
         {
@@ -95,11 +93,11 @@ namespace Checkers.Console.Views
 
             if (spielversion == "1")
             {
-                Variant = Variant.American;
+                board.SetGameVariant(Variant.American);
             }
             if (spielversion == "2")
             {
-                Variant = Variant.European;
+                board.SetGameVariant(Variant.European);
             }
             // Entfernt den "Willkommenstext"
             ClearText(55, 1);
@@ -108,7 +106,7 @@ namespace Checkers.Console.Views
             ClearText(37, 4);
             ClearText(46, 5);
             ClearText(46, 7);
-            return Variant;
+            return board.Variant;
         }
 
         public string GetPlayerName(int spielerNummer)
@@ -247,9 +245,9 @@ namespace Checkers.Console.Views
         {
             for (var zeile = 0; zeile < RowCount; zeile++)
             {
-                for (var höhe = 0; höhe < Feldhöhe; höhe++)
+                for (var höhe = 0; höhe < GameBoard.FieldHeight; höhe++)
                 {
-                    if (höhe == Feldhöhe / 2)
+                    if (höhe == GameBoard.FieldHeight / 2)
                     {
                         CreateColumns(zeile);
                     }
@@ -281,7 +279,7 @@ namespace Checkers.Console.Views
             }
             else
             {
-                System.Console.SetCursorPosition(0, 1 + zeile * Feldhöhe);
+                System.Console.SetCursorPosition(0, 1 + zeile * GameBoard.FieldHeight);
             }
             System.Console.Write("   ");
         }
@@ -290,7 +288,7 @@ namespace Checkers.Console.Views
         {
             System.Console.BackgroundColor = ConsoleColor.DarkYellow;
             System.Console.ForegroundColor = ConsoleColor.Black;
-            if (Variant == Variant.American && columnNumber == 0)
+            if (board.Variant == Variant.American && columnNumber == 0)
             {
                 // der Wert 10 der y-Achse, wird hier mittig ausgegeben
                 System.Console.Write((RowCount - columnNumber) + " ");
@@ -305,9 +303,9 @@ namespace Checkers.Console.Views
         public void CreateRows(int reihe)
         {
             // Erstellt einzelne Spalten in horizontaler Richtung von links nach rechts
-            for (var spalte = 0; spalte < ColumnCount; spalte++)
+            for (var spalte = 0; spalte < board.ColumnCount; spalte++)
             {
-                for (var b = 0; b < Feldbreite; b++)
+                for (var b = 0; b < GameBoard.FieldWidth; b++)
                 {
                     if ((reihe + spalte) % 2 == 0)
                     {
@@ -325,11 +323,11 @@ namespace Checkers.Console.Views
 
         public void CreateXAxis()
         {
-            for (var i = 0; i < ColumnCount; i++)
+            for (var i = 0; i < board.ColumnCount; i++)
             {
                 var asciiAlsBuchstabe = AsciiNummerA + i;
                 // Berechnung der Buchstaben auf der x-Achse um die Buchstaben mittig auszugeben
-                System.Console.SetCursorPosition(i * Feldbreite + Feldbreite / 2 + 3, RowCount * Feldhöhe + 1);
+                System.Console.SetCursorPosition(i * GameBoard.FieldWidth + GameBoard.FieldWidth / 2 + 3, RowCount * GameBoard.FieldHeight + 1);
                 System.Console.BackgroundColor = ConsoleColor.DarkYellow;
                 System.Console.Write((char) asciiAlsBuchstabe);
             }
@@ -337,7 +335,7 @@ namespace Checkers.Console.Views
 
         public void PrintChecker(Checker checker)
         {
-            System.Console.SetCursorPosition(Feldbreite * checker.CurrentPosition.X + 6, Feldhöhe * checker.CurrentPosition.Y + 2);
+            System.Console.SetCursorPosition(GameBoard.FieldWidth * checker.CurrentPosition.X + 6, GameBoard.FieldHeight * checker.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
             System.Console.ForegroundColor = checker.Color;
             System.Console.Write(GlobalStrings.Spielstein);
@@ -382,7 +380,7 @@ namespace Checkers.Console.Views
                 }
                 ersterBuchstabe = buchstabe.ToLower().ToCharArray().First();
                 var ascii = (int) ersterBuchstabe;
-                if (ascii >= 97  && ascii < 97 + ColumnCount)
+                if (ascii >= 97  && ascii < 97 + board.ColumnCount)
                 {
                     xKoordinateAlsZahl = ascii - 97;
                     valid = true;
@@ -430,7 +428,7 @@ namespace Checkers.Console.Views
 
         public void MoveChecker(Checker bewegenderSpielstein)
         {
-            System.Console.SetCursorPosition(Feldbreite * bewegenderSpielstein.CurrentPosition.X + 6, Feldhöhe * bewegenderSpielstein.CurrentPosition.Y + 2);
+            System.Console.SetCursorPosition(GameBoard.FieldWidth * bewegenderSpielstein.CurrentPosition.X + 6, GameBoard.FieldHeight * bewegenderSpielstein.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
             System.Console.ForegroundColor = bewegenderSpielstein.Color;
             if (bewegenderSpielstein.IsQueen)
@@ -445,7 +443,7 @@ namespace Checkers.Console.Views
 
         public void RemoveChecker(Checker geschlagenerSpielstein)
         {
-            System.Console.SetCursorPosition(Feldbreite * geschlagenerSpielstein.CurrentPosition.X + 6, Feldhöhe * geschlagenerSpielstein.CurrentPosition.Y + 2);
+            System.Console.SetCursorPosition(GameBoard.FieldWidth * geschlagenerSpielstein.CurrentPosition.X + 6, GameBoard.FieldHeight * geschlagenerSpielstein.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
             System.Console.ForegroundColor = geschlagenerSpielstein.Color;
             System.Console.Write(" ");
@@ -626,12 +624,12 @@ namespace Checkers.Console.Views
         {
             var xPosition1 = 0;
             var xPosition2 = 0;
-            if (Variant == Variant.European)
+            if (board.Variant == Variant.European)
             {
                 xPosition1 = 27;
                 xPosition2 = 28;
             }
-            if (Variant == Variant.American)
+            if (board.Variant == Variant.American)
             {
                 xPosition1 = 33;
                 xPosition2 = 34;

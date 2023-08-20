@@ -8,7 +8,7 @@
         [SetUp]
         public void SetUp()
         {
-            board = new GameBoard();
+            board = new GameBoard(Variant.American);
         }
 
         [Test]
