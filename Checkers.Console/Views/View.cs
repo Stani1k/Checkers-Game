@@ -21,9 +21,7 @@ namespace Checkers.Console.Views
 
         public void SetUp()
         {
-            // ToDo: Refactor this to not use absolute values
-            // Console.BufferWidth = 150;
-            // Console.SetWindowSize(Console.BufferWidth, 40);
+
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
             System.Console.BackgroundColor = ConsoleColor.DarkYellow;
             System.Console.ForegroundColor = ConsoleColor.Black;
@@ -437,11 +435,11 @@ namespace Checkers.Console.Views
             System.Console.ForegroundColor = bewegenderSpielstein.Color;
             if (bewegenderSpielstein.IsQueen)
             {
-                DruckeDame();
+                PrintQueen();
             }
             else
             {
-                DruckeSpielstein();
+                PrintChecker();
             }
         }
 
@@ -453,12 +451,12 @@ namespace Checkers.Console.Views
             System.Console.Write(" ");
         }
 
-        private static void DruckeSpielstein()
+        private static void PrintChecker()
         {
             System.Console.Write(GlobalStrings.Spielstein);
         }
 
-        private static void DruckeDame()
+        private static void PrintQueen()
         {
             System.Console.Write(GlobalStrings.DameSpielstein);
         }
