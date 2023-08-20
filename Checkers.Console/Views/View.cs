@@ -28,6 +28,21 @@ namespace Checkers.Console.Views
             System.Console.Clear();
         }
 
+        public void ShowMainMenu()
+        {
+            System.Console.WriteLine(GlobalStrings.Willkommenstext);
+            System.Console.WriteLine("[1] Start Game");
+            System.Console.WriteLine("[2] Settings");
+            System.Console.WriteLine("[3] Help");
+            System.Console.WriteLine("[4] About");
+            System.Console.WriteLine("[5] Quit");
+        }
+
+        public void QuitGame()
+        {
+            System.Console.WriteLine(GlobalStrings.SpielBeenden);
+        }
+
         public void GreetPlayer()
         {
             System.Console.SetCursorPosition(55, 1);
