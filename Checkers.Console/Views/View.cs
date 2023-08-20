@@ -12,7 +12,6 @@ namespace Checkers.Console.Views
     public class View : IView
     {
         private readonly GameBoard board;
-        public int RowCount => board.Variant == Variant.American ? 10 : 8;
         public int CursorXCoordinate => board.Variant == Variant.American ? 76 : 62;
         public int CursorYCoordinate => board.Variant == Variant.American ? 10: 8;
 
@@ -243,7 +242,7 @@ namespace Checkers.Console.Views
 
         public void CreateGameboard()
         {
-            for (var zeile = 0; zeile < RowCount; zeile++)
+            for (var zeile = 0; zeile < board.RowCount; zeile++)
             {
                 for (var höhe = 0; höhe < GameBoard.FieldHeight; höhe++)
                 {
@@ -291,12 +290,12 @@ namespace Checkers.Console.Views
             if (board.Variant == Variant.American && columnNumber == 0)
             {
                 // der Wert 10 der y-Achse, wird hier mittig ausgegeben
-                System.Console.Write((RowCount - columnNumber) + " ");
+                System.Console.Write((board.RowCount - columnNumber) + " ");
             }
             else
             {
                 // die Werte 1-9 der y-Achse werden hier mittig ausgegeben
-                System.Console.Write((RowCount - columnNumber) + "  ");
+                System.Console.Write((board.RowCount - columnNumber) + "  ");
             }
         }
 
@@ -327,7 +326,7 @@ namespace Checkers.Console.Views
             {
                 var asciiAlsBuchstabe = AsciiNummerA + i;
                 // Berechnung der Buchstaben auf der x-Achse um die Buchstaben mittig auszugeben
-                System.Console.SetCursorPosition(i * GameBoard.FieldWidth + GameBoard.FieldWidth / 2 + 3, RowCount * GameBoard.FieldHeight + 1);
+                System.Console.SetCursorPosition(i * GameBoard.FieldWidth + GameBoard.FieldWidth / 2 + 3, board.RowCount * GameBoard.FieldHeight + 1);
                 System.Console.BackgroundColor = ConsoleColor.DarkYellow;
                 System.Console.Write((char) asciiAlsBuchstabe);
             }

@@ -7,7 +7,6 @@ namespace Checkers.Console.Views
 {
     public interface IView
     {
-        int RowCount { get; }
         int CursorXCoordinate { get; }
         int CursorYCoordinate { get; }
         /// <summary>
