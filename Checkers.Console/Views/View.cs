@@ -38,11 +38,6 @@ namespace Checkers.Console.Views
             System.Console.WriteLine("[5] Quit");
         }
 
-        public void QuitGame()
-        {
-            System.Console.WriteLine(GlobalStrings.SpielBeenden);
-        }
-
         public void GreetPlayer()
         {
             System.Console.SetCursorPosition(55, 1);

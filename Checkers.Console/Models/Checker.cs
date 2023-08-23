@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Checkers.Console.Models
 {
-    public class Checker : GamePiece
+    public sealed class Checker : GamePiece
     {
         /// <summary>
         /// Contains all possible jump positions

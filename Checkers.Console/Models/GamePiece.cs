@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Checkers.Console.Models
 {
-    public class GamePiece
+    public class GamePiece : Entity
     {
         public ConsoleColor Color { get; }
 
@@ -11,7 +11,7 @@ namespace Checkers.Console.Models
 
         public List<Position> Moves { get; set; }
 
-        public GamePiece(ConsoleColor color)
+        protected GamePiece(ConsoleColor color) : base(Guid.NewGuid())
         {
             Color = color;
         }

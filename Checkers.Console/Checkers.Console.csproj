@@ -11,6 +11,7 @@
     <Authors>Michal Szymczyk</Authors>
     <Description>Checkers game as Console Application. </Description>
     <Product>Checkers</Product>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
