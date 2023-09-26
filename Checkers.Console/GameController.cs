@@ -34,20 +34,58 @@ namespace Checkers.Console
         public void RunApplication()
         {
             _view.SetUp();
-            _view.GreetPlayer();
-            Settings.SetGameLanguage(_view.ChooseLanguage());
-            gameboard.SetGameVariant(_view.GetSelectedGameVariant());
-            _view.CreateGameboard();
-            CreatePlayers();
-            SelectPlayerColors();
-            SelectSites();
-            player1.CreateCheckers(gameboard);
-            player2.CreateCheckers(gameboard);
-            PrintCheckers(player1);
-            PrintCheckers(player2);
-            StartGame();
-            SelectWinner();
-            ExitApplication();
+            _view.ShowMainMenu();
+            ExecuteMainMenuOptions();
+            // Settings.SetGameLanguage(_view.ChooseLanguage());
+        }
+
+        private void ExecuteMainMenuOptions()
+        {
+            var selectedMenuOption = GetSelectedMenuOption();
+            System.Console.Clear();
+            switch (selectedMenuOption)
+            {
+                case MenuOption.Start:
+                    gameboard.SetGameVariant(_view.GetSelectedGameVariant());
+                    _view.CreateGameboard();
+                    CreatePlayers();
+                    SelectPlayerColors();
+                    SelectSites();
+                    player1.CreateCheckers(gameboard);
+                    player2.CreateCheckers(gameboard);
+                    PrintCheckers(player1);
+                    PrintCheckers(player2);
+                    StartGame();
+                    SelectWinner();
+                    break;
+                case MenuOption.Settings:
+                    break;
+                case MenuOption.Help:
+                    break;
+                case MenuOption.About:
+                    break;
+                case MenuOption.Quit:
+                    ExitApplication();
+                    break;
+                case MenuOption.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static MenuOption GetSelectedMenuOption()
+        {
+            var selectedOption = System.Console.ReadLine();
+            return selectedOption switch
+            {
+                "1" => MenuOption.Start,
+                "2" => MenuOption.Settings,
+                "3" => MenuOption.Help,
+                "4" => MenuOption.About,
+                "5" => MenuOption.Quit,
+                _ => MenuOption.None
+            };
         }
 
         private void CreatePlayers()

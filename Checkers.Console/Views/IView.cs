@@ -13,7 +13,7 @@ namespace Checkers.Console.Views
         /// SetUp everything related to View like culture, window size etc.
         /// </summary>
         void SetUp();
-        void GreetPlayer();
+        void ShowMainMenu();
         int ChooseLanguage();
         Variant GetSelectedGameVariant();
         string GetPlayerName(int playerID);

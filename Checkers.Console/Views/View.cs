@@ -30,22 +30,18 @@ namespace Checkers.Console.Views
 
         public void ShowMainMenu()
         {
+            System.Console.SetCursorPosition(55, 1);
             System.Console.WriteLine(GlobalStrings.Willkommenstext);
+            System.Console.SetCursorPosition(40, 2);
+            System.Console.WriteLine(GlobalStrings.Trennzeichen);
+
             System.Console.WriteLine("[1] Start Game");
             System.Console.WriteLine("[2] Settings");
             System.Console.WriteLine("[3] Help");
             System.Console.WriteLine("[4] About");
             System.Console.WriteLine("[5] Quit");
         }
-
-        public void GreetPlayer()
-        {
-            System.Console.SetCursorPosition(55, 1);
-            System.Console.WriteLine(GlobalStrings.Willkommenstext);
-            System.Console.SetCursorPosition(40, 2);
-            System.Console.WriteLine(GlobalStrings.Trennzeichen);
-        }
-
+        
         public int ChooseLanguage()
         {
             System.Console.SetCursorPosition(56, 4);
