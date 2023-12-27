@@ -18,11 +18,11 @@ namespace Checkers.Console
         private readonly GameBoard gameboard;
         private readonly Stopwatch stopwatch = new Stopwatch();
 
-        public GameController(IView view = null)
+        public GameController()
         {
-            _view = view ?? new View();
-            _settings = new Settings();
             gameboard = new GameBoard(Variant.American);
+            _view = new View(gameboard);
+            _settings = new Settings();
         }
 
         /// <summary>
@@ -76,16 +76,35 @@ namespace Checkers.Console
 
         private static MenuOption GetSelectedMenuOption()
         {
-            var selectedOption = System.Console.ReadLine();
-            return selectedOption switch
+            var menuOption = MenuOption.None;
+            while (menuOption == MenuOption.None)
             {
-                "1" => MenuOption.Start,
-                "2" => MenuOption.Settings,
-                "3" => MenuOption.Help,
-                "4" => MenuOption.About,
-                "5" => MenuOption.Quit,
-                _ => MenuOption.None
-            };
+                var selectedOption = System.Console.ReadLine();
+                switch (selectedOption)
+                {
+                    case "1":
+                        menuOption = MenuOption.Start;
+                        break;
+                    case "2":
+                        menuOption = MenuOption.Settings;
+                        break;
+                    case "3":
+                        menuOption = MenuOption.Help;
+                        break;
+                    case "4":
+                        menuOption = MenuOption.About;
+                        break;
+                    case "5":
+                        menuOption = MenuOption.Quit;
+                        break;
+                    default:
+                        menuOption = MenuOption.None;
+                        System.Console.WriteLine("Please make a valid selection!");
+                        break;
+                }
+            }
+
+            return menuOption;
         }
 
         private void CreatePlayers()

@@ -18,6 +18,10 @@ namespace Checkers.Console.Views
         private const int AsciiNumberLetterA = 97;
         private const string EmptyField = "                                                                          ";
 
+        public View(GameBoard gameBoard)
+        {
+            board = gameBoard;
+        }
 
         public void SetUp()
         {

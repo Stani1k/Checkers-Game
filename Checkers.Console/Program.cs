@@ -10,7 +10,7 @@ namespace Checkers.Console
         /// </summary>
         private static void Main()
         {
-            var controller = new GameController(new View());
+            var controller = new GameController();
             controller.RunApplication();
 
             System.Console.ReadKey();
