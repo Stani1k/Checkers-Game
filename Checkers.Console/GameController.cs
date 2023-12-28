@@ -307,57 +307,38 @@ namespace Checkers.Console
             return false;
         }
 
-        private int ZähleAnzahlSprünge(Checker checker, Position checkerPosition)
+        private int CountJumps(Checker checker, Position checkerPosition)
         {
-            if (!checker.IsQueen)
+            if (checker.IsQueen == false)
             {
-                return CalculateJumpAmount(checker, checkerPosition);
+                return CalculateJumpAmount(checkerPosition);
             }
             if (checker.IsQueen && _gameBoard.Variant == Variant.American)
             {
-                return GetJumpsForAmericanQueen(checker, checkerPosition);
+                return CalculateAmericanQueenJumps(checker, checkerPosition);
             }
             if (checker.IsQueen && _gameBoard.Variant == Variant.European)
             {
-                return BerechneSprüngeEuropäischerDame(checker, checkerPosition);
+                return CalculateEuropeanQueenJumps(checker, checkerPosition);
             }
             return 0;
         }
 
-        private int CalculateJumpAmount(Checker checker, Position position)
+        private int CalculateJumpAmount(Position position)
         {
-            var zielPos1 = new Position(position.SecondXRight,
-                position.SecondNextYCoordinate, _player1.GameDirection);
-            var zielPos2 = new Position(position.SecondXLeft,
-                position.SecondNextYCoordinate, _player1.GameDirection);
-            var istSprungMöglichRechts = JumpIsAvailable(new JumpDestination(position.XRight, position.NextYCoordinate, zielPos1.X, zielPos1.Y));
-            var istSprungMöglichLinks = JumpIsAvailable(new JumpDestination(position.XLeft, position.NextYCoordinate, zielPos2.X, zielPos2.Y));
+            var destinationRight = new Position(position.SecondXRight, position.SecondNextYCoordinate, _player1.GameDirection);
+            var destinationLeft = new Position(position.SecondXLeft, position.SecondNextYCoordinate, _player1.GameDirection);
+            var rightJumpAvailable = JumpIsAvailable(new JumpDestination(position.XRight, position.NextYCoordinate, destinationRight.X, destinationRight.Y));
+            var leftJumpAvailable = JumpIsAvailable(new JumpDestination(position.XLeft, position.NextYCoordinate, destinationLeft.X, destinationLeft.Y));
 
-            int anzahlSprüngeRechts;
-            if (istSprungMöglichRechts)
-            {
-                anzahlSprüngeRechts = 1 + CalculateJumpAmount(checker, zielPos1);
-            }
-            else
-            {
-                anzahlSprüngeRechts = 0;
-            }
-            int anzahlSprüngeLinks;
-            if (istSprungMöglichLinks)
-            {
-                anzahlSprüngeLinks = 1 + CalculateJumpAmount(checker, zielPos2);
-            }
-            else
-            {
-                anzahlSprüngeLinks = 0;
-            }
+            var rightJumpCount = rightJumpAvailable ? 1 + CalculateJumpAmount(destinationRight) : 0;
+            var leftJumpCount = leftJumpAvailable ? 1 + CalculateJumpAmount(destinationLeft) : 0;
 
-            return Math.Max(anzahlSprüngeRechts, anzahlSprüngeLinks);
+            return Math.Max(rightJumpCount, leftJumpCount);
         }
 
-        private int GetJumpsForAmericanQueen(Checker checker, Position position)
+        private int CalculateAmericanQueenJumps(Checker checker, Position position)
         {
-            // ToDo - FRAGE: Kann man, und wenn ja wie am besten, eine rekursive Methode wie diese hier, verkürzen? (Clean Code)
             var zielPos1 = new Position(position.SecondXRight,
                 position.SecondNextYCoordinate, _player1.GameDirection);
             var zielPos2 = new Position(position.SecondXLeft,
@@ -375,7 +356,7 @@ namespace Checkers.Console
             int anzahlSprüngeRechts;
             if (istSprungMöglichRechts)
             {
-                anzahlSprüngeRechts = 1 + GetJumpsForAmericanQueen(checker, zielPos1);
+                anzahlSprüngeRechts = 1 + CalculateAmericanQueenJumps(checker, zielPos1);
             }
             else if (istSprungMöglichRechtsRückwärts)
             {
@@ -389,7 +370,7 @@ namespace Checkers.Console
             int anzahlSprüngeLinks;
             if (istSprungMöglichLinks)
             {
-                anzahlSprüngeLinks = 1 + GetJumpsForAmericanQueen(checker, zielPos2);
+                anzahlSprüngeLinks = 1 + CalculateAmericanQueenJumps(checker, zielPos2);
             }
             else if (istSprungMöglichLinksRückwärts)
             {
@@ -403,7 +384,7 @@ namespace Checkers.Console
             return Math.Max(anzahlSprüngeRechts, anzahlSprüngeLinks);
         }
 
-        private int BerechneSprüngeEuropäischerDame(Checker checker, Position position)
+        private int CalculateEuropeanQueenJumps(Checker checker, Position position)
         {
             Position jumpDestination = null;
 
@@ -453,7 +434,7 @@ namespace Checkers.Console
                 if (!_skippedCheckers.Contains(checkerToHit))
                 {
                     _skippedCheckers.Add(checkerToHit);
-                    _queenPossiblePositionCount.Add(1 + BerechneSprüngeEuropäischerDame(checker, destination));
+                    _queenPossiblePositionCount.Add(1 + CalculateEuropeanQueenJumps(checker, destination));
                 }
                 else
                 {
