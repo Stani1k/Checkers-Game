@@ -309,30 +309,31 @@ namespace Checkers.Console
 
         private int CountJumps(Checker checker, Position checkerPosition)
         {
+            _queenPossiblePositionCount.Clear();
             if (checker.IsQueen == false)
             {
-                return CalculateJumpAmount(checkerPosition, checker.IsQueen, _gameBoard.Variant);
+                return CalculateJumpAmount(checkerPosition, checker.IsQueen);
             }
             if (checker.IsQueen && _gameBoard.Variant == Variant.American)
             {
-                return CalculateJumpAmount(checkerPosition, checker.IsQueen, _gameBoard.Variant);
+                return CalculateJumpAmount(checkerPosition, checker.IsQueen);
             }
             if (checker.IsQueen && _gameBoard.Variant == Variant.European)
             {
-                return CalculateEuropeanQueenJumps(checker, checkerPosition);
+                return CalculateJumpAmount(checkerPosition, checker.IsQueen);
             }
             return 0;
         }
 
-        private int CalculateJumpAmount(Position position, bool isQueen, Variant variant)
+        private int CalculateJumpAmount(Position position, bool isQueen)
         {
             var rightBackwardsJumpAvailable = false;
             var leftBackwardsJumpAvailable = false;
             
             Position destinationRight = null;
-            Position destinationRightBackwards = null;
+            Position? destinationRightBackwards = null;
             Position destinationLeft = null;
-            Position destinationLeftBackwards = null;
+            Position? destinationLeftBackwards = null;
             
             destinationRight = new Position(position.SecondXRight, position.SecondNextYCoordinate, _player1.GameDirection);
             destinationLeft = new Position(position.SecondXLeft, position.SecondNextYCoordinate, _player1.GameDirection);
@@ -346,11 +347,27 @@ namespace Checkers.Console
                 rightBackwardsJumpAvailable = JumpIsAvailable(new JumpDestination(position.XRight, position.NextYCoordinateBackwards, destinationRightBackwards.X, destinationRightBackwards.Y));
                 leftBackwardsJumpAvailable = JumpIsAvailable(new JumpDestination(position.XLeft, position.NextYCoordinateBackwards, destinationLeftBackwards.X, destinationLeftBackwards.Y));
             }
+            else if (isQueen && _gameBoard.Variant == Variant.European)
+            {
+                destinationRightBackwards = GetJumpDestination(position, position.XLeft, position.SecondXLeft, position.X + 1, position.NextYCoordinateBackwards,
+                    position.SecondYCoordinateBackwards, position.Y - 1);
+                destinationLeftBackwards = GetJumpDestination(position, position.XLeft, position.SecondXLeft, position.X - 1, position.NextYCoordinateBackwards,
+                    position.SecondYCoordinateBackwards, position.Y - 1);
+                
+                if (destinationRightBackwards != null)
+                {
+                    rightBackwardsJumpAvailable = true;
+                }
+                if (destinationLeftBackwards != null)
+                {
+                    leftBackwardsJumpAvailable = true;
+                }
+            }
 
             int rightJumpCount;
             if (rightJumpAvailable)
             {
-                rightJumpCount = 1 + CalculateJumpAmount(destinationRight, isQueen, variant);
+                rightJumpCount = 1 + CalculateJumpAmount(destinationRight, isQueen);
             }
             else if (rightBackwardsJumpAvailable)
             {
@@ -364,7 +381,7 @@ namespace Checkers.Console
             int leftJumpCount;
             if (leftJumpAvailable)
             {
-                leftJumpCount = 1 + CalculateJumpAmount(destinationLeft, isQueen, variant);
+                leftJumpCount = 1 + CalculateJumpAmount(destinationLeft, isQueen);
             }
             else if (leftBackwardsJumpAvailable)
             {
@@ -378,68 +395,7 @@ namespace Checkers.Console
             return Math.Max(rightJumpCount, leftJumpCount);
         }
         
-        private int CalculateEuropeanQueenJumps(Checker checker, Position position)
-        {
-            Position jumpDestination = null;
-
-            _queenPossiblePositionCount.Clear();
-            var jumpRight = GetJumpDestination(position, position.XRight, position.SecondXRight, position.X + 1, position.NextYCoordinate, position.SecondNextYCoordinate, position.Y + 1);
-            if (jumpRight != null)
-            {
-                jumpDestination = GetQueenJumpPosition(checker, jumpRight, new Position(jumpRight.X - 1, jumpRight.Y - 1, _player1.GameDirection));
-            }
-
-            var jumpLeft = GetJumpDestination(position, position.XLeft, position.SecondXLeft, position.X - 1, position.NextYCoordinate, position.SecondNextYCoordinate, position.Y + 1);
-            if (jumpLeft != null)
-            {
-                jumpDestination = GetQueenJumpPosition(checker, jumpLeft, new Position(jumpLeft.X + 1, jumpLeft.Y - 1, _player1.GameDirection));
-            }
-
-            var jumpRightBackwards = GetJumpDestination(position, position.XLeft, position.SecondXLeft, position.X + 1, position.NextYCoordinateBackwards, 
-                position.SecondYCoordinateBackwards, position.Y - 1);
-
-            if (jumpRightBackwards != null)
-            {
-                jumpDestination = GetQueenJumpPosition(checker, jumpRightBackwards, new Position(jumpRightBackwards.X - 1, jumpRightBackwards.Y + 1, _player1.GameDirection));
-            }
-
-            var jumpLeftBackwards = GetJumpDestination(position, position.XLeft, position.SecondXLeft, position.X - 1, position.NextYCoordinateBackwards,
-    position.SecondYCoordinateBackwards, position.Y - 1);
-
-            if (jumpLeftBackwards != null)
-            {
-                jumpDestination = GetQueenJumpPosition(checker, jumpLeftBackwards, new Position(jumpLeftBackwards.X + 1, jumpLeftBackwards.Y + 1, _player1.GameDirection));
-            }
-
-            // Falls der Spielstein hier noch null ist, hat er keine Sprünge und wir geben den Wert 0 zurück
-            if (jumpDestination == null)
-            {
-                return 0;
-            }
-
-            _skippedCheckers.Clear();
-            return _queenPossiblePositionCount.Max();
-        }
-
-        private Position GetQueenJumpPosition(Checker checker, Position destination, Position checkerToHit)
-        {
-            if (destination != null)
-            {
-                if (!_skippedCheckers.Contains(checkerToHit))
-                {
-                    _skippedCheckers.Add(checkerToHit);
-                    _queenPossiblePositionCount.Add(1 + CalculateEuropeanQueenJumps(checker, destination));
-                }
-                else
-                {
-                    destination = null;
-                }
-            }
-
-            return destination;
-        }
-
-        private Position GetJumpDestination(Position destination, int xNext, int secondXNext, int xDestination, int yNext, int secondYNext, int yDestination)
+        private Position? GetJumpDestination(Position destination, int xNext, int secondXNext, int xDestination, int yNext, int secondYNext, int yDestination)
         {
             while (!CoordinatesOutOfFieldRange(destination.X, destination.Y))
             {
@@ -463,7 +419,7 @@ namespace Checkers.Console
             return null;
         }
 
-        private int CalculateBackwardsJumpAmount(Position destination)
+        private int CalculateBackwardsJumpAmount(Position? destination)
         {
             int rightBackwardsJump;
             int leftBackwardsJump;
