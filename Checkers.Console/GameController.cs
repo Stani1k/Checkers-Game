@@ -166,7 +166,7 @@ namespace Checkers.Console
                     Environment.Exit(0);
                 }
                 checkerToMove = player.GetCheckerWithMatchingCoordinates(startPosition);
-                if (CheckerFromEnemy(opponent, startPosition))
+                if (EnemyCheckerSelected(opponent, startPosition))
                 {
                     _view.TryMovingEnemyChecker();
                     continue;
@@ -175,7 +175,7 @@ namespace Checkers.Console
                 {
                     continue;
                 }
-                if (SelectWhiteField(checkerToMove))
+                if (WhiteFieldSelected(checkerToMove))
                 {
                     _view.SelectEmptyField();
                     continue;
@@ -447,76 +447,74 @@ namespace Checkers.Console
             return Math.Max(rightBackwardsJump, leftBackwardsJump);
         }
 
-        private static bool SelectWhiteField(Checker selektierterSpielstein)
+        private static bool WhiteFieldSelected(Checker? checker)
         {
-            return selektierterSpielstein == null;
+            return checker == null;
         }
 
-        private static bool CheckerFromEnemy(Player player2, Position startPosition)
+        private static bool EnemyCheckerSelected(Player player, Position startPosition)
         {
-            return player2.Checkers.Any(spielstein => startPosition.Equals(spielstein.CurrentPosition));
+            return player.Checkers.Any(checker => startPosition.Equals(checker.CurrentPosition));
         }
 
-        private bool MoveIsValid(Checker checker, Position zielPosition)
+        private bool MoveIsValid(Checker checker, Position destination)
         {
             if (!checker.IsQueen)
             {
-                if (checker.IsNextPositionValid(zielPosition)) return true;
+                if (checker.IsNextPositionValid(destination)) return true;
             }
             if (checker.IsQueen && _gameBoard.Variant == Variant.American)
             {
-                if (checker.IsAmericanQueenMoveValid(zielPosition)) return true;
+                if (checker.IsAmericanQueenMoveValid(destination)) return true;
             }
-            if (checker.IsQueen && _gameBoard    .Variant == Variant.European)
+            if (checker.IsQueen && _gameBoard.Variant == Variant.European)
             {
-                if (checker.IsEuropeanQueenMoveValid(zielPosition)) return true;
+                if (checker.IsEuropeanQueenMoveValid(destination)) return true;
             }
 
             return false;
         }
 
-        private void DetermineQueenMoves(Checker dame)
+        private void DetermineQueenMoves(Checker queen)
         {
-            // Deklariert eine neue Liste für alle Zugmöglichkeiten einer europäischen Dame
-            dame.Moves = new List<Position>();
-            var zielPosition = new Position(dame.CurrentPosition.XRight, dame.CurrentPosition.NextYCoordinate, _player1.GameDirection);
-            // Bestimmt die möglichen Züge einer Dame nach RECHTS VORNE
-            while (IsQueenMovePossible(new Position(zielPosition.X, zielPosition.Y, _player1.GameDirection)))
+            queen.Moves = new List<Position>();
+            var destination = new Position(queen.CurrentPosition.XRight, queen.CurrentPosition.NextYCoordinate, _player1.GameDirection);
+            while (IsQueenMovePossible(new Position(destination.X, destination.Y, _player1.GameDirection)))
             {
-                dame.Moves.Add(zielPosition);
-                zielPosition = new Position(zielPosition.X + 1, zielPosition.Y + 1, _player1.GameDirection);
+                queen.Moves.Add(destination);
+                destination = new Position(destination.X + 1, destination.Y + 1, _player1.GameDirection);
             }
-            zielPosition = new Position(dame.CurrentPosition.XLeft, dame.CurrentPosition.NextYCoordinate, _player1.GameDirection);
-            // Bestimmt die möglichen Züge einer Dame nach LINKS VORNE
-            while (IsQueenMovePossible(new Position(zielPosition.X, zielPosition.Y, _player1.GameDirection)))
+            
+            destination = new Position(queen.CurrentPosition.XLeft, queen.CurrentPosition.NextYCoordinate, _player1.GameDirection);
+            while (IsQueenMovePossible(new Position(destination.X, destination.Y, _player1.GameDirection)))
             {
-                dame.Moves.Add(zielPosition);
-                zielPosition = new Position(zielPosition.X - 1, zielPosition.Y + 1, _player1.GameDirection);
+                queen.Moves.Add(destination);
+                destination = new Position(destination.X - 1, destination.Y + 1, _player1.GameDirection);
             }
-            zielPosition = new Position(dame.CurrentPosition.XRight, dame.CurrentPosition.NextYCoordinateBackwards, _player1.GameDirection);
-            // Bestimmt die möglichen Züge einer Dame nach RECHTS HINTEN
-            while (IsQueenMovePossible(new Position(zielPosition.X, zielPosition.Y, _player1.GameDirection)))
+            
+            destination = new Position(queen.CurrentPosition.XRight, queen.CurrentPosition.NextYCoordinateBackwards, _player1.GameDirection);
+            while (IsQueenMovePossible(new Position(destination.X, destination.Y, _player1.GameDirection)))
             {
-                dame.Moves.Add(zielPosition);
-                zielPosition = new Position(zielPosition.X + 1, zielPosition.Y - 1, _player1.GameDirection);
+                queen.Moves.Add(destination);
+                destination = new Position(destination.X + 1, destination.Y - 1, _player1.GameDirection);
             }
-            zielPosition = new Position(dame.CurrentPosition.XLeft, dame.CurrentPosition.NextYCoordinateBackwards, _player1.GameDirection);
-            // Bestimmt die möglichen Züge einer Dame nach LINKS HINTEN
-            while (IsQueenMovePossible(new Position(zielPosition.X, zielPosition.Y, _player1.GameDirection)))
+            
+            destination = new Position(queen.CurrentPosition.XLeft, queen.CurrentPosition.NextYCoordinateBackwards, _player1.GameDirection);
+            while (IsQueenMovePossible(new Position(destination.X, destination.Y, _player1.GameDirection)))
             {
-                dame.Moves.Add(zielPosition);
-                zielPosition = new Position(zielPosition.X - 1, zielPosition.Y - 1, _player1.GameDirection);
+                queen.Moves.Add(destination);
+                destination = new Position(destination.X - 1, destination.Y - 1, _player1.GameDirection);
             }
         }
 
         private bool MovingPossible(Checker checker)
         {
-            var spielfigur = new Position(checker.CurrentPosition.X, checker.CurrentPosition.Y, _player1.GameDirection);
+            var position = checker.CurrentPosition;
             if (!checker.IsQueen)
             {
-                // Bedingung trifft zu, wenn BEIDE diagonalen Felder mit eigenen oder gegnerischen Spielsteinen besetzt sind
-                if ((!_gameBoard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, _player1) || !_gameBoard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, _player2))
-                    && (!_gameBoard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, _player1) || !_gameBoard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, _player2)))
+                // Checks if destination is occupied by own or enemy checker -> move not possible
+                if ((!_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player1) || !_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player2))
+                    && (!_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinate, _player1) || !_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinate, _player2)))
                 {
                     return false;
                 }
@@ -525,16 +523,16 @@ namespace Checkers.Console
             if (checker.IsQueen)
             {
                 // Bedingung trifft zu, wenn BEIDE diagonalen Felder nach OBEN mit eigenen oder gegnerischen Spielsteinen besetzt sind
-                if ((!_gameBoard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, _player1) ||
-                     !_gameBoard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinate, _player2))
-                    && (!_gameBoard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, _player1) ||
-                        !_gameBoard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinate, _player2)))
+                if ((!_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player1) ||
+                     !_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player2))
+                    && (!_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinate, _player1) ||
+                        !_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinate, _player2)))
                 {
                     // Bedingung trifft zu, wenn BEIDE diagonalen Felder nach UNTEN ebenfalls mit eigenen oder gegnerischen Spielsteinen besetzt sind
-                    if ((!_gameBoard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinateBackwards, _player1) ||
-                         !_gameBoard.IsDiagonalFieldEmpty(spielfigur.XRight, spielfigur.NextYCoordinateBackwards, _player2))
-                        && (!_gameBoard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinateBackwards, _player1) ||
-                            !_gameBoard.IsDiagonalFieldEmpty(spielfigur.XLeft, spielfigur.NextYCoordinateBackwards, _player2)))
+                    if ((!_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinateBackwards, _player1) ||
+                         !_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinateBackwards, _player2))
+                        && (!_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinateBackwards, _player1) ||
+                            !_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinateBackwards, _player2)))
                     {
                         return false;
                     }
