@@ -10,6 +10,7 @@ namespace Checkers.Console
 {
     public class GameController
     {
+        private const int AAsciiNumber = 97;
         private Player _player1;
         private Player _player2;
 
@@ -510,7 +511,27 @@ namespace Checkers.Console
         private bool MovingPossible(Checker checker)
         {
             var position = checker.CurrentPosition;
-            if (!checker.IsQueen)
+            if (checker.IsQueen)
+            {
+                // Both diagonal fields UPWARDS are occupied by own or enemy checkers -> move not possible
+                if ((!_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player1) || 
+                     !_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player2)) && 
+                    (!_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinate, _player1) || 
+                     !_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinate, _player2)))
+                {
+                    return false;
+                }
+                
+                // Both diagonal fields DOWNWARDS are occupied by own or enemy checkers -> move not possible
+                if ((!_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinateBackwards, _player1) ||
+                     !_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinateBackwards, _player2)) && 
+                    (!_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinateBackwards, _player1) || 
+                     !_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinateBackwards, _player2)))
+                {
+                    return false;
+                }
+            }
+            else
             {
                 // Checks if destination is occupied by own or enemy checker -> move not possible
                 if ((!_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player1) || !_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player2))
@@ -520,36 +541,17 @@ namespace Checkers.Console
                 }
             }
 
-            if (checker.IsQueen)
-            {
-                // Bedingung trifft zu, wenn BEIDE diagonalen Felder nach OBEN mit eigenen oder gegnerischen Spielsteinen besetzt sind
-                if ((!_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player1) ||
-                     !_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinate, _player2))
-                    && (!_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinate, _player1) ||
-                        !_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinate, _player2)))
-                {
-                    // Bedingung trifft zu, wenn BEIDE diagonalen Felder nach UNTEN ebenfalls mit eigenen oder gegnerischen Spielsteinen besetzt sind
-                    if ((!_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinateBackwards, _player1) ||
-                         !_gameBoard.IsDiagonalFieldEmpty(position.XRight, position.NextYCoordinateBackwards, _player2))
-                        && (!_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinateBackwards, _player1) ||
-                            !_gameBoard.IsDiagonalFieldEmpty(position.XLeft, position.NextYCoordinateBackwards, _player2)))
-                    {
-                        return false;
-                    }
-                }
-            }
-
             return true;
         }
 
-        private bool CoordinatesOutOfFieldRange(int xKoordinate, int yKoordinate = 0)
+        private bool CoordinatesOutOfFieldRange(int x, int y = 0)
         {
-            if (xKoordinate > _gameBoard.StartingUpperRow || xKoordinate < _gameBoard.StartingLowerRow)
+            if (x > _gameBoard.StartingUpperRow || x < _gameBoard.StartingLowerRow)
             {
                 return true;
             }
 
-            if (yKoordinate > _gameBoard.StartingUpperRow || yKoordinate < _gameBoard.StartingLowerRow)
+            if (y > _gameBoard.StartingUpperRow || y < _gameBoard.StartingLowerRow)
             {
                 return true;
             }
@@ -595,13 +597,13 @@ namespace Checkers.Console
             return checkersToJump;
         }
 
-        private List<Checker> GetCheckersWithMostJumps(List<Checker> spielsteine)
+        private List<Checker> GetCheckersWithMostJumps(IReadOnlyCollection<Checker> checker)
         {
-            var spielsteineGleichVieleSprünge = spielsteine.Where(c => c.JumpCount == spielsteine.Max(s => s.JumpCount)).ToList();
-            ZeigeUmgewandelteKoordinatenAn(spielsteineGleichVieleSprünge);
-            _view.ShowPossibleJumpCount(spielsteineGleichVieleSprünge);
+            var checkersWithMostJumps = checker.Where(c => c.JumpCount == checker.Max(s => s.JumpCount)).ToList();
+            ShowTransformedCoordinates(checkersWithMostJumps);
+            _view.ShowPossibleJumpCount(checkersWithMostJumps);
 
-            return spielsteineGleichVieleSprünge;
+            return checkersWithMostJumps;
         }
 
         private bool JumpIsAvailable(Checker checker)
@@ -694,22 +696,30 @@ namespace Checkers.Console
             return false;
         }
 
-        private void ZeigeUmgewandelteKoordinatenAn(List<Checker> spielsteine)
+        private void ShowTransformedCoordinates(IReadOnlyList<Checker> checkers)
         {
-            // Umgewandelte x und y Koordinaten des ERSTEN gefundenen Spielstein, welcher über einen Sprung verfügt
-            var xKoordinateAlsBuchstabe = Convert.ToChar(spielsteine[0].CurrentPosition.X + 97);
-            var yKoordinateUmgewandelt = (spielsteine[0].CurrentPosition.Y - _gameBoard.ColumnCount) * -1;
-
-            if (spielsteine.Count == 1)
+            if (checkers.Count == 0)
             {
-                _view.ShowPossibleJump(xKoordinateAlsBuchstabe, yKoordinateUmgewandelt);
+                return;
             }
-            else if (spielsteine.Count == 2)
+            
+            var firstCheckerPosition = checkers[0].CurrentPosition;
+            var xAsChar = Convert.ToChar(firstCheckerPosition.X + AAsciiNumber);
+            var yAsInt = (firstCheckerPosition.Y - _gameBoard.ColumnCount) * -1;
+
+            switch (checkers.Count)
             {
-                // Umgewandelte x und y Koordinaten des ZWEITEN gefundenen Spielstein, welcher über einen Sprung verfügt
-                var xKoordinate2AlsBuchstabe = Convert.ToChar(spielsteine[1].CurrentPosition.X + 97);
-                var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.Y - _gameBoard.ColumnCount) * -1;
-                _view.ShowTwoPossibleJumps(xKoordinateAlsBuchstabe, yKoordinateUmgewandelt, xKoordinate2AlsBuchstabe, yKoordinate2Umgewandelt);
+                case 1:
+                    _view.ShowPossibleJump(xAsChar, yAsInt);
+                    break;
+                case 2:
+                {
+                    var secondCheckerPosition = checkers[1].CurrentPosition;
+                    var xAsChar2 = Convert.ToChar(secondCheckerPosition.X + AAsciiNumber);
+                    var yAsInt2 = (secondCheckerPosition.Y - _gameBoard.ColumnCount) * -1;
+                    _view.ShowTwoPossibleJumps(xAsChar, yAsInt, xAsChar2, yAsInt2);
+                    break;
+                }
             }
         }
 
