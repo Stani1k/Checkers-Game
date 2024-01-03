@@ -608,40 +608,35 @@ namespace Checkers.Console
 
         private bool JumpIsAvailable(Checker checker)
         {
-            var sprungMöglichkeit3 = false;
-            var sprungMöglichkeit4 = false;
-            var sprungMöglichkeit5 = false;
-            var sprungMöglichkeit6 = false;
-            var sprungMöglichkeit7 = false;
-            var sprungMöglichkeit8 = false;
+            var jumpIsAvailable = false;
 
-            var sprungMöglichkeit1 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.LeftJump, new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondNextYCoordinate,
-                _player1.GameDirection));
-            var sprungMöglichkeit2 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.RightJump, new Position(checker.CurrentPosition.SecondXRight,
-                checker.CurrentPosition.SecondNextYCoordinate, _player1.GameDirection));
+            jumpIsAvailable = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.LeftJump, 
+                new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondNextYCoordinate, _player1.GameDirection));
+            if (jumpIsAvailable == false)
+            {
+                jumpIsAvailable = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.RightJump, new Position(checker.CurrentPosition.SecondXRight,
+                    checker.CurrentPosition.SecondNextYCoordinate, _player1.GameDirection));
+            }
 
             if (checker.IsQueen && _gameBoard.Variant == Variant.American)
             {
-                sprungMöglichkeit3 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.LeftBackwardsJump, new Position(checker.CurrentPosition.SecondXLeft,
+                jumpIsAvailable = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.LeftBackwardsJump, new Position(checker.CurrentPosition.SecondXLeft,
                     checker.CurrentPosition.SecondYCoordinateBackwards, _player1.GameDirection));
-                sprungMöglichkeit4 = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.RightBackwardsJump, new Position(checker.CurrentPosition.SecondXRight,
-                    checker.CurrentPosition.SecondYCoordinateBackwards, _player1.GameDirection));
+                if (jumpIsAvailable == false)
+                {
+                    jumpIsAvailable = IsJumpOnNextFieldPossible(checker, checker.CurrentPosition.RightBackwardsJump, new Position(checker.CurrentPosition.SecondXRight,
+                        checker.CurrentPosition.SecondYCoordinateBackwards, _player1.GameDirection));
+                }
             }
             if (checker.IsQueen && _gameBoard.Variant == Variant.European)
             {
-                sprungMöglichkeit5 = IsAnyJumpPossible(checker.CurrentPosition.LeftJump, new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondNextYCoordinate, _player1.GameDirection), checker);
-                sprungMöglichkeit6 = IsAnyJumpPossible(checker.CurrentPosition.RightJump, new Position(checker.CurrentPosition.SecondXRight, checker.CurrentPosition.SecondNextYCoordinate, _player1.GameDirection), checker);
-                sprungMöglichkeit7 = IsAnyJumpPossible(checker.CurrentPosition.LeftBackwardsJump, new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondYCoordinateBackwards, _player1.GameDirection), checker);
-                sprungMöglichkeit8 = IsAnyJumpPossible(checker.CurrentPosition.RightBackwardsJump, new Position(checker.CurrentPosition.SecondXRight, checker.CurrentPosition.SecondYCoordinateBackwards, _player1.GameDirection), checker);
+                jumpIsAvailable = IsAnyJumpPossible(checker.CurrentPosition.LeftJump, new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondNextYCoordinate, _player1.GameDirection), checker);
+                jumpIsAvailable = IsAnyJumpPossible(checker.CurrentPosition.RightJump, new Position(checker.CurrentPosition.SecondXRight, checker.CurrentPosition.SecondNextYCoordinate, _player1.GameDirection), checker);
+                jumpIsAvailable = IsAnyJumpPossible(checker.CurrentPosition.LeftBackwardsJump, new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondYCoordinateBackwards, _player1.GameDirection), checker);
+                jumpIsAvailable = IsAnyJumpPossible(checker.CurrentPosition.RightBackwardsJump, new Position(checker.CurrentPosition.SecondXRight, checker.CurrentPosition.SecondYCoordinateBackwards, _player1.GameDirection), checker);
             }
 
-            if (sprungMöglichkeit1 || sprungMöglichkeit2 || sprungMöglichkeit3 || sprungMöglichkeit4 || sprungMöglichkeit5 ||
-                sprungMöglichkeit6 || sprungMöglichkeit7 || sprungMöglichkeit8)
-            {
-                return true;
-            }
-
-            return false;
+            return jumpIsAvailable;
         }
 
         private bool IsJumpOnNextFieldPossible(Checker checker, JumpDestination richtung, Position jumpDestination)
