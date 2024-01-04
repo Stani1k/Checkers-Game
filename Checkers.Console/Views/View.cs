@@ -25,7 +25,6 @@ namespace Checkers.Console.Views
 
         public void SetUp()
         {
-
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
             System.Console.BackgroundColor = ConsoleColor.DarkYellow;
             System.Console.ForegroundColor = ConsoleColor.Black;
@@ -58,8 +57,8 @@ namespace Checkers.Console.Views
             System.Console.WriteLine(GlobalStrings.Polnisch);
             System.Console.SetCursorPosition(58, 8);
             System.Console.Write(GlobalStrings.AuswahlDerSprache);
-            int sprachauswahl = Convert.ToInt32(System.Console.ReadLine());
-            switch (sprachauswahl)
+            var languageId = Convert.ToInt32(System.Console.ReadLine());
+            switch (languageId)
             {
                 case 1:
                     return 1;
@@ -178,67 +177,59 @@ namespace Checkers.Console.Views
             return eingabeSeitenwahl;
         }
 
-        public ConsoleColor GetSelectedColor(string spielername, int spielerNummer)
+        public ConsoleColor GetSelectedColor(string playerName, int playerNumber)
         {
             System.Console.SetCursorPosition(CursorXCoordinate, 4);
             System.Console.WriteLine(GlobalStrings.InfoText1FarbAuswahl);
             System.Console.SetCursorPosition(CursorXCoordinate, 5);
             System.Console.WriteLine(GlobalStrings.InfoText2FarbAuswahl);
-            var valid = false;
-            var spielsteinFarbe = ConsoleColor.White;
-            while (!valid)
-            {
-                ClearText(CursorXCoordinate, 7);
-                System.Console.SetCursorPosition(CursorXCoordinate, 7);
-                System.Console.Write(GlobalStrings.AuswahlSpielsteinFarbe, spielerNummer, spielername);
-                var spielerFarbenAuswahl = System.Console.ReadLine();
+            var checkerColor = ConsoleColor.White;
+            ClearText(CursorXCoordinate, 7);
+            System.Console.SetCursorPosition(CursorXCoordinate, 7);
+            System.Console.Write(GlobalStrings.AuswahlSpielsteinFarbe, playerNumber, playerName);
+            var selectedColorText = System.Console.ReadLine();
 
-                if (string.IsNullOrWhiteSpace(spielerFarbenAuswahl))
-                {
-                    System.Console.SetCursorPosition(CursorXCoordinate, 9);
-                    System.Console.WriteLine(GlobalStrings.FehlerLeereEingabe);
-                    continue;
-                }
+            if (string.IsNullOrWhiteSpace(selectedColorText))
+            {
+                System.Console.SetCursorPosition(CursorXCoordinate, 9);
+                System.Console.WriteLine(GlobalStrings.FehlerLeereEingabe);
+            }
 
-                if (spielerFarbenAuswahl.ToLower() == GlobalStrings.Rot)
-                {
-                    valid = true;
-                    spielsteinFarbe = ConsoleColor.Red;
-                }
-                else if (spielerFarbenAuswahl.ToLower() == GlobalStrings.Blau)
-                {
-                    valid = true;
-                    spielsteinFarbe = ConsoleColor.Blue;
-                }
-                else if (spielerFarbenAuswahl.ToLower() == GlobalStrings.Grün)
-                {
-                    valid = true;
-                    spielsteinFarbe = ConsoleColor.Green;
-                }
-                else if (spielerFarbenAuswahl.ToLower() == GlobalStrings.Gelb)
-                {
-                    valid = true;
-                    spielsteinFarbe = ConsoleColor.Yellow;
-                }
-                else
-                {
-                    System.Console.SetCursorPosition(CursorXCoordinate, 9);
-                    System.Console.WriteLine(GlobalStrings.FehlerUngültigeFarbe);
-                }
-            }
-            if (spielerNummer == 1)
+            if (selectedColorText.ToLower() == GlobalStrings.Rot)
             {
-                System.Console.SetCursorPosition(CursorXCoordinate, 12);
-                System.Console.WriteLine(GlobalStrings.FarbenAuswahlÜbersicht, spielerNummer, spielername, spielsteinFarbe);
+                checkerColor = ConsoleColor.Red;
             }
-            else if (spielerNummer == 2)
+            else if (selectedColorText.ToLower() == GlobalStrings.Blau)
             {
-                System.Console.SetCursorPosition(CursorXCoordinate, 13);
-                System.Console.WriteLine(GlobalStrings.FarbenAuswahlÜbersicht, spielerNummer, spielername, spielsteinFarbe);
+                checkerColor = ConsoleColor.Blue;
+            }
+            else if (selectedColorText.ToLower() == GlobalStrings.Grün)
+            {
+                checkerColor = ConsoleColor.Green;
+            }
+            else if (selectedColorText.ToLower() == GlobalStrings.Gelb)
+            {
+                checkerColor = ConsoleColor.Yellow;
+            }
+            else
+            {
+                System.Console.SetCursorPosition(CursorXCoordinate, 9);
+                System.Console.WriteLine(GlobalStrings.FehlerUngültigeFarbe);
+            }
+            switch (playerNumber)
+            {
+                case 1:
+                    System.Console.SetCursorPosition(CursorXCoordinate, 12);
+                    System.Console.WriteLine(GlobalStrings.FarbenAuswahlÜbersicht, playerNumber, playerName, checkerColor);
+                    break;
+                case 2:
+                    System.Console.SetCursorPosition(CursorXCoordinate, 13);
+                    System.Console.WriteLine(GlobalStrings.FarbenAuswahlÜbersicht, playerNumber, playerName, checkerColor);
+                    break;
             }
             ClearText(CursorXCoordinate, 7);
             ClearText(CursorXCoordinate, 9);
-            return spielsteinFarbe;
+            return checkerColor;
         }
 
         public void EqualCheckerColorNotAllowed()
@@ -255,66 +246,64 @@ namespace Checkers.Console.Views
 
         public void CreateGameboard()
         {
-            for (var zeile = 0; zeile < board.RowCount; zeile++)
+            for (var row = 0; row < board.RowCount; row++)
             {
-                for (var höhe = 0; höhe < GameBoard.FieldHeight; höhe++)
+                for (var height = 0; height < GameBoard.FieldHeight; height++)
                 {
-                    if (höhe == GameBoard.FieldHeight / 2)
+                    if (height == GameBoard.FieldHeight / 2)
                     {
-                        CreateColumns(zeile);
+                        PrintRowValueNumbers(row);
                     }
                     else
                     {
-                        ErstelleLeerzeichenAufYAchse(höhe, zeile);
+                        PrintWhiteSpacesBetweenRowValues(height, row);
                     }
-                    CreateRows(zeile);
-                    // Beginnt eine neue Zeile
+                    CreateRows(row);
                     System.Console.WriteLine();
                 }
             }
-            CreateXAxis();
+            CreateColumns();
         }
 
-        private static void ErstelleLeerzeichenAufYAchse(int höhe, int zeile)
+        private static void PrintWhiteSpacesBetweenRowValues(int height, int row)
         {
             System.Console.BackgroundColor = ConsoleColor.DarkYellow;
-            if (höhe == 2)
+            if (height == 2)
             {
-                if (zeile == 0)
+                if (row == 0)
                 {
                     System.Console.SetCursorPosition(0, 3);
                 }
                 else
                 {
-                    System.Console.SetCursorPosition(0, 3 + zeile * 3);
+                    System.Console.SetCursorPosition(0, 3 + row * 3);
                 }
             }
             else
             {
-                System.Console.SetCursorPosition(0, 1 + zeile * GameBoard.FieldHeight);
+                System.Console.SetCursorPosition(0, 1 + row * GameBoard.FieldHeight);
             }
             System.Console.Write("   ");
         }
 
-        public void CreateColumns(int columnNumber)
+        public void PrintRowValueNumbers(int columnNumber)
         {
             System.Console.BackgroundColor = ConsoleColor.DarkYellow;
             System.Console.ForegroundColor = ConsoleColor.Black;
             if (board.Variant == Variant.American && columnNumber == 0)
             {
-                // der Wert 10 der y-Achse, wird hier mittig ausgegeben
-                System.Console.Write((board.RowCount - columnNumber) + " ");
+                // Value 10 is shown in the center
+                System.Console.Write(board.RowCount + " ");
             }
             else
             {
-                // die Werte 1-9 der y-Achse werden hier mittig ausgegeben
+                // Values 1-9 are shown in the center
                 System.Console.Write((board.RowCount - columnNumber) + "  ");
             }
         }
 
         public void CreateRows(int reihe)
         {
-            // Erstellt einzelne Spalten in horizontaler Richtung von links nach rechts
             for (var spalte = 0; spalte < board.ColumnCount; spalte++)
             {
                 for (var b = 0; b < GameBoard.FieldWidth; b++)
@@ -333,15 +322,14 @@ namespace Checkers.Console.Views
             }
         }
 
-        public void CreateXAxis()
+        public void CreateColumns()
         {
             for (var i = 0; i < board.ColumnCount; i++)
             {
-                var asciiAlsBuchstabe = AsciiNumberLetterA + i;
-                // Berechnung der Buchstaben auf der x-Achse um die Buchstaben mittig auszugeben
+                var aAscii = AsciiNumberLetterA + i;
                 System.Console.SetCursorPosition(i * GameBoard.FieldWidth + GameBoard.FieldWidth / 2 + 3, board.RowCount * GameBoard.FieldHeight + 1);
                 System.Console.BackgroundColor = ConsoleColor.DarkYellow;
-                System.Console.Write((char) asciiAlsBuchstabe);
+                System.Console.Write((char) aAscii);
             }
         }
 
@@ -351,7 +339,6 @@ namespace Checkers.Console.Views
             System.Console.BackgroundColor = ConsoleColor.Black;
             System.Console.ForegroundColor = checker.Color;
             System.Console.Write(GlobalStrings.Spielstein);
-            // Nachdem der letzte Spielstein platziert wurde, werden die Farben der Konsole wieder auf "Default" gesetzt
             SetGameColors();
         }
 

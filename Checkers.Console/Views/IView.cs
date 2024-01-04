@@ -18,13 +18,13 @@ namespace Checkers.Console.Views
         Variant GetSelectedGameVariant();
         string GetPlayerName(int playerID);
         string GetStartingSite(string playerName);
-        ConsoleColor GetSelectedColor(string spielername, int spielerNummer);
+        ConsoleColor GetSelectedColor(string playerName, int playerNumber);
         void EqualCheckerColorNotAllowed();
         void EqualNamesNotAllowed();
         void CreateGameboard();
-        void CreateColumns(int columnNumber);
+        void PrintRowValueNumbers(int columnNumber);
         void CreateRows(int rowNumber);
-        void CreateXAxis();
+        void CreateColumns();
         void PrintChecker(Checker checker);
         void ShowSurrenderOption();
         Position GetPosition(bool isStartingCoordinate, Player player);
