@@ -240,12 +240,13 @@ namespace Checkers.Console
 
         private void Jump(Player player, Checker checker, Position destination)
         {
-            while (!CoordinatesAreValid(checker, destination))
+            while (JumpIsAvailable(checker))
             {
                 _view.ForceJump(checker.Jumps);
                 destination = _view.GetPosition(false, player);
             }
-            _view.RemoveChecker(checker);
+            RemoveEnemyChecker(player.Checkers, destination);
+            
             checker.CurrentPosition = destination;
             if (QueenTransformationAvailable(player, checker, destination))
             {
@@ -655,7 +656,6 @@ namespace Checkers.Console
             var startPosition = checker.CurrentPosition;
             while (!CoordinatesOutOfFieldRange(checker.CurrentPosition.X))
             {
-                // Durchsucht alle diagonalen Felder, in eine bestimmte Richtung, nach einem Sprung
                 if (IsJumpOnNextFieldPossible(checker, richtung, sprungPosition))
                 {
                     checker.CurrentPosition = startPosition;
@@ -717,50 +717,7 @@ namespace Checkers.Console
                 }
             }
         }
-
-        private bool CoordinatesAreValid(Checker checker, Position zielPosition)
-        {
-            Position geschlagenerSpielstein;
-            // Sprung nach rechts unten
-            var sprungMöglichkeit1 = checker.Jumps.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
-            if (zielPosition.Equals(sprungMöglichkeit1))
-            {
-                geschlagenerSpielstein = new Position(sprungMöglichkeit1.X - 1, sprungMöglichkeit1.Y - 1, _player1.GameDirection);
-                RemoveEnemyChecker(_player2.Checkers, geschlagenerSpielstein);
-                checker.ClearJumps();
-                return true;
-            }
-            // Sprung nach links unten
-            var sprungMöglichkeit2 = checker.Jumps.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y > checker.CurrentPosition.Y);
-            if (zielPosition.Equals(sprungMöglichkeit2))
-            {
-                geschlagenerSpielstein = new Position(sprungMöglichkeit2.X + 1, sprungMöglichkeit2.Y - 1, _player1.GameDirection);
-                RemoveEnemyChecker(_player2.Checkers, geschlagenerSpielstein);
-                checker.ClearJumps();
-                return true;
-            }
-            // Sprung nach rechts oben
-            var sprungMöglichkeit3 = checker.Jumps.FirstOrDefault(p => p.X > checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
-            if (zielPosition.Equals(sprungMöglichkeit3))
-            {
-                geschlagenerSpielstein = new Position(sprungMöglichkeit3.X - 1, sprungMöglichkeit3.Y + 1, _player1.GameDirection);
-                RemoveEnemyChecker(_player2.Checkers, geschlagenerSpielstein);
-                checker.ClearJumps();
-                return true;
-            }
-            // Sprung nach links oben
-            var sprungMöglichkeit4 = checker.Jumps.FirstOrDefault(p => p.X < checker.CurrentPosition.X && p.Y < checker.CurrentPosition.Y);
-            if (zielPosition.Equals(sprungMöglichkeit4))
-            {
-                geschlagenerSpielstein = new Position(sprungMöglichkeit4.X + 1, sprungMöglichkeit4.Y + 1, _player1.GameDirection);
-                RemoveEnemyChecker(_player2.Checkers, geschlagenerSpielstein);
-                checker.ClearJumps();
-                return true;
-            }
-
-            return false;
-        }
-
+        
         private void RemoveEnemyChecker(List<Checker> enemyCheckers, Position checkerToRemove)
         {
             for (var i = 0; i < enemyCheckers.Count; i++)
@@ -773,22 +730,6 @@ namespace Checkers.Console
                     break;
                 }
             }
-        }
-
-        // ToDo: mit Implementierung eines Timers fortsetzen (Idee: Den Timer z.B. jede 15 Sekunden aktualisieren lassen)
-        private void StartTimeMeasurement()
-        {
-            _stopwatch.Start();
-            if (_stopwatch.ElapsedMilliseconds >= 15000)
-            {
-                _view.ShowPassedTime(_stopwatch);
-                Thread.Sleep(1000);
-            }
-        }
-
-        private void StopTimeMeasurement()
-        {
-            _stopwatch.Stop();
         }
 
         private void StartGame()
