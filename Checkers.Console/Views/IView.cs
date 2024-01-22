@@ -27,9 +27,9 @@ namespace Checkers.Console.Views
         void CreateColumns();
         void PrintChecker(Checker checker);
         void ShowSurrenderOption();
-        Position GetPosition(bool isStartingCoordinate, Player player);
+        Position? GetPosition(bool isStartCoordinate, Player player);
         void ShowCurrentPosition(char x, int y);
-        void MoveChecker(Checker checker);
+        void MoveChecker(Checker checkerToMove);
         void RemoveChecker(Checker checkerToRemove);
         void TransformCheckerToQueen(Position position);
         void TryMovingEnemyChecker();

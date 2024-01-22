@@ -350,38 +350,47 @@ namespace Checkers.Console.Views
             System.Console.Write(GlobalStrings.InformationZumAufgeben2);
         }
 
-        public Position GetPosition(bool istStartKoordinate, Player spieler)
+        public Position? GetPosition(bool isStartCoordinate, Player player)
         {
             SetGameColors();
-            // Entfernt die eingegebenen Werte für die nächste Eingabe
             ClearText(CursorXCoordinate, 10);
             ClearText(CursorXCoordinate, 11);
             ClearText(CursorXCoordinate, 13);
             ClearText(CursorXCoordinate, 14);
-            var xKoordinateAlsZahl = 0;
-            var ersterBuchstabe = '\0';
+            var enteredCoordinates = GetEnteredCoordinates(isStartCoordinate);
+            var yCoordinate = (enteredCoordinates.x - CursorYCoordinate) * -1;
+            if (!isStartCoordinate)
+            {
+                ClearText(CursorXCoordinate, 22);
+            }
+            ClearText(CursorXCoordinate, 17);
+            ClearText(CursorXCoordinate, 18);
+            ClearText(CursorXCoordinate, 21);
+            return new Position(enteredCoordinates.y, yCoordinate, player.GameDirection);
+        }
+
+        private (int x, int y) GetEnteredCoordinates(bool isStartCoordinate)
+        {
+            int xCoordinate = 0, yCoordinate = 0;
             var valid = false;
-            while (!valid)
+            char firstLetter = '\0';
+            while (valid == false)
             {
                 System.Console.SetCursorPosition(CursorXCoordinate, 10);
                 System.Console.Write(GlobalStrings.EingabeXKoordinate);
-                var buchstabe = System.Console.ReadLine();
-                // Prüft ob die Eingabe des Nutzers leer ist
-                if (string.IsNullOrWhiteSpace(buchstabe))
+                var enteredLetter = System.Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(enteredLetter))
                 {
                     System.Console.SetCursorPosition(CursorXCoordinate, 11);
                     System.Console.WriteLine(GlobalStrings.FehlerLeereEingabe);
                     continue;
                 }
-                if (buchstabe == "!gg")
-                {
-                    return null;
-                }
-                ersterBuchstabe = buchstabe.ToLower().ToCharArray().First();
-                var ascii = (int) ersterBuchstabe;
+
+                firstLetter = enteredLetter.ToLower().ToCharArray().First();
+                var ascii = (int) firstLetter;
                 if (ascii >= 97  && ascii < 97 + board.ColumnCount)
                 {
-                    xKoordinateAlsZahl = ascii - 97;
+                    xCoordinate = ascii - 97;
                     valid = true;
                 }
                 else
@@ -392,45 +401,34 @@ namespace Checkers.Console.Views
             }
             System.Console.SetCursorPosition(CursorXCoordinate, 13);
             System.Console.Write(GlobalStrings.EingabeYKoordinate);
-            int yKoordinate;
-            while (!int.TryParse(System.Console.ReadLine(), out yKoordinate))
+            while (!int.TryParse(System.Console.ReadLine(), out yCoordinate))
             {
                 System.Console.SetCursorPosition(CursorXCoordinate, 14);
                 System.Console.WriteLine(GlobalStrings.FehlerKoordinateIstKeineZahl);
                 System.Console.SetCursorPosition(CursorXCoordinate, 13);
                 System.Console.Write(GlobalStrings.EingabeYKoordinate);
             }
-            var yKoordinateUmgewandelt = (yKoordinate - CursorYCoordinate) * -1;
-            if (istStartKoordinate)
+            
+            if (isStartCoordinate)
             {
-                ShowCurrentPosition(ersterBuchstabe, yKoordinate);
+                ShowCurrentPosition(firstLetter, yCoordinate);
             }
-
-            if (!istStartKoordinate)
-            {
-                // Entfernt den Text der Methode, welche die aktuelle Position anzeigt
-                ClearText(CursorXCoordinate, 22);
-            }
-            // Entfernt die Nutzerausgaben aus "BewegeChecker" Methode
-            ClearText(CursorXCoordinate, 17);
-            ClearText(CursorXCoordinate, 18);
-            ClearText(CursorXCoordinate, 21);
-            return new Position(xKoordinateAlsZahl, yKoordinateUmgewandelt, spieler.GameDirection);
+            return (xCoordinate, yCoordinate);
         }
 
-        public void ShowCurrentPosition(char xKoordinate, int yKoordinate)
+        public void ShowCurrentPosition(char x, int y)
         {
             System.Console.SetCursorPosition(CursorXCoordinate, 22);
             System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.Write(GlobalStrings.SelektiertePosition, xKoordinate, yKoordinate);
+            System.Console.Write(GlobalStrings.SelektiertePosition, x, y);
         }
 
-        public void MoveChecker(Checker bewegenderSpielstein)
+        public void MoveChecker(Checker checkerToMove)
         {
-            System.Console.SetCursorPosition(GameBoard.FieldWidth * bewegenderSpielstein.CurrentPosition.X + 6, GameBoard.FieldHeight * bewegenderSpielstein.CurrentPosition.Y + 2);
+            System.Console.SetCursorPosition(GameBoard.FieldWidth * checkerToMove.CurrentPosition.X + 6, GameBoard.FieldHeight * checkerToMove.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = bewegenderSpielstein.Color;
-            if (bewegenderSpielstein.IsQueen)
+            System.Console.ForegroundColor = checkerToMove.Color;
+            if (checkerToMove.IsQueen)
             {
                 PrintQueen();
             }
