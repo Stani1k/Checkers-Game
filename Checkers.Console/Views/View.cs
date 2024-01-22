@@ -428,14 +428,7 @@ namespace Checkers.Console.Views
             System.Console.SetCursorPosition(GameBoard.FieldWidth * checkerToMove.CurrentPosition.X + 6, GameBoard.FieldHeight * checkerToMove.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
             System.Console.ForegroundColor = checkerToMove.Color;
-            if (checkerToMove.IsQueen)
-            {
-                PrintQueen();
-            }
-            else
-            {
-                PrintChecker();
-            }
+            PrintChecker(checkerToMove.IsQueen);
         }
 
         public void RemoveChecker(Checker geschlagenerSpielstein)
@@ -446,14 +439,9 @@ namespace Checkers.Console.Views
             System.Console.Write(" ");
         }
 
-        private static void PrintChecker()
+        private static void PrintChecker(bool isQueen)
         {
-            System.Console.Write(GlobalStrings.Spielstein);
-        }
-
-        private static void PrintQueen()
-        {
-            System.Console.Write(GlobalStrings.DameSpielstein);
+            System.Console.Write(isQueen ? GlobalStrings.DameSpielstein : GlobalStrings.Spielstein);
         }
 
         public void TransformCheckerToQueen(Position positionSpielstein)
