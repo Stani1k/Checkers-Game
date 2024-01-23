@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.UnitTests", "Check
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.WPF", "Checkers.WPF\Checkers.WPF.csproj", "{06C1710F-AEDD-4E6E-AA56-2BE61A88D2CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.Tools", "Checkers.Tools\Checkers.Tools.csproj", "{209FD1B9-27FE-4026-BF5D-18F3B188F65D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{06C1710F-AEDD-4E6E-AA56-2BE61A88D2CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06C1710F-AEDD-4E6E-AA56-2BE61A88D2CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06C1710F-AEDD-4E6E-AA56-2BE61A88D2CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{209FD1B9-27FE-4026-BF5D-18F3B188F65D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{209FD1B9-27FE-4026-BF5D-18F3B188F65D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{209FD1B9-27FE-4026-BF5D-18F3B188F65D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{209FD1B9-27FE-4026-BF5D-18F3B188F65D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

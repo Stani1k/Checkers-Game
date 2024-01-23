@@ -1,6 +1,8 @@
-﻿namespace Checkers.WPF;
+﻿using Checkers.Tools;
 
-public class MainViewModel
+namespace Checkers.WPF;
+
+public class MainViewModel : ViewModelBase
 {
     
 }
