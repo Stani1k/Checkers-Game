@@ -38,9 +38,9 @@ namespace Checkers.Console.Views
         void SelectEmptyField();
         void MoveCheckerOnOccupiedField();
         void MovingNotPossible();
-        void ShowPlayerTurn(string playerName, ConsoleColor color);
+        void ShowPlayerTurn(string playerName, ConsoleColor checkerColor);
         void ShowPossibleJump(char x, int y);
-        void ShowTwoPossibleJumps(char xKoordinateRechts, int yKoordinateRechts, char xKoordinateLinks, int yKoordinateLinks);
+        void ShowTwoPossibleJumps(char xRight, int yRight, char xLeft, int yLeft);
         void ShowPossibleJumpCount(List<Checker> checkers);
         void CheckerHasLessJumps(Checker spielstein);
         void ForceJump(List<Position> availableJumps);

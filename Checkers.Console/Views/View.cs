@@ -496,33 +496,33 @@ namespace Checkers.Console.Views
             System.Console.WriteLine(GlobalStrings.SpielsteinIstNichtBewegbar2);
         }
 
-        public void ShowPlayerTurn(string spielername, ConsoleColor spielsteinFarbe)
+        public void ShowPlayerTurn(string playerName, ConsoleColor checkerColor)
         {   
             SetGameColors();
             ClearText(CursorXCoordinate, 6);
             System.Console.SetCursorPosition(CursorXCoordinate, 6);
-            System.Console.Write(GlobalStrings.SpielerIstAmSpielzug, spielername, spielsteinFarbe);
+            System.Console.Write(GlobalStrings.SpielerIstAmSpielzug, playerName, checkerColor);
             System.Console.SetCursorPosition(CursorXCoordinate, 7);
             System.Console.WriteLine(GlobalStrings.SpielzugTrennzeichen);
         }
 
-        public void ShowPossibleJump(char xKoordinate, int yKoordinate)
+        public void ShowPossibleJump(char x, int y)
         {
             SetGameColors();
             ClearText(CursorXCoordinate, 18);
             System.Console.SetCursorPosition(CursorXCoordinate, 17);
             System.Console.WriteLine(GlobalStrings.SprungWurdeGefunden);
             System.Console.SetCursorPosition(CursorXCoordinate, 18);
-            System.Console.Write(GlobalStrings.SpielsteinHatSprung, xKoordinate, yKoordinate);
+            System.Console.Write(GlobalStrings.SpielsteinHatSprung, x, y);
         }
 
-        public void ShowTwoPossibleJumps(char xKoordinateRechts, int yKoordinateRechts, char xKoordinateLinks, int yKoordinateLinks)
+        public void ShowTwoPossibleJumps(char xRight, int yRight, char xLeft, int yLeft)
         {
             SetGameColors();
             System.Console.SetCursorPosition(CursorXCoordinate, 17);
             System.Console.WriteLine(GlobalStrings.Sprung2SpielsteineWurdeGefunden);
             System.Console.SetCursorPosition(CursorXCoordinate, 18);
-            System.Console.Write(GlobalStrings.ZweiSpielsteineHabenSprung, xKoordinateRechts, yKoordinateRechts, xKoordinateLinks, yKoordinateLinks);
+            System.Console.Write(GlobalStrings.ZweiSpielsteineHabenSprung, xRight, yRight, xLeft, yLeft);
         }
 
         public void ShowPossibleJumpCount(List<Checker> spielsteine)
