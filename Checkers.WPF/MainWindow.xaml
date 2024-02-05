@@ -4,11 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Checkers.WPF"
+        xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu"
         mc:Ignorable="d"
-        Title="Checkers Game" Height="450" Width="800">
+        Title="Checkers Game" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock Text="Welcome to the Game Checkers" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Welcome to the Game Checkers" 
                    HorizontalAlignment="Center"
                    FontSize="30"/>
+        <mainMenu:MainMenuControl Grid.Row="1" />
     </Grid>
 </Window>
