@@ -18,8 +18,12 @@
                 </Style>
             </StackPanel.Resources>
             <Button Content="Start Game" Style="{StaticResource MainMenuButtonStyle}" />
-            <Button Content="Settings" Style="{StaticResource MainMenuButtonStyle}"/>
-            <Button Content="Quit" Style="{StaticResource MainMenuButtonStyle}"/>
+            <Button Content="Settings" 
+                    Style="{StaticResource MainMenuButtonStyle}"
+                    Click="OpenSettings_OnClick"/>
+            <Button Content="Quit" 
+                    Style="{StaticResource MainMenuButtonStyle}"
+                    Click="Quit_OnClick"/>
         </StackPanel>
     </Grid>
 </UserControl>

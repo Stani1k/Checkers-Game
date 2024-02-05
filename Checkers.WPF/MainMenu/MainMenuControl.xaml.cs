@@ -18,4 +18,15 @@ public partial class MainMenuControl : UserControl
     {
         InitializeComponent();
     }
+
+    private void Quit_OnClick(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
+
+    private void OpenSettings_OnClick(object sender, RoutedEventArgs e)
+    {
+        MessageBox.Show("Settings menu currently not implemented!", "Feature not implemented", 
+            MessageBoxButton.OK, MessageBoxImage.Information);
+    }
 }
