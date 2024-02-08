@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Checkers.WPF.MainMenu"
+             xmlns:gameMenu="clr-namespace:Checkers.WPF.GameMenu"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="200"
+             d:DesignHeight="300" d:DesignWidth="300"
              Name="MainMenu"
              DataContext="{Binding ElementName=MainMenu, Path=ViewModel}">
     
@@ -18,10 +19,10 @@
                 </Style>
             </StackPanel.Resources>
             <Button Content="Start Game" Style="{StaticResource MainMenuButtonStyle}" />
-            <Button Content="Settings" 
+            <Button Content="Settings"
                     Style="{StaticResource MainMenuButtonStyle}"
                     Click="OpenSettings_OnClick"/>
-            <Button Content="Quit" 
+            <Button Content="Quit"
                     Style="{StaticResource MainMenuButtonStyle}"
                     Click="Quit_OnClick"/>
         </StackPanel>
