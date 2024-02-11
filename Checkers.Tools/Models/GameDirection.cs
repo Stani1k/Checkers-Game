@@ -1,4 +1,4 @@
-﻿namespace Checkers.Console.Models
+﻿namespace Checkers.Tools.Models
 {
     public enum GameDirection
     {

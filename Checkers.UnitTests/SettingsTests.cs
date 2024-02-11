@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Checkers.Tools.Models;
 
 namespace Checkers.UnitTests
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Checkers.Console.Models;
+﻿namespace Checkers.Tools.Models;
 
 /// <summary>
 /// Base class for all Entity's

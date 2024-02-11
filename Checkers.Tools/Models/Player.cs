@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Checkers.Console.Views;
-
-namespace Checkers.Console.Models
+﻿namespace Checkers.Tools.Models
 {
     public class Player
     {

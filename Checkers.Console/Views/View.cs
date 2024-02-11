@@ -4,8 +4,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using Checkers.Console.Models;
 using Checkers.Console.Resources;
+using Checkers.Tools;
+using Checkers.Tools.Models;
 
 namespace Checkers.Console.Views
 {

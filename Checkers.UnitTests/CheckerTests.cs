@@ -1,4 +1,7 @@
-﻿namespace Checkers.UnitTests
+﻿using Checkers.Tools;
+using Checkers.Tools.Models;
+
+namespace Checkers.UnitTests
 {
     [TestFixture]
     public class CheckerTests

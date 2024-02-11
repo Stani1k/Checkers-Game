@@ -1,4 +1,6 @@
-﻿namespace Checkers.UnitTests
+﻿using Checkers.Tools.Models;
+
+namespace Checkers.UnitTests
 {
     [TestFixture]
     internal class GameboardTests

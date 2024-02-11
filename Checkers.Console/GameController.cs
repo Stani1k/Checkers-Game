@@ -1,10 +1,11 @@
-﻿using Checkers.Console.Models;
-using Checkers.Console.Views;
+﻿using Checkers.Console.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Checkers.Tools;
+using Checkers.Tools.Models;
 
 namespace Checkers.Console
 {

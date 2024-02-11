@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Checkers.Console.Models
+﻿namespace Checkers.Tools.Models
 {
     public sealed class Checker : GamePiece
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Checkers.Console.Models
+﻿namespace Checkers.Tools.Models
 {
     public class GamePiece : Entity
     {

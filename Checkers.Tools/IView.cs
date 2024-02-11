@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Checkers.Console.Models;
+﻿using System.Diagnostics;
+using Checkers.Tools.Models;
 
-namespace Checkers.Console.Views
+namespace Checkers.Tools
 {
     public interface IView
     {

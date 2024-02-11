@@ -1,5 +1,4 @@
-﻿using Checkers.Console.Models;
-using Checkers.Console.Views;
+﻿using Checkers.Console.Views;
 
 namespace Checkers.Console
 {

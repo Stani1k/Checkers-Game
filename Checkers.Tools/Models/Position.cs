@@ -1,4 +1,4 @@
-﻿namespace Checkers.Console.Models
+﻿namespace Checkers.Tools.Models
 {
     /// <summary>
     /// Contains all possible coordinates, which are needed for a normal movement or a jump
