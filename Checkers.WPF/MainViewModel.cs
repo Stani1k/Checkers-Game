@@ -1,17 +1,28 @@
-﻿using Checkers.Tools;
-using Checkers.WPF.GameMenu;
-using Checkers.WPF.MainMenu;
+﻿using System.Windows.Input;
+using Checkers.Tools;
+using Checkers.WPF.Commands;
 
 namespace Checkers.WPF;
 
 public class MainViewModel : ViewModelBase
 {
+    private ViewModelBase? _selectedViewModel;
+    
+    public ICommand UpdateViewCommand { get; set; }
+    
     public MainViewModel()
     {
-        MainMenuViewModel = new MainMenuViewModel();
-        GameMenuViewModel = new GameMenuViewModel();
+        UpdateViewCommand = new UpdateViewCommand(this);
     }
-
-    public MainMenuViewModel MainMenuViewModel { get; set; }
-    public GameMenuViewModel GameMenuViewModel { get; set; }
+    
+    public ViewModelBase? SelectedViewModel
+    {
+        get => _selectedViewModel;
+        set
+        {
+            if (Equals(value, _selectedViewModel)) return;
+            _selectedViewModel = value;
+            OnPropertyChanged();
+        }
+    }
 }
