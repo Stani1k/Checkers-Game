@@ -97,67 +97,63 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Willkommenstext" xml:space="preserve">
+  <data name="WelcomeText" xml:space="preserve">
     <value>Herzlich Willkommen im Spiel Dame!</value>
   </data>
-  <data name="SpielVariantenAuswahl" xml:space="preserve">
+  <data name="VariantSelection" xml:space="preserve">
     <value>Vor Spielbeginn, dürfen Sie sich für eine Variante des Spiels entscheiden.</value>
   </data>
-  <data name="VerfügbareVarianten" xml:space="preserve">
+  <data name="AvailableVariants" xml:space="preserve">
     <value>1 = amerikanische Variante  |  2 = europäische Variante: </value>
   </data>
-  <data name="FehlerKeineGültigeZahl" xml:space="preserve">
-    <value>Fehler - Geben Sie eine gültige Zahl ein: </value>
+  <data name="InvalidSelection" xml:space="preserve">
+    <value>Ungültige Auswahl. Bitte treffen Sie eine gültige Auswahl: </value>
   </data>
-  <data name="VerfügbareSprachen" xml:space="preserve">
+  <data name="AvailableLanguages" xml:space="preserve">
     <value>Verfügbare Sprachen:</value>
   </data>
-  <data name="Englisch" xml:space="preserve">
+  <data name="English" xml:space="preserve">
     <value>Englisch</value>
   </data>
-  <data name="Deutsch" xml:space="preserve">
+  <data name="German" xml:space="preserve">
     <value>Deutsch</value>
   </data>
-  <data name="Polnisch" xml:space="preserve">
+  <data name="Polish" xml:space="preserve">
     <value>Polnisch</value>
   </data>
-  <data name="AuswahlDerSprache" xml:space="preserve">
+  <data name="LanguageSelection" xml:space="preserve">
     <value>Wählen Sie eine Sprache: </value>
   </data>
-  <data name="FehlerSprachauswahl" xml:space="preserve">
-    <value>Ungültiger Wert - bitte erneut versuchen!</value>
+  <data name="EnterName" xml:space="preserve">
+    <value>Name eintippen: </value>
   </data>
-  <data name="EingabeSpielername" xml:space="preserve">
-    <value>Spieler {0} - Gebe einen Namen ein: </value>
+  <data name="EmptyInput" xml:space="preserve">
+    <value>Die Eingabe darf nicht leer sein!</value>
   </data>
-  <data name="FehlerLeereEingabe" xml:space="preserve">
-    <value>Fehler - die Eingabe darf nicht leer sein!</value>
-  </data>
-  <data name="AuswahlSpielseite" xml:space="preserve">
+  <data name="ChooseSite" xml:space="preserve">
     <value>{0} entscheide dich für eine Spielseite.</value>
   </data>
   <data name="ObenOderUnten" xml:space="preserve">
     <value>[1] = oben  |  [2] = unten : </value>
   </data>
-  <data name="InfoText1FarbAuswahl" xml:space="preserve">
-    <value>Vor Spielbeginn darf jeder Spieler seinen Spielsteinen, Farben übergeben.</value>
+  <data name="ColorInfoSelection" xml:space="preserve">
+    <value>Vor Spielbeginn dürfen Farben für Spielsteine gewählt werden.
+      Folgende Farben stehen zur Auswahl: rot, blau, grün &amp; gelb.
+    </value>
   </data>
-  <data name="InfoText2FarbAuswahl" xml:space="preserve">
-    <value>Folgende Farben stehen zur Auswahl: rot, blau, grün, gelb.</value>
-  </data>
-  <data name="AuswahlSpielsteinFarbe" xml:space="preserve">
+  <data name="SelectColor" xml:space="preserve">
     <value>Spieler {0} ({1}) - Wähle eine Farbe aus: </value>
   </data>
-  <data name="FehlerUngültigeFarbe" xml:space="preserve">
+  <data name="InvalidColor" xml:space="preserve">
     <value>Ungültige Farbe!</value>
   </data>
   <data name="FarbenAuswahlÜbersicht" xml:space="preserve">
     <value>Spieler {0} ({1}) - Farbe: {2}</value>
   </data>
-  <data name="SelektiereZweiGleicheFarben" xml:space="preserve">
+  <data name="SelectSameColor" xml:space="preserve">
     <value>Geben Sie zwei unterschiedliche Farben ein!</value>
   </data>
-  <data name="SelektiereZweiGleicheNamen" xml:space="preserve">
+  <data name="SelectSameNames" xml:space="preserve">
     <value>Geben Sie zwei unterschiedliche Namen ein!</value>
   </data>
   <data name="InformationZumAufgeben1" xml:space="preserve">

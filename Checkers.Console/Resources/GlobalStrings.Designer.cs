@@ -69,29 +69,20 @@ namespace Checkers.Console.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wählen Sie eine Sprache: .
+        ///   Looks up a localized string similar to Verfügbare Sprachen:.
         /// </summary>
-        internal static string AuswahlDerSprache {
+        internal static string AvailableLanguages {
             get {
-                return ResourceManager.GetString("AuswahlDerSprache", resourceCulture);
+                return ResourceManager.GetString("AvailableLanguages", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} entscheide dich für eine Spielseite..
+        ///   Looks up a localized string similar to 1 = amerikanische Variante  |  2 = europäische Variante: .
         /// </summary>
-        internal static string AuswahlSpielseite {
+        internal static string AvailableVariants {
             get {
-                return ResourceManager.GetString("AuswahlSpielseite", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Spieler {0} ({1}) - Wähle eine Farbe aus: .
-        /// </summary>
-        internal static string AuswahlSpielsteinFarbe {
-            get {
-                return ResourceManager.GetString("AuswahlSpielsteinFarbe", resourceCulture);
+                return ResourceManager.GetString("AvailableVariants", resourceCulture);
             }
         }
         
@@ -105,11 +96,22 @@ namespace Checkers.Console.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deutsch.
+        ///   Looks up a localized string similar to {0} entscheide dich für eine Spielseite..
         /// </summary>
-        internal static string Deutsch {
+        internal static string ChooseSite {
             get {
-                return ResourceManager.GetString("Deutsch", resourceCulture);
+                return ResourceManager.GetString("ChooseSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vor Spielbeginn dürfen Farben für Spielsteine gewählt werden.
+        ///      Folgende Farben stehen zur Auswahl: rot, blau, grün &amp; gelb.
+        ///    .
+        /// </summary>
+        internal static string ColorInfoSelection {
+            get {
+                return ResourceManager.GetString("ColorInfoSelection", resourceCulture);
             }
         }
         
@@ -132,15 +134,6 @@ namespace Checkers.Console.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spieler {0} - Gebe einen Namen ein: .
-        /// </summary>
-        internal static string EingabeSpielername {
-            get {
-                return ResourceManager.GetString("EingabeSpielername", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Gib die x-Koordinate ein: .
         /// </summary>
         internal static string EingabeXKoordinate {
@@ -159,11 +152,29 @@ namespace Checkers.Console.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Die Eingabe darf nicht leer sein!.
+        /// </summary>
+        internal static string EmptyInput {
+            get {
+                return ResourceManager.GetString("EmptyInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Englisch.
         /// </summary>
-        internal static string Englisch {
+        internal static string English {
             get {
-                return ResourceManager.GetString("Englisch", resourceCulture);
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name eintippen: .
+        /// </summary>
+        internal static string EnterName {
+            get {
+                return ResourceManager.GetString("EnterName", resourceCulture);
             }
         }
         
@@ -177,47 +188,11 @@ namespace Checkers.Console.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fehler - Geben Sie eine gültige Zahl ein: .
-        /// </summary>
-        internal static string FehlerKeineGültigeZahl {
-            get {
-                return ResourceManager.GetString("FehlerKeineGültigeZahl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Die eingegebene Koordinate ist keine Zahl!.
         /// </summary>
         internal static string FehlerKoordinateIstKeineZahl {
             get {
                 return ResourceManager.GetString("FehlerKoordinateIstKeineZahl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fehler - die Eingabe darf nicht leer sein!.
-        /// </summary>
-        internal static string FehlerLeereEingabe {
-            get {
-                return ResourceManager.GetString("FehlerLeereEingabe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ungültiger Wert - bitte erneut versuchen!.
-        /// </summary>
-        internal static string FehlerSprachauswahl {
-            get {
-                return ResourceManager.GetString("FehlerSprachauswahl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ungültige Farbe!.
-        /// </summary>
-        internal static string FehlerUngültigeFarbe {
-            get {
-                return ResourceManager.GetString("FehlerUngültigeFarbe", resourceCulture);
             }
         }
         
@@ -254,6 +229,15 @@ namespace Checkers.Console.Resources {
         internal static string Gelb {
             get {
                 return ResourceManager.GetString("Gelb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deutsch.
+        /// </summary>
+        internal static string German {
+            get {
+                return ResourceManager.GetString("German", resourceCulture);
             }
         }
         
@@ -312,20 +296,29 @@ namespace Checkers.Console.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vor Spielbeginn darf jeder Spieler seinen Spielsteinen, Farben übergeben..
+        ///   Looks up a localized string similar to Ungültige Farbe!.
         /// </summary>
-        internal static string InfoText1FarbAuswahl {
+        internal static string InvalidColor {
             get {
-                return ResourceManager.GetString("InfoText1FarbAuswahl", resourceCulture);
+                return ResourceManager.GetString("InvalidColor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Folgende Farben stehen zur Auswahl: rot, blau, grün, gelb..
+        ///   Looks up a localized string similar to Ungültige Auswahl. Bitte treffen Sie eine gültige Auswahl: .
         /// </summary>
-        internal static string InfoText2FarbAuswahl {
+        internal static string InvalidSelection {
             get {
-                return ResourceManager.GetString("InfoText2FarbAuswahl", resourceCulture);
+                return ResourceManager.GetString("InvalidSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wählen Sie eine Sprache: .
+        /// </summary>
+        internal static string LanguageSelection {
+            get {
+                return ResourceManager.GetString("LanguageSelection", resourceCulture);
             }
         }
         
@@ -350,9 +343,9 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Polnisch.
         /// </summary>
-        internal static string Polnisch {
+        internal static string Polish {
             get {
-                return ResourceManager.GetString("Polnisch", resourceCulture);
+                return ResourceManager.GetString("Polish", resourceCulture);
             }
         }
         
@@ -375,6 +368,33 @@ namespace Checkers.Console.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spieler {0} ({1}) - Wähle eine Farbe aus: .
+        /// </summary>
+        internal static string SelectColor {
+            get {
+                return ResourceManager.GetString("SelectColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geben Sie zwei unterschiedliche Farben ein!.
+        /// </summary>
+        internal static string SelectSameColor {
+            get {
+                return ResourceManager.GetString("SelectSameColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geben Sie zwei unterschiedliche Namen ein!.
+        /// </summary>
+        internal static string SelectSameNames {
+            get {
+                return ResourceManager.GetString("SelectSameNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sie dürfen keine gegnerischen Spielsteine bewegen!.
         /// </summary>
         internal static string SelektiereGegnerischenSpielstein {
@@ -389,24 +409,6 @@ namespace Checkers.Console.Resources {
         internal static string SelektiereLeeresFeld {
             get {
                 return ResourceManager.GetString("SelektiereLeeresFeld", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Geben Sie zwei unterschiedliche Farben ein!.
-        /// </summary>
-        internal static string SelektiereZweiGleicheFarben {
-            get {
-                return ResourceManager.GetString("SelektiereZweiGleicheFarben", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Geben Sie zwei unterschiedliche Namen ein!.
-        /// </summary>
-        internal static string SelektiereZweiGleicheNamen {
-            get {
-                return ResourceManager.GetString("SelektiereZweiGleicheNamen", resourceCulture);
             }
         }
         
@@ -474,15 +476,6 @@ namespace Checkers.Console.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vor Spielbeginn, dürfen Sie sich für eine Variante des Spiels entscheiden..
-        /// </summary>
-        internal static string SpielVariantenAuswahl {
-            get {
-                return ResourceManager.GetString("SpielVariantenAuswahl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Für zwei Spielsteine wurde ein Sprung gefunden!.
         /// </summary>
         internal static string Sprung2SpielsteineWurdeGefunden {
@@ -528,29 +521,20 @@ namespace Checkers.Console.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vor Spielbeginn, dürfen Sie sich für eine Variante des Spiels entscheiden..
+        /// </summary>
+        internal static string VariantSelection {
+            get {
+                return ResourceManager.GetString("VariantSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bis zum nächsten Mal..
         /// </summary>
         internal static string VerabschiedeNutzer {
             get {
                 return ResourceManager.GetString("VerabschiedeNutzer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Verfügbare Sprachen:.
-        /// </summary>
-        internal static string VerfügbareSprachen {
-            get {
-                return ResourceManager.GetString("VerfügbareSprachen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 1 = amerikanische Variante  |  2 = europäische Variante: .
-        /// </summary>
-        internal static string VerfügbareVarianten {
-            get {
-                return ResourceManager.GetString("VerfügbareVarianten", resourceCulture);
             }
         }
         
@@ -575,9 +559,9 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Herzlich Willkommen im Spiel Dame!.
         /// </summary>
-        internal static string Willkommenstext {
+        internal static string WelcomeText {
             get {
-                return ResourceManager.GetString("Willkommenstext", resourceCulture);
+                return ResourceManager.GetString("WelcomeText", resourceCulture);
             }
         }
         

@@ -38,7 +38,7 @@ namespace Checkers.Console.Views
         public void ShowMainMenu()
         {
             System.Console.SetCursorPosition(55, 1);
-            System.Console.WriteLine(GlobalStrings.Willkommenstext);
+            System.Console.WriteLine(GlobalStrings.WelcomeText);
             System.Console.SetCursorPosition(40, 2);
             System.Console.WriteLine(GameTurnSeparator);
 
@@ -51,12 +51,12 @@ namespace Checkers.Console.Views
         
         public int ChooseLanguage()
         {
-            var englishLanguage = $"[1] {GlobalStrings.Englisch}";
-            var germanLanguage = $"[2] {GlobalStrings.Deutsch}";
-            var polishLanguage = $"[3] {GlobalStrings.Polnisch}";
+            var englishLanguage = $"[1] {GlobalStrings.English}";
+            var germanLanguage = $"[2] {GlobalStrings.German}";
+            var polishLanguage = $"[3] {GlobalStrings.Polish}";
             
             System.Console.SetCursorPosition(56, 4);
-            System.Console.WriteLine(GlobalStrings.VerfügbareSprachen);
+            System.Console.WriteLine(GlobalStrings.AvailableLanguages);
             System.Console.SetCursorPosition(58, 5);
             System.Console.WriteLine(englishLanguage);
             System.Console.SetCursorPosition(58, 6);
@@ -64,7 +64,7 @@ namespace Checkers.Console.Views
             System.Console.SetCursorPosition(58, 7);
             System.Console.WriteLine(polishLanguage);
             System.Console.SetCursorPosition(58, 8);
-            System.Console.Write(GlobalStrings.AuswahlDerSprache);
+            System.Console.Write(GlobalStrings.LanguageSelection);
             var languageId = Convert.ToInt32(System.Console.ReadLine());
             switch (languageId)
             {
@@ -76,7 +76,7 @@ namespace Checkers.Console.Views
                     return 3;
                 default:
                     System.Console.SetCursorPosition(37, 10);
-                    System.Console.WriteLine(GlobalStrings.FehlerSprachauswahl);
+                    System.Console.WriteLine(GlobalStrings.InvalidSelection);
                     break;
             }
 
@@ -93,9 +93,9 @@ namespace Checkers.Console.Views
             ClearText(58, 8);
             ClearText(37, 10);
             System.Console.SetCursorPosition(37, 4);
-            System.Console.WriteLine(GlobalStrings.SpielVariantenAuswahl);
+            System.Console.WriteLine(GlobalStrings.VariantSelection);
             System.Console.SetCursorPosition(46, 5);
-            System.Console.Write(GlobalStrings.VerfügbareVarianten);
+            System.Console.Write(GlobalStrings.AvailableVariants);
             SelectGameVariant();
             // Remove "Welcome Text"
             ClearText(55, 1);
@@ -113,7 +113,7 @@ namespace Checkers.Console.Views
             while (string.IsNullOrWhiteSpace(gameVariant) || gameVariant != "1" && gameVariant != "2")
             {
                 System.Console.SetCursorPosition(46, 7);
-                System.Console.Write(GlobalStrings.FehlerKeineGültigeZahl);
+                System.Console.Write(GlobalStrings.InvalidSelection);
                 gameVariant = System.Console.ReadLine();
             }
 
@@ -136,13 +136,14 @@ namespace Checkers.Console.Views
                 // Remove console output for previous player name
                 ClearText(CursorXCoordinate, 4);
                 System.Console.SetCursorPosition(CursorXCoordinate, 4);
-                System.Console.Write(GlobalStrings.EingabeSpielername, playerNumber);
+                var enterName = $"{0} {GlobalStrings.EnterName}";
+                System.Console.Write(enterName, playerNumber);
                 playerName = System.Console.ReadLine();
                 validInput = true;
                 if (string.IsNullOrWhiteSpace(playerName))
                 {
                     System.Console.SetCursorPosition(CursorXCoordinate, 10);
-                    System.Console.WriteLine(GlobalStrings.FehlerLeereEingabe);
+                    System.Console.WriteLine(GlobalStrings.EmptyInput);
                     validInput = false;
                 }
             }
@@ -156,7 +157,7 @@ namespace Checkers.Console.Views
             ClearText(CursorXCoordinate, 10);
             // Der Nutzer kann entscheiden auf welcher Seite er beginnen möchte (oben oder unten)
             System.Console.SetCursorPosition(CursorXCoordinate, 8);
-            System.Console.WriteLine(GlobalStrings.AuswahlSpielseite, spielername);
+            System.Console.WriteLine(GlobalStrings.ChooseSite, spielername);
             System.Console.SetCursorPosition(CursorXCoordinate, 9);
             System.Console.Write(GlobalStrings.ObenOderUnten);
 
@@ -165,7 +166,7 @@ namespace Checkers.Console.Views
             while (eingabeSeitenwahl != "1" && eingabeSeitenwahl != "2" || string.IsNullOrWhiteSpace(eingabeSeitenwahl))
             {
                 System.Console.SetCursorPosition(CursorXCoordinate, 11);
-                System.Console.WriteLine(GlobalStrings.FehlerKeineGültigeZahl);
+                System.Console.WriteLine(GlobalStrings.InvalidSelection);
                 ClearText(CursorXCoordinate, 9);
                 System.Console.SetCursorPosition(CursorXCoordinate, 9);
                 System.Console.Write(GlobalStrings.ObenOderUnten);
@@ -188,19 +189,17 @@ namespace Checkers.Console.Views
         public ConsoleColor GetSelectedColor(string playerName, int playerNumber)
         {
             System.Console.SetCursorPosition(CursorXCoordinate, 4);
-            System.Console.WriteLine(GlobalStrings.InfoText1FarbAuswahl);
-            System.Console.SetCursorPosition(CursorXCoordinate, 5);
-            System.Console.WriteLine(GlobalStrings.InfoText2FarbAuswahl);
+            System.Console.WriteLine(GlobalStrings.ColorInfoSelection);
             var checkerColor = ConsoleColor.White;
             ClearText(CursorXCoordinate, 7);
             System.Console.SetCursorPosition(CursorXCoordinate, 7);
-            System.Console.Write(GlobalStrings.AuswahlSpielsteinFarbe, playerNumber, playerName);
+            System.Console.Write(GlobalStrings.SelectColor, playerNumber, playerName);
             var selectedColorText = System.Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(selectedColorText))
             {
                 System.Console.SetCursorPosition(CursorXCoordinate, 9);
-                System.Console.WriteLine(GlobalStrings.FehlerLeereEingabe);
+                System.Console.WriteLine(GlobalStrings.EmptyInput);
             }
 
             if (selectedColorText.ToLower() == GlobalStrings.Rot)
@@ -222,7 +221,7 @@ namespace Checkers.Console.Views
             else
             {
                 System.Console.SetCursorPosition(CursorXCoordinate, 9);
-                System.Console.WriteLine(GlobalStrings.FehlerUngültigeFarbe);
+                System.Console.WriteLine(GlobalStrings.InvalidColor);
             }
             switch (playerNumber)
             {
@@ -243,13 +242,13 @@ namespace Checkers.Console.Views
         public void EqualCheckerColorNotAllowed()
         {
             System.Console.SetCursorPosition(CursorXCoordinate, 10);
-            System.Console.WriteLine(GlobalStrings.SelektiereZweiGleicheFarben);
+            System.Console.WriteLine(GlobalStrings.SelectSameColor);
         }
 
         public void EqualNamesNotAllowed()
         {
             System.Console.SetCursorPosition(CursorXCoordinate, 10);
-            System.Console.WriteLine(GlobalStrings.SelektiereZweiGleicheNamen);
+            System.Console.WriteLine(GlobalStrings.SelectSameNames);
         }
 
         public void CreateGameboard()
@@ -390,7 +389,7 @@ namespace Checkers.Console.Views
                 if (string.IsNullOrWhiteSpace(enteredLetter))
                 {
                     System.Console.SetCursorPosition(CursorXCoordinate, 11);
-                    System.Console.WriteLine(GlobalStrings.FehlerLeereEingabe);
+                    System.Console.WriteLine(GlobalStrings.EmptyInput);
                     continue;
                 }
 

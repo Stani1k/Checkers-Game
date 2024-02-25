@@ -97,67 +97,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Willkommenstext" xml:space="preserve">
+  <data name="WelcomeText" xml:space="preserve">
     <value>Welcome to the game Checkers!</value>
   </data>
-  <data name="SpielVariantenAuswahl" xml:space="preserve">
+  <data name="VariantSelection" xml:space="preserve">
     <value>Before the start of the game, you can choose a variant of the game.</value>
   </data>
-  <data name="VerfügbareVarianten" xml:space="preserve">
+  <data name="AvailableVariants" xml:space="preserve">
     <value>1 = American variant | 2 = European variant: </value>
   </data>
-  <data name="FehlerKeineGültigeZahl" xml:space="preserve">
+  <data name="InvalidSelection" xml:space="preserve">
     <value>Error - Please enter a valid number: </value>
   </data>
-  <data name="VerfügbareSprachen" xml:space="preserve">
+  <data name="AvailableLanguages" xml:space="preserve">
     <value>Available languages:</value>
   </data>
-  <data name="Englisch" xml:space="preserve">
+  <data name="English" xml:space="preserve">
     <value>English</value>
   </data>
-  <data name="Deutsch" xml:space="preserve">
+  <data name="German" xml:space="preserve">
     <value>German</value>
   </data>
-  <data name="Polnisch" xml:space="preserve">
+  <data name="Polish" xml:space="preserve">
     <value>Polish</value>
   </data>
-  <data name="AuswahlDerSprache" xml:space="preserve">
+  <data name="LanguageSelection" xml:space="preserve">
     <value>Select a language: </value>
   </data>
   <data name="FehlerSprachauswahl" xml:space="preserve">
     <value>Invalid value - please try again!</value>
   </data>
-  <data name="EingabeSpielername" xml:space="preserve">
-    <value>Player {0} - Enter a name: </value>
+  <data name="EnterName" xml:space="preserve">
+    <value>Enter a name: </value>
   </data>
-  <data name="FehlerLeereEingabe" xml:space="preserve">
+  <data name="EmptyInput" xml:space="preserve">
     <value>Error - the entry cannot be empty!</value>
   </data>
-  <data name="AuswahlSpielseite" xml:space="preserve">
+  <data name="ChooseSite" xml:space="preserve">
     <value>{0} choose your playing site.</value>
   </data>
   <data name="ObenOderUnten" xml:space="preserve">
     <value>[1] = above | [2] = below: </value>
   </data>
-  <data name="InfoText1FarbAuswahl" xml:space="preserve">
+  <data name="ColorInfoSelection" xml:space="preserve">
     <value>Before the start of the game, each player can choose a color.</value>
   </data>
   <data name="InfoText2FarbAuswahl" xml:space="preserve">
     <value>The following colors are available: red, blue, green, yellow.</value>
   </data>
-  <data name="AuswahlSpielsteinFarbe" xml:space="preserve">
+  <data name="SelectColor" xml:space="preserve">
     <value>Player {0} ({1}) - Choose a color: </value>
   </data>
-  <data name="FehlerUngültigeFarbe" xml:space="preserve">
+  <data name="InvalidColor" xml:space="preserve">
     <value>Invalid color!</value>
   </data>
   <data name="FarbenAuswahlÜbersicht" xml:space="preserve">
     <value>Player {0} ({1}) - Color: {2}</value>
   </data>
-  <data name="SelektiereZweiGleicheFarben" xml:space="preserve">
+  <data name="SelectSameColor" xml:space="preserve">
     <value>Enter two different colors!</value>
   </data>
-  <data name="SelektiereZweiGleicheNamen" xml:space="preserve">
+  <data name="SelectSameNames" xml:space="preserve">
     <value>Enter two different player names!</value>
   </data>
   <data name="InformationZumAufgeben1" xml:space="preserve">
