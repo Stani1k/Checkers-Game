@@ -100,9 +100,6 @@
   <data name="Willkommenstext" xml:space="preserve">
     <value>Witamy w grze Warcaby!</value>
   </data>
-  <data name="Trennzeichen" xml:space="preserve">
-    <value>--------------------------------------------------------------</value>
-  </data>
   <data name="SpielVariantenAuswahl" xml:space="preserve">
     <value>Przed rozpoczęciem gry możesz wybrać wariant gry.</value>
   </data>
@@ -116,13 +113,13 @@
     <value>Dostępne języki:</value>
   </data>
   <data name="Englisch" xml:space="preserve">
-    <value>[1] angielski</value>
+    <value>angielski</value>
   </data>
   <data name="Deutsch" xml:space="preserve">
-    <value>[2] niemiecki</value>
+    <value>niemiecki</value>
   </data>
   <data name="Polnisch" xml:space="preserve">
-    <value>[3] polski</value>
+    <value>polski</value>
   </data>
   <data name="AuswahlDerSprache" xml:space="preserve">
     <value>Wybierz język: </value>
@@ -163,9 +160,6 @@
   <data name="SelektiereZweiGleicheNamen" xml:space="preserve">
     <value>Wpisz dwie różne nazwy graczy!</value>
   </data>
-  <data name="Spielstein" xml:space="preserve">
-    <value>C</value>
-  </data>
   <data name="InformationZumAufgeben1" xml:space="preserve">
     <value>Aby w dowolnym momencie zrezygnować z gry, wpisz</value>
   </data>
@@ -185,10 +179,7 @@
     <value>Wprowadzona współrzędna nie jest liczbą!</value>
   </data>
   <data name="SelektiertePosition" xml:space="preserve">
-    <value>       Wybrana pozycja: [{0}|{1}]</value>
-  </data>
-  <data name="DameSpielstein" xml:space="preserve">
-    <value>K</value>
+    <value>Wybrana pozycja: [{0}|{1}]</value>
   </data>
   <data name="UmwandlungSpielsteinInDame" xml:space="preserve">
     <value>Pionek na pozycji [{0} | {1}] został przekształcony w królową!</value>
@@ -218,10 +209,7 @@
     <value>Wybierz innego pionka.</value>
   </data>
   <data name="SpielerIstAmSpielzug" xml:space="preserve">
-    <value>                    {0} ma kolej (kolor: {1})</value>
-  </data>
-  <data name="SpielzugTrennzeichen" xml:space="preserve">
-    <value>----------------------------------------------------------------------</value>
+    <value>{0} ma kolej (kolor: {1})</value>
   </data>
   <data name="SprungWurdeGefunden" xml:space="preserve">
     <value>Znaleziono skok!</value>
@@ -262,11 +250,8 @@
   <data name="HinweisAnzahlSpielsteine" xml:space="preserve">
     <value>                 Aktualna liczba pionków:</value>
   </data>
-  <data name="AnzahlSpielsteineProSpieler" xml:space="preserve">
-    <value>                  {0}: {1}  |  {2}: {3}</value>
-  </data>
-  <data name="VerstricheneZeit" xml:space="preserve">
-    <value>Czas grania: {0:00}:{1:00}</value>
+  <data name="GameTime" xml:space="preserve">
+    <value>Czas grania:</value>
   </data>
   <data name="VerliererDerPartie" xml:space="preserve">
     <value>{0} zrezygnował z gry...</value>

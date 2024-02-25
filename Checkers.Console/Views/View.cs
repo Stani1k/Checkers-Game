@@ -18,6 +18,9 @@ namespace Checkers.Console.Views
 
         private const int AsciiNumberLetterA = 97;
         private const string EmptyField = "                                                                          ";
+        private const string GameTurnSeparator = "----------------------------------------------------------------------";
+        private const string C = "C";
+        private const string Q = "Q";
 
         public View(GameBoard gameBoard)
         {
@@ -37,7 +40,7 @@ namespace Checkers.Console.Views
             System.Console.SetCursorPosition(55, 1);
             System.Console.WriteLine(GlobalStrings.Willkommenstext);
             System.Console.SetCursorPosition(40, 2);
-            System.Console.WriteLine(GlobalStrings.Trennzeichen);
+            System.Console.WriteLine(GameTurnSeparator);
 
             System.Console.WriteLine("[1] Start Game");
             System.Console.WriteLine("[2] Settings");
@@ -48,14 +51,18 @@ namespace Checkers.Console.Views
         
         public int ChooseLanguage()
         {
+            var englishLanguage = $"[1] {GlobalStrings.Englisch}";
+            var germanLanguage = $"[2] {GlobalStrings.Deutsch}";
+            var polishLanguage = $"[3] {GlobalStrings.Polnisch}";
+            
             System.Console.SetCursorPosition(56, 4);
             System.Console.WriteLine(GlobalStrings.VerfügbareSprachen);
             System.Console.SetCursorPosition(58, 5);
-            System.Console.WriteLine(GlobalStrings.Englisch);
+            System.Console.WriteLine(englishLanguage);
             System.Console.SetCursorPosition(58, 6);
-            System.Console.WriteLine(GlobalStrings.Deutsch);
+            System.Console.WriteLine(germanLanguage);
             System.Console.SetCursorPosition(58, 7);
-            System.Console.WriteLine(GlobalStrings.Polnisch);
+            System.Console.WriteLine(polishLanguage);
             System.Console.SetCursorPosition(58, 8);
             System.Console.Write(GlobalStrings.AuswahlDerSprache);
             var languageId = Convert.ToInt32(System.Console.ReadLine());
@@ -339,7 +346,7 @@ namespace Checkers.Console.Views
             System.Console.SetCursorPosition(GameBoard.FieldWidth * checker.CurrentPosition.X + 6, GameBoard.FieldHeight * checker.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
             System.Console.ForegroundColor = checker.Color;
-            System.Console.Write(GlobalStrings.Spielstein);
+            System.Console.Write(C);
             SetGameColors();
         }
 
@@ -442,7 +449,7 @@ namespace Checkers.Console.Views
 
         private static void PrintChecker(bool isQueen)
         {
-            System.Console.Write(isQueen ? GlobalStrings.DameSpielstein : GlobalStrings.Spielstein);
+            System.Console.Write(isQueen ? Q : C);
         }
 
         public void TransformCheckerToQueen(Position positionSpielstein)
@@ -504,7 +511,7 @@ namespace Checkers.Console.Views
             System.Console.SetCursorPosition(CursorXCoordinate, 6);
             System.Console.Write(GlobalStrings.SpielerIstAmSpielzug, playerName, checkerColor);
             System.Console.SetCursorPosition(CursorXCoordinate, 7);
-            System.Console.WriteLine(GlobalStrings.SpielzugTrennzeichen);
+            System.Console.WriteLine(GameTurnSeparator);
         }
 
         public void ShowPossibleJump(char x, int y)
@@ -608,29 +615,33 @@ namespace Checkers.Console.Views
 
         public void ShowCurrentCheckerAmount(string spieler1Name, int anzahlSpielsteineSpieler1, string spieler2Name, int anzahlSpielsteineSpieler2)
         {
+            const string checkerAmountFormat = "                  {0}: {1}  |  {2}: {3}";
             var xPosition1 = 0;
             var xPosition2 = 0;
-            if (board.Variant == Variant.European)
+            switch (board.Variant)
             {
-                xPosition1 = 27;
-                xPosition2 = 28;
+                case Variant.European:
+                    xPosition1 = 27;
+                    xPosition2 = 28;
+                    break;
+                case Variant.American:
+                    xPosition1 = 33;
+                    xPosition2 = 34;
+                    break;
             }
-            if (board.Variant == Variant.American)
-            {
-                xPosition1 = 33;
-                xPosition2 = 34;
-            }
+
             SetGameColors();
             System.Console.SetCursorPosition(3, xPosition1);
             System.Console.WriteLine(GlobalStrings.HinweisAnzahlSpielsteine);
             System.Console.SetCursorPosition(3, xPosition2);
-            System.Console.Write(GlobalStrings.AnzahlSpielsteineProSpieler, spieler1Name, anzahlSpielsteineSpieler1, spieler2Name, anzahlSpielsteineSpieler2);
+            System.Console.Write(checkerAmountFormat, spieler1Name, anzahlSpielsteineSpieler1, spieler2Name, anzahlSpielsteineSpieler2);
         }
 
         public void ShowPassedTime(Stopwatch zeitMessung)
         {
+            var gameTime = $"{GlobalStrings.GameTime} {0:00}:{1:00}";
             System.Console.SetCursorPosition(3, 26);
-            System.Console.Write(GlobalStrings.VerstricheneZeit, zeitMessung.Elapsed.Minutes, zeitMessung.Elapsed.Seconds);
+            System.Console.Write(gameTime, zeitMessung.Elapsed.Minutes, zeitMessung.Elapsed.Seconds);
         }
 
         public void ClearText(int xPosition, int yPosition)

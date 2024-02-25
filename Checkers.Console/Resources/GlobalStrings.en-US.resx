@@ -100,9 +100,6 @@
   <data name="Willkommenstext" xml:space="preserve">
     <value>Welcome to the game Checkers!</value>
   </data>
-  <data name="Trennzeichen" xml:space="preserve">
-    <value>--------------------------------------------------------------</value>
-  </data>
   <data name="SpielVariantenAuswahl" xml:space="preserve">
     <value>Before the start of the game, you can choose a variant of the game.</value>
   </data>
@@ -116,13 +113,13 @@
     <value>Available languages:</value>
   </data>
   <data name="Englisch" xml:space="preserve">
-    <value>[1] English</value>
+    <value>English</value>
   </data>
   <data name="Deutsch" xml:space="preserve">
-    <value>[2] German</value>
+    <value>German</value>
   </data>
   <data name="Polnisch" xml:space="preserve">
-    <value>[3] Polish</value>
+    <value>Polish</value>
   </data>
   <data name="AuswahlDerSprache" xml:space="preserve">
     <value>Select a language: </value>
@@ -163,9 +160,6 @@
   <data name="SelektiereZweiGleicheNamen" xml:space="preserve">
     <value>Enter two different player names!</value>
   </data>
-  <data name="Spielstein" xml:space="preserve">
-    <value>C</value>
-  </data>
   <data name="InformationZumAufgeben1" xml:space="preserve">
     <value>To be able to give up the game at any time, enter during</value>
   </data>
@@ -185,10 +179,7 @@
     <value>The entered coordinate is not a number!</value>
   </data>
   <data name="SelektiertePosition" xml:space="preserve">
-    <value>       Selected position: [{0}|{1}]</value>
-  </data>
-  <data name="DameSpielstein" xml:space="preserve">
-    <value>Q</value>
+    <value>Selected position: [{0}|{1}]</value>
   </data>
   <data name="UmwandlungSpielsteinInDame" xml:space="preserve">
     <value>The game piece [{0} | {1}] has been transformed into a queen!</value>
@@ -218,10 +209,7 @@
     <value>Please select another checker.</value>
   </data>
   <data name="SpielerIstAmSpielzug" xml:space="preserve">
-    <value>                    {0} is on the turn (color: {1})</value>
-  </data>
-  <data name="SpielzugTrennzeichen" xml:space="preserve">
-    <value>----------------------------------------------------------------------</value>
+    <value>{0} is on the turn (color: {1})</value>
   </data>
   <data name="SprungWurdeGefunden" xml:space="preserve">
     <value>A jump was found!</value>
@@ -260,13 +248,10 @@
     <value>You hit an opposing checker!</value>
   </data>
   <data name="HinweisAnzahlSpielsteine" xml:space="preserve">
-    <value>                 Current number of checkers:</value>
+    <value>Current number of checkers:</value>
   </data>
-  <data name="AnzahlSpielsteineProSpieler" xml:space="preserve">
-    <value>                  {0}: {1}  |  {2}: {3}</value>
-  </data>
-  <data name="VerstricheneZeit" xml:space="preserve">
-    <value>Playing time: {0:00}:{1:00}</value>
+  <data name="GameTime" xml:space="preserve">
+    <value>Playing time:</value>
   </data>
   <data name="VerliererDerPartie" xml:space="preserve">
     <value>{0} gave up the game...</value>

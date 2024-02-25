@@ -100,9 +100,6 @@
   <data name="Willkommenstext" xml:space="preserve">
     <value>Herzlich Willkommen im Spiel Dame!</value>
   </data>
-  <data name="Trennzeichen" xml:space="preserve">
-    <value>--------------------------------------------------------------</value>
-  </data>
   <data name="SpielVariantenAuswahl" xml:space="preserve">
     <value>Vor Spielbeginn, dürfen Sie sich für eine Variante des Spiels entscheiden.</value>
   </data>
@@ -116,13 +113,13 @@
     <value>Verfügbare Sprachen:</value>
   </data>
   <data name="Englisch" xml:space="preserve">
-    <value>[1] Englisch</value>
+    <value>Englisch</value>
   </data>
   <data name="Deutsch" xml:space="preserve">
-    <value>[2] Deutsch</value>
+    <value>Deutsch</value>
   </data>
   <data name="Polnisch" xml:space="preserve">
-    <value>[3] Polnisch</value>
+    <value>Polnisch</value>
   </data>
   <data name="AuswahlDerSprache" xml:space="preserve">
     <value>Wählen Sie eine Sprache: </value>
@@ -163,9 +160,6 @@
   <data name="SelektiereZweiGleicheNamen" xml:space="preserve">
     <value>Geben Sie zwei unterschiedliche Namen ein!</value>
   </data>
-  <data name="Spielstein" xml:space="preserve">
-    <value>C</value>
-  </data>
   <data name="InformationZumAufgeben1" xml:space="preserve">
     <value>Um das Spiel jederzeit aufgeben zu können, geben Sie bei der</value>
   </data>
@@ -185,10 +179,7 @@
     <value>Die eingegebene Koordinate ist keine Zahl!</value>
   </data>
   <data name="SelektiertePosition" xml:space="preserve">
-    <value>       Ausgewählte Position: [{0}|{1}]</value>
-  </data>
-  <data name="DameSpielstein" xml:space="preserve">
-    <value>D</value>
+    <value>Ausgewählte Position: [{0}|{1}]</value>
   </data>
   <data name="UmwandlungSpielsteinInDame" xml:space="preserve">
     <value>Der Spielstein [{0}|{1}] wurde zu einer Dame umgewandelt!</value>
@@ -218,10 +209,7 @@
     <value>Bitte wähle einen anderen Spielstein aus.</value>
   </data>
   <data name="SpielerIstAmSpielzug" xml:space="preserve">
-    <value>                    {0} ist am Spielzug (Farbe: {1})</value>
-  </data>
-  <data name="SpielzugTrennzeichen" xml:space="preserve">
-    <value>----------------------------------------------------------------------</value>
+    <value>{0} ist am Spielzug (Farbe: {1})</value>
   </data>
   <data name="SprungWurdeGefunden" xml:space="preserve">
     <value>Ein Sprung wurde gefunden!</value>
@@ -260,13 +248,10 @@
     <value>Sie haben einen gegnerischen Spielstein geschlagen!</value>
   </data>
   <data name="HinweisAnzahlSpielsteine" xml:space="preserve">
-    <value>                 Aktuelle Anzahl der Spielsteine:</value>
+    <value>Aktuelle Anzahl der Spielsteine:</value>
   </data>
-  <data name="AnzahlSpielsteineProSpieler" xml:space="preserve">
-    <value>                  {0}: {1}  |  {2}: {3}</value>
-  </data>
-  <data name="VerstricheneZeit" xml:space="preserve">
-    <value>Spielzeit: {0:00}:{1:00}</value>
+  <data name="GameTime" xml:space="preserve">
+    <value>Spielzeit:</value>
   </data>
   <data name="VerliererDerPartie" xml:space="preserve">
     <value>{0} hat das Spiel aufgegeben...</value>
