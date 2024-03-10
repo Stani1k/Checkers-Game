@@ -1,14 +1,15 @@
 ﻿using System.Windows.Input;
 using Checkers.Tools;
+using Checkers.WPF.Commands;
 
 namespace Checkers.WPF.MainMenu;
 
 public class MainMenuViewModel : ViewModelBase
 {
-    public ICommand OpenSettingsCommand { get; set; }
+    public UpdateViewCommand UpdateViewCommand { get; set; }
 
-    public MainMenuViewModel()
+    public MainMenuViewModel(UpdateViewCommand updateViewCommand)
     {
-        OpenSettingsCommand = new RoutedCommand();
+        UpdateViewCommand = updateViewCommand;
     }
 }

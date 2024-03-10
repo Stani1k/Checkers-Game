@@ -13,7 +13,8 @@
          <DataTemplate DataType="{x:Type settings:SettingsViewModel}">
              <settings:SettingsControl />
          </DataTemplate>
-        
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
     </Application.Resources>
     
 </Application>

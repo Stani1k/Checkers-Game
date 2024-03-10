@@ -3,10 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
-             Name="MainMenu"
-             DataContext="{Binding ElementName=MainMenu, Path=ViewModel}">
+             d:DataContext="{d:DesignInstance mainMenu:MainMenuViewModel}">
     
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Welcome to the Game Checkers" 
+                   HorizontalAlignment="Center"
+                   FontSize="30"/>
+        
+        <StackPanel Grid.Row="1" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel.Resources>
+                <Style x:Key="MainMenuButtonStyle" TargetType="Button">
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Margin" Value="5" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Content="Start Game" 
+                    Style="{StaticResource MainMenuButtonStyle}" 
+                    Command="{Binding UpdateViewCommand}"
+                    CommandParameter="Game"/>
+            <Button Content="Settings"
+                    Style="{StaticResource MainMenuButtonStyle}"
+                    Command="{Binding UpdateViewCommand}"
+                    CommandParameter="Settings"/>
+            <Button Content="Quit"
+                    Style="{StaticResource MainMenuButtonStyle}"
+                    Click="Quit_OnClick"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -24,7 +24,7 @@ public class UpdateViewCommand : ICommand
         if (parameter == null) return;
         if (parameter.ToString() == MenuOption.Settings.ToString())
         {
-            _viewModel.SelectedViewModel = new SettingsViewModel();
+            _viewModel.SelectedViewModel = _viewModel.SettingsViewModel;
         }
     }
 
