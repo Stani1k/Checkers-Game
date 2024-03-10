@@ -6,4 +6,19 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\GlobalStrings.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>GlobalStrings.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\GlobalStrings.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>GlobalStrings.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

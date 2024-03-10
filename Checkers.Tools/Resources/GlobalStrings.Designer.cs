@@ -21,7 +21,7 @@ namespace Checkers.Console.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GlobalStrings {
+    public class GlobalStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -62,7 +62,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Amerikanische Variante.
         /// </summary>
-        internal static string AmericanVariant {
+        public static string AmericanVariant {
             get {
                 return ResourceManager.GetString("AmericanVariant", resourceCulture);
             }
@@ -71,7 +71,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Verfügbare Sprachen:.
         /// </summary>
-        internal static string AvailableLanguages {
+        public static string AvailableLanguages {
             get {
                 return ResourceManager.GetString("AvailableLanguages", resourceCulture);
             }
@@ -80,7 +80,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to blau.
         /// </summary>
-        internal static string Blue {
+        public static string Blue {
             get {
                 return ResourceManager.GetString("Blue", resourceCulture);
             }
@@ -89,7 +89,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to {0} entscheide dich für eine Spielseite..
         /// </summary>
-        internal static string ChooseSite {
+        public static string ChooseSite {
             get {
                 return ResourceManager.GetString("ChooseSite", resourceCulture);
             }
@@ -100,7 +100,7 @@ namespace Checkers.Console.Resources {
         ///      Folgende Farben stehen zur Auswahl: rot, blau, grün &amp; gelb.
         ///    .
         /// </summary>
-        internal static string ColorInfoSelection {
+        public static string ColorInfoSelection {
             get {
                 return ResourceManager.GetString("ColorInfoSelection", resourceCulture);
             }
@@ -109,7 +109,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Die eingegebene Koordinate ist keine Zahl!.
         /// </summary>
-        internal static string CoordinateIsNotANumber {
+        public static string CoordinateIsNotANumber {
             get {
                 return ResourceManager.GetString("CoordinateIsNotANumber", resourceCulture);
             }
@@ -118,7 +118,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sie müssen den vorhandenen Sprung nach [{0}|{1}] , [{2}|{3}] ODER [{4}|{5}] nehmen!.
         /// </summary>
-        internal static string DreiSprungPositionenVorhanden {
+        public static string DreiSprungPositionenVorhanden {
             get {
                 return ResourceManager.GetString("DreiSprungPositionenVorhanden", resourceCulture);
             }
@@ -127,7 +127,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sie müssen den vorhandenen Sprung nach [{0}|{1}] nehmen!.
         /// </summary>
-        internal static string EineSprungPositionVorhanden {
+        public static string EineSprungPositionVorhanden {
             get {
                 return ResourceManager.GetString("EineSprungPositionVorhanden", resourceCulture);
             }
@@ -136,7 +136,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Die Eingabe darf nicht leer sein!.
         /// </summary>
-        internal static string EmptyInput {
+        public static string EmptyInput {
             get {
                 return ResourceManager.GetString("EmptyInput", resourceCulture);
             }
@@ -145,7 +145,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Englisch.
         /// </summary>
-        internal static string English {
+        public static string English {
             get {
                 return ResourceManager.GetString("English", resourceCulture);
             }
@@ -154,7 +154,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Name eintippen: .
         /// </summary>
-        internal static string EnterName {
+        public static string EnterName {
             get {
                 return ResourceManager.GetString("EnterName", resourceCulture);
             }
@@ -163,7 +163,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Gib die x-Koordinate ein: .
         /// </summary>
-        internal static string EnterXCoordinate {
+        public static string EnterXCoordinate {
             get {
                 return ResourceManager.GetString("EnterXCoordinate", resourceCulture);
             }
@@ -172,7 +172,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Gib die y-Koordinate ein: .
         /// </summary>
-        internal static string EnterYCoordinate {
+        public static string EnterYCoordinate {
             get {
                 return ResourceManager.GetString("EnterYCoordinate", resourceCulture);
             }
@@ -181,7 +181,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Europäische Variante.
         /// </summary>
-        internal static string EuropeanVariant {
+        public static string EuropeanVariant {
             get {
                 return ResourceManager.GetString("EuropeanVariant", resourceCulture);
             }
@@ -190,7 +190,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Spieler {0} ({1}) - Farbe: {2}.
         /// </summary>
-        internal static string FarbenAuswahlÜbersicht {
+        public static string FarbenAuswahlÜbersicht {
             get {
                 return ResourceManager.GetString("FarbenAuswahlÜbersicht", resourceCulture);
             }
@@ -199,7 +199,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ungültige Eingabe, bitte erneut versuchen!.
         /// </summary>
-        internal static string FehlerSprachauswahl {
+        public static string FehlerSprachauswahl {
             get {
                 return ResourceManager.GetString("FehlerSprachauswahl", resourceCulture);
             }
@@ -208,7 +208,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Kein gültiger Koordinatenwert!.
         /// </summary>
-        internal static string FehlerUngültigerKoordinatenwert {
+        public static string FehlerUngültigerKoordinatenwert {
             get {
                 return ResourceManager.GetString("FehlerUngültigerKoordinatenwert", resourceCulture);
             }
@@ -217,7 +217,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Auf diesem Feld befindet sich bereits ein Spielstein!.
         /// </summary>
-        internal static string FeldBereitsBesetzt {
+        public static string FeldBereitsBesetzt {
             get {
                 return ResourceManager.GetString("FeldBereitsBesetzt", resourceCulture);
             }
@@ -226,7 +226,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Spielzeit:.
         /// </summary>
-        internal static string GameTime {
+        public static string GameTime {
             get {
                 return ResourceManager.GetString("GameTime", resourceCulture);
             }
@@ -235,7 +235,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Deutsch.
         /// </summary>
-        internal static string German {
+        public static string German {
             get {
                 return ResourceManager.GetString("German", resourceCulture);
             }
@@ -244,7 +244,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Herzlichen Glückwunsch {0} - Sie sind der Gewinner dieser Partie!.
         /// </summary>
-        internal static string GewinnerDerPartie {
+        public static string GewinnerDerPartie {
             get {
                 return ResourceManager.GetString("GewinnerDerPartie", resourceCulture);
             }
@@ -253,7 +253,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to grün.
         /// </summary>
-        internal static string Green {
+        public static string Green {
             get {
                 return ResourceManager.GetString("Green", resourceCulture);
             }
@@ -262,7 +262,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Aktuelle Anzahl der Spielsteine:.
         /// </summary>
-        internal static string HinweisAnzahlSpielsteine {
+        public static string HinweisAnzahlSpielsteine {
             get {
                 return ResourceManager.GetString("HinweisAnzahlSpielsteine", resourceCulture);
             }
@@ -271,7 +271,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sie müssen mit Spielstein [{0}|{1}] den Sprung ausführen!.
         /// </summary>
-        internal static string HinweisSelektiereAnderenSpielstein {
+        public static string HinweisSelektiereAnderenSpielstein {
             get {
                 return ResourceManager.GetString("HinweisSelektiereAnderenSpielstein", resourceCulture);
             }
@@ -280,7 +280,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Um das Spiel jederzeit aufgeben zu können, geben Sie bei der.
         /// </summary>
-        internal static string InformationZumAufgeben1 {
+        public static string InformationZumAufgeben1 {
             get {
                 return ResourceManager.GetString("InformationZumAufgeben1", resourceCulture);
             }
@@ -289,7 +289,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Koordinaten-Eingabe das Schlüsselwort : &apos;!gg&apos; ein.
         /// </summary>
-        internal static string InformationZumAufgeben2 {
+        public static string InformationZumAufgeben2 {
             get {
                 return ResourceManager.GetString("InformationZumAufgeben2", resourceCulture);
             }
@@ -298,7 +298,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string InfoText2FarbAuswahl {
+        public static string InfoText2FarbAuswahl {
             get {
                 return ResourceManager.GetString("InfoText2FarbAuswahl", resourceCulture);
             }
@@ -307,7 +307,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ungültige Farbe!.
         /// </summary>
-        internal static string InvalidColor {
+        public static string InvalidColor {
             get {
                 return ResourceManager.GetString("InvalidColor", resourceCulture);
             }
@@ -316,7 +316,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ungültige Auswahl. Bitte treffen Sie eine gültige Auswahl: .
         /// </summary>
-        internal static string InvalidSelection {
+        public static string InvalidSelection {
             get {
                 return ResourceManager.GetString("InvalidSelection", resourceCulture);
             }
@@ -325,7 +325,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Wählen Sie eine Sprache: .
         /// </summary>
-        internal static string LanguageSelection {
+        public static string LanguageSelection {
             get {
                 return ResourceManager.GetString("LanguageSelection", resourceCulture);
             }
@@ -334,7 +334,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to [1] = oben  |  [2] = unten : .
         /// </summary>
-        internal static string ObenOderUnten {
+        public static string ObenOderUnten {
             get {
                 return ResourceManager.GetString("ObenOderUnten", resourceCulture);
             }
@@ -343,7 +343,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Die Spielsteine dürfen nicht auf weißen Felder platziert werden!.
         /// </summary>
-        internal static string PlatziereSpielsteinAufWeißesFeld {
+        public static string PlatziereSpielsteinAufWeißesFeld {
             get {
                 return ResourceManager.GetString("PlatziereSpielsteinAufWeißesFeld", resourceCulture);
             }
@@ -352,7 +352,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Polnisch.
         /// </summary>
-        internal static string Polish {
+        public static string Polish {
             get {
                 return ResourceManager.GetString("Polish", resourceCulture);
             }
@@ -361,7 +361,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to rot.
         /// </summary>
-        internal static string Red {
+        public static string Red {
             get {
                 return ResourceManager.GetString("Red", resourceCulture);
             }
@@ -370,7 +370,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sie haben einen gegnerischen Spielstein geschlagen!.
         /// </summary>
-        internal static string SchlageSpielstein {
+        public static string SchlageSpielstein {
             get {
                 return ResourceManager.GetString("SchlageSpielstein", resourceCulture);
             }
@@ -379,7 +379,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Spieler {0} ({1}) - Wähle eine Farbe aus: .
         /// </summary>
-        internal static string SelectColor {
+        public static string SelectColor {
             get {
                 return ResourceManager.GetString("SelectColor", resourceCulture);
             }
@@ -388,7 +388,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Geben Sie zwei unterschiedliche Farben ein!.
         /// </summary>
-        internal static string SelectSameColor {
+        public static string SelectSameColor {
             get {
                 return ResourceManager.GetString("SelectSameColor", resourceCulture);
             }
@@ -397,7 +397,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Geben Sie zwei unterschiedliche Namen ein!.
         /// </summary>
-        internal static string SelectSameNames {
+        public static string SelectSameNames {
             get {
                 return ResourceManager.GetString("SelectSameNames", resourceCulture);
             }
@@ -406,7 +406,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sie dürfen keine gegnerischen Spielsteine bewegen!.
         /// </summary>
-        internal static string SelektiereGegnerischenSpielstein {
+        public static string SelektiereGegnerischenSpielstein {
             get {
                 return ResourceManager.GetString("SelektiereGegnerischenSpielstein", resourceCulture);
             }
@@ -415,7 +415,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Auf diesem Feld befindet sich kein Spielstein!.
         /// </summary>
-        internal static string SelektiereLeeresFeld {
+        public static string SelektiereLeeresFeld {
             get {
                 return ResourceManager.GetString("SelektiereLeeresFeld", resourceCulture);
             }
@@ -424,7 +424,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ausgewählte Position: [{0}|{1}].
         /// </summary>
-        internal static string SelektiertePosition {
+        public static string SelektiertePosition {
             get {
                 return ResourceManager.GetString("SelektiertePosition", resourceCulture);
             }
@@ -433,7 +433,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Das Spiel wurde beendet!.
         /// </summary>
-        internal static string SpielBeenden {
+        public static string SpielBeenden {
             get {
                 return ResourceManager.GetString("SpielBeenden", resourceCulture);
             }
@@ -442,7 +442,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to {0} ist am Spielzug (Farbe: {1}).
         /// </summary>
-        internal static string SpielerIstAmSpielzug {
+        public static string SpielerIstAmSpielzug {
             get {
                 return ResourceManager.GetString("SpielerIstAmSpielzug", resourceCulture);
             }
@@ -451,7 +451,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Bitte wählen Sie Ihren Spielstein an der Position [{0}|{1}] aus..
         /// </summary>
-        internal static string SpielsteinHatSprung {
+        public static string SpielsteinHatSprung {
             get {
                 return ResourceManager.GetString("SpielsteinHatSprung", resourceCulture);
             }
@@ -460,7 +460,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Der von Ihnen selektierte Spielstein hat weniger Sprünge als der andere!.
         /// </summary>
-        internal static string SpielsteinHatWenigerSprünge {
+        public static string SpielsteinHatWenigerSprünge {
             get {
                 return ResourceManager.GetString("SpielsteinHatWenigerSprünge", resourceCulture);
             }
@@ -469,7 +469,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Dieser Spielstein kann nicht bewegt werden!.
         /// </summary>
-        internal static string SpielsteinIstNichtBewegbar1 {
+        public static string SpielsteinIstNichtBewegbar1 {
             get {
                 return ResourceManager.GetString("SpielsteinIstNichtBewegbar1", resourceCulture);
             }
@@ -478,7 +478,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Bitte wähle einen anderen Spielstein aus..
         /// </summary>
-        internal static string SpielsteinIstNichtBewegbar2 {
+        public static string SpielsteinIstNichtBewegbar2 {
             get {
                 return ResourceManager.GetString("SpielsteinIstNichtBewegbar2", resourceCulture);
             }
@@ -487,7 +487,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Für zwei Spielsteine wurde ein Sprung gefunden!.
         /// </summary>
-        internal static string Sprung2SpielsteineWurdeGefunden {
+        public static string Sprung2SpielsteineWurdeGefunden {
             get {
                 return ResourceManager.GetString("Sprung2SpielsteineWurdeGefunden", resourceCulture);
             }
@@ -496,7 +496,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ein Sprung wurde gefunden!.
         /// </summary>
-        internal static string SprungWurdeGefunden {
+        public static string SprungWurdeGefunden {
             get {
                 return ResourceManager.GetString("SprungWurdeGefunden", resourceCulture);
             }
@@ -505,7 +505,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Der Spielstein [{0}|{1}] verfügt über {2} Sprünge!.
         /// </summary>
-        internal static string TwoCheckerJumpsAvailable {
+        public static string TwoCheckerJumpsAvailable {
             get {
                 return ResourceManager.GetString("TwoCheckerJumpsAvailable", resourceCulture);
             }
@@ -514,7 +514,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Der Spielstein [{0}|{1}] wurde zu einer Dame umgewandelt!.
         /// </summary>
-        internal static string UmwandlungSpielsteinInDame {
+        public static string UmwandlungSpielsteinInDame {
             get {
                 return ResourceManager.GetString("UmwandlungSpielsteinInDame", resourceCulture);
             }
@@ -523,7 +523,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ungültige Bewegung!.
         /// </summary>
-        internal static string UngültigeBewegung {
+        public static string UngültigeBewegung {
             get {
                 return ResourceManager.GetString("UngültigeBewegung", resourceCulture);
             }
@@ -532,7 +532,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sie können Ihre Spielsteine nur auf ein diagonales, freies Feld setzen!.
         /// </summary>
-        internal static string ÜngültigeBewegungHinweis {
+        public static string ÜngültigeBewegungHinweis {
             get {
                 return ResourceManager.GetString("ÜngültigeBewegungHinweis", resourceCulture);
             }
@@ -541,7 +541,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Vor Spielbeginn, dürfen Sie sich für eine Variante des Spiels entscheiden..
         /// </summary>
-        internal static string VariantSelection {
+        public static string VariantSelection {
             get {
                 return ResourceManager.GetString("VariantSelection", resourceCulture);
             }
@@ -550,7 +550,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Bis zum nächsten Mal..
         /// </summary>
-        internal static string VerabschiedeNutzer {
+        public static string VerabschiedeNutzer {
             get {
                 return ResourceManager.GetString("VerabschiedeNutzer", resourceCulture);
             }
@@ -559,7 +559,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to {0} hat das Spiel aufgegeben....
         /// </summary>
-        internal static string VerliererDerPartie {
+        public static string VerliererDerPartie {
             get {
                 return ResourceManager.GetString("VerliererDerPartie", resourceCulture);
             }
@@ -568,7 +568,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sie müssen den vorhandenen Sprung nach [{0}|{1}] , [{2}|{3}] , [{4}|{5}] ODER [{6}|{7}] nehmen!.
         /// </summary>
-        internal static string VierSprungPositionenVorhanden {
+        public static string VierSprungPositionenVorhanden {
             get {
                 return ResourceManager.GetString("VierSprungPositionenVorhanden", resourceCulture);
             }
@@ -577,7 +577,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Herzlich Willkommen im Spiel Dame!.
         /// </summary>
-        internal static string WelcomeText {
+        public static string WelcomeText {
             get {
                 return ResourceManager.GetString("WelcomeText", resourceCulture);
             }
@@ -586,7 +586,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to gelb.
         /// </summary>
-        internal static string Yellow {
+        public static string Yellow {
             get {
                 return ResourceManager.GetString("Yellow", resourceCulture);
             }
@@ -595,7 +595,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Bitte wählen Sie einen der folgenden Spielsteine aus: [{0}|{1}] ODER [{2}|{3}].
         /// </summary>
-        internal static string ZweiSpielsteineHabenSprung {
+        public static string ZweiSpielsteineHabenSprung {
             get {
                 return ResourceManager.GetString("ZweiSpielsteineHabenSprung", resourceCulture);
             }
@@ -604,7 +604,7 @@ namespace Checkers.Console.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sie müssen den vorhandenen Sprung nach [{0}|{1}] ODER [{2}|{3}] nehmen!.
         /// </summary>
-        internal static string ZweiSprungPositionenVorhanden {
+        public static string ZweiSprungPositionenVorhanden {
             get {
                 return ResourceManager.GetString("ZweiSprungPositionenVorhanden", resourceCulture);
             }
