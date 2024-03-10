@@ -2,7 +2,7 @@
 
 public enum MenuOption
 {
-    Start,
+    Game,
     Settings,
     Help,
     About,

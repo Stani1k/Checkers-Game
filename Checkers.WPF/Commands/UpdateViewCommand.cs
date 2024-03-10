@@ -26,6 +26,10 @@ public class UpdateViewCommand : ICommand
         {
             _viewModel.SelectedViewModel = _viewModel.SettingsViewModel;
         }
+        else if (parameter.ToString() == MenuOption.Game.ToString())
+        {
+            _viewModel.SelectedViewModel = _viewModel.GameMenuViewModel;
+        }
     }
 
     public event EventHandler? CanExecuteChanged;

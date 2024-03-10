@@ -12,8 +12,14 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding TimeLeft}"/>
+        <TextBlock Grid.Row="0" 
+                   Text="{Binding TimeLeft}"/>
         <Grid Grid.Row="1" Name="LayoutRoot" />
+        <TextBlock Grid.Row="2"
+                   Text="Player-1 enter name"/>
+        <TextBox Grid.Row="3"
+                 Text="{Binding PlayerName}"/>
     </Grid>
 </UserControl>

@@ -46,7 +46,7 @@ namespace Checkers.Console
             System.Console.Clear();
             switch (selectedMenuOption)
             {
-                case MenuOption.Start:
+                case MenuOption.Game:
                     _gameBoard.SetGameVariant(_view.GetSelectedGameVariant());
                     _view.CreateGameboard();
                     CreatePlayers();
@@ -84,7 +84,7 @@ namespace Checkers.Console
                 switch (selectedOption)
                 {
                     case "1":
-                        menuOption = MenuOption.Start;
+                        menuOption = MenuOption.Game;
                         break;
                     case "2":
                         menuOption = MenuOption.Settings;
