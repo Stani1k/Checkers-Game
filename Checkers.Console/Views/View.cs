@@ -94,8 +94,6 @@ namespace Checkers.Console.Views
             ClearText(37, 10);
             System.Console.SetCursorPosition(37, 4);
             System.Console.WriteLine(GlobalStrings.VariantSelection);
-            System.Console.SetCursorPosition(46, 5);
-            System.Console.Write(GlobalStrings.AvailableVariants);
             SelectGameVariant();
             // Remove "Welcome Text"
             ClearText(55, 1);
@@ -117,13 +115,17 @@ namespace Checkers.Console.Views
                 gameVariant = System.Console.ReadLine();
             }
 
-            if (gameVariant == "1")
+            System.Console.SetCursorPosition(46, 5);
+            switch (gameVariant)
             {
-                board.SetGameVariant(Variant.American);
-            }
-            if (gameVariant == "2")
-            {
-                board.SetGameVariant(Variant.European);
+                case "1":
+                    System.Console.WriteLine($@"1 = {GlobalStrings.AmericanVariant}");
+                    board.SetGameVariant(Variant.American);
+                    break;
+                case "2":
+                    System.Console.WriteLine($@"2 = {GlobalStrings.EuropeanVariant}");
+                    board.SetGameVariant(Variant.European);
+                    break;
             }
         }
 
@@ -202,19 +204,19 @@ namespace Checkers.Console.Views
                 System.Console.WriteLine(GlobalStrings.EmptyInput);
             }
 
-            if (selectedColorText.ToLower() == GlobalStrings.Rot)
+            if (selectedColorText.ToLower() == GlobalStrings.Red)
             {
                 checkerColor = ConsoleColor.Red;
             }
-            else if (selectedColorText.ToLower() == GlobalStrings.Blau)
+            else if (selectedColorText.ToLower() == GlobalStrings.Blue)
             {
                 checkerColor = ConsoleColor.Blue;
             }
-            else if (selectedColorText.ToLower() == GlobalStrings.Grün)
+            else if (selectedColorText.ToLower() == GlobalStrings.Green)
             {
                 checkerColor = ConsoleColor.Green;
             }
-            else if (selectedColorText.ToLower() == GlobalStrings.Gelb)
+            else if (selectedColorText.ToLower() == GlobalStrings.Yellow)
             {
                 checkerColor = ConsoleColor.Yellow;
             }
@@ -384,7 +386,7 @@ namespace Checkers.Console.Views
             while (valid == false)
             {
                 System.Console.SetCursorPosition(CursorXCoordinate, 10);
-                System.Console.Write(GlobalStrings.EingabeXKoordinate);
+                System.Console.Write(GlobalStrings.EnterXCoordinate);
                 var enteredLetter = System.Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(enteredLetter))
                 {
@@ -407,13 +409,13 @@ namespace Checkers.Console.Views
                 }
             }
             System.Console.SetCursorPosition(CursorXCoordinate, 13);
-            System.Console.Write(GlobalStrings.EingabeYKoordinate);
+            System.Console.Write(GlobalStrings.EnterYCoordinate);
             while (!int.TryParse(System.Console.ReadLine(), out yCoordinate))
             {
                 System.Console.SetCursorPosition(CursorXCoordinate, 14);
-                System.Console.WriteLine(GlobalStrings.FehlerKoordinateIstKeineZahl);
+                System.Console.WriteLine(GlobalStrings.CoordinateIsNotANumber);
                 System.Console.SetCursorPosition(CursorXCoordinate, 13);
-                System.Console.Write(GlobalStrings.EingabeYKoordinate);
+                System.Console.Write(GlobalStrings.EnterYCoordinate);
             }
             
             if (isStartCoordinate)
@@ -540,7 +542,7 @@ namespace Checkers.Console.Views
             var yKoordinateUmgewandelt = (spielsteine[0].CurrentPosition.Y - CursorYCoordinate) * -1;
 
             System.Console.SetCursorPosition(CursorXCoordinate, 21);
-            System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinateUmgewandelt, yKoordinateUmgewandelt, spielsteine[0].JumpCount);
+            System.Console.WriteLine(GlobalStrings.TwoCheckerJumpsAvailable, xKoordinateUmgewandelt, yKoordinateUmgewandelt, spielsteine[0].JumpCount);
             // Wenn der zweite Spielstein nicht null ist, bedeutet es, dass zwei verschiedene Spielsteine gleichzeitig springen können
             if (spielsteine.Count == 2)
             {
@@ -548,7 +550,7 @@ namespace Checkers.Console.Views
                 var xKoordinate2Umgewandelt = Convert.ToChar(spielsteine[1].CurrentPosition.X + 97);
                 var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.Y - CursorYCoordinate) * -1;
                 System.Console.SetCursorPosition(CursorXCoordinate, 22);
-                System.Console.WriteLine(GlobalStrings.AnzahlSprüngeSpielstein, xKoordinate2Umgewandelt, yKoordinate2Umgewandelt, spielsteine[1].JumpCount);
+                System.Console.WriteLine(GlobalStrings.TwoCheckerJumpsAvailable, xKoordinate2Umgewandelt, yKoordinate2Umgewandelt, spielsteine[1].JumpCount);
             }
         }
 

@@ -103,8 +103,8 @@
   <data name="VariantSelection" xml:space="preserve">
     <value>Vor Spielbeginn, dürfen Sie sich für eine Variante des Spiels entscheiden.</value>
   </data>
-  <data name="AvailableVariants" xml:space="preserve">
-    <value>1 = amerikanische Variante  |  2 = europäische Variante: </value>
+  <data name="AmericanVariant" xml:space="preserve">
+    <value>Amerikanische Variante</value>
   </data>
   <data name="InvalidSelection" xml:space="preserve">
     <value>Ungültige Auswahl. Bitte treffen Sie eine gültige Auswahl: </value>
@@ -162,16 +162,16 @@
   <data name="InformationZumAufgeben2" xml:space="preserve">
     <value>Koordinaten-Eingabe das Schlüsselwort : '!gg' ein</value>
   </data>
-  <data name="EingabeXKoordinate" xml:space="preserve">
+  <data name="EnterXCoordinate" xml:space="preserve">
     <value>Gib die x-Koordinate ein: </value>
   </data>
   <data name="FehlerUngültigerKoordinatenwert" xml:space="preserve">
     <value>Kein gültiger Koordinatenwert!</value>
   </data>
-  <data name="EingabeYKoordinate" xml:space="preserve">
+  <data name="EnterYCoordinate" xml:space="preserve">
     <value>Gib die y-Koordinate ein: </value>
   </data>
-  <data name="FehlerKoordinateIstKeineZahl" xml:space="preserve">
+  <data name="CoordinateIsNotANumber" xml:space="preserve">
     <value>Die eingegebene Koordinate ist keine Zahl!</value>
   </data>
   <data name="SelektiertePosition" xml:space="preserve">
@@ -219,7 +219,7 @@
   <data name="ZweiSpielsteineHabenSprung" xml:space="preserve">
     <value>Bitte wählen Sie einen der folgenden Spielsteine aus: [{0}|{1}] ODER [{2}|{3}]</value>
   </data>
-  <data name="AnzahlSprüngeSpielstein" xml:space="preserve">
+  <data name="TwoCheckerJumpsAvailable" xml:space="preserve">
     <value>Der Spielstein [{0}|{1}] verfügt über {2} Sprünge!</value>
   </data>
   <data name="SpielsteinHatWenigerSprünge" xml:space="preserve">
@@ -261,16 +261,25 @@
   <data name="VerabschiedeNutzer" xml:space="preserve">
     <value>Bis zum nächsten Mal.</value>
   </data>
-  <data name="Rot" xml:space="preserve">
+  <data name="Red" xml:space="preserve">
     <value>rot</value>
   </data>
-  <data name="Blau" xml:space="preserve">
+  <data name="Blue" xml:space="preserve">
     <value>blau</value>
   </data>
-  <data name="Grün" xml:space="preserve">
+  <data name="Green" xml:space="preserve">
     <value>grün</value>
   </data>
-  <data name="Gelb" xml:space="preserve">
+  <data name="Yellow" xml:space="preserve">
     <value>gelb</value>
+  </data>
+  <data name="EuropeanVariant" xml:space="preserve">
+    <value>Europäische Variante</value>
+  </data>
+  <data name="FehlerSprachauswahl" xml:space="preserve">
+    <value>Ungültige Eingabe, bitte erneut versuchen!</value>
+  </data>
+  <data name="InfoText2FarbAuswahl" xml:space="preserve">
+    <value />
   </data>
 </root>

@@ -103,8 +103,8 @@
   <data name="VariantSelection" xml:space="preserve">
     <value>Before the start of the game, you can choose a variant of the game.</value>
   </data>
-  <data name="AvailableVariants" xml:space="preserve">
-    <value>1 = American variant | 2 = European variant: </value>
+  <data name="AmericanVariant" xml:space="preserve">
+    <value>American variant</value>
   </data>
   <data name="InvalidSelection" xml:space="preserve">
     <value>Error - Please enter a valid number: </value>
@@ -166,16 +166,16 @@
   <data name="InformationZumAufgeben2" xml:space="preserve">
     <value>the "Coordinates enter option" the keyword: '!gg'</value>
   </data>
-  <data name="EingabeXKoordinate" xml:space="preserve">
+  <data name="EnterXCoordinate" xml:space="preserve">
     <value>Enter the x-Coordinate: </value>
   </data>
   <data name="FehlerUngültigerKoordinatenwert" xml:space="preserve">
     <value>No valid coordinate value!</value>
   </data>
-  <data name="EingabeYKoordinate" xml:space="preserve">
+  <data name="EnterYCoordinate" xml:space="preserve">
     <value>Enter the y-Coordinate: </value>
   </data>
-  <data name="FehlerKoordinateIstKeineZahl" xml:space="preserve">
+  <data name="CoordinateIsNotANumber" xml:space="preserve">
     <value>The entered coordinate is not a number!</value>
   </data>
   <data name="SelektiertePosition" xml:space="preserve">
@@ -223,7 +223,7 @@
   <data name="ZweiSpielsteineHabenSprung" xml:space="preserve">
     <value>Please select one of the following checkers: [{0}|{1}] OR [{2}|{3}]</value>
   </data>
-  <data name="AnzahlSprüngeSpielstein" xml:space="preserve">
+  <data name="TwoCheckerJumpsAvailable" xml:space="preserve">
     <value>The checker [{0}|{1}] has {2} jumps!</value>
   </data>
   <data name="SpielsteinHatWenigerSprünge" xml:space="preserve">
@@ -265,16 +265,19 @@
   <data name="VerabschiedeNutzer" xml:space="preserve">
     <value>See you next time.</value>
   </data>
-  <data name="Rot" xml:space="preserve">
+  <data name="Red" xml:space="preserve">
     <value>red</value>
   </data>
-  <data name="Blau" xml:space="preserve">
+  <data name="Blue" xml:space="preserve">
     <value>blue</value>
   </data>
-  <data name="Grün" xml:space="preserve">
+  <data name="Green" xml:space="preserve">
     <value>green</value>
   </data>
-  <data name="Gelb" xml:space="preserve">
+  <data name="Yellow" xml:space="preserve">
     <value>yellow</value>
+  </data>
+  <data name="EuropeanVariant" xml:space="preserve">
+    <value>European variant</value>
   </data>
 </root>

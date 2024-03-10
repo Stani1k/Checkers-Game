@@ -103,8 +103,8 @@
   <data name="VariantSelection" xml:space="preserve">
     <value>Przed rozpoczęciem gry możesz wybrać wariant gry.</value>
   </data>
-  <data name="AvailableVariants" xml:space="preserve">
-    <value>1 = wariant amerykański | 2 = wariant europejski: </value>
+  <data name="AmericanVariant" xml:space="preserve">
+    <value>wariant amerykański</value>
   </data>
   <data name="InvalidSelection" xml:space="preserve">
     <value>Błąd - wprowadź poprawny numer: </value>
@@ -166,16 +166,16 @@
   <data name="InformationZumAufgeben2" xml:space="preserve">
     <value>podczas twojej tury, słowo kluczowe: „!gg”</value>
   </data>
-  <data name="EingabeXKoordinate" xml:space="preserve">
+  <data name="EnterXCoordinate" xml:space="preserve">
     <value>Wpisz współrzędną x: </value>
   </data>
   <data name="FehlerUngültigerKoordinatenwert" xml:space="preserve">
     <value>Brak prawidłowej wartości współrzędnych!</value>
   </data>
-  <data name="EingabeYKoordinate" xml:space="preserve">
+  <data name="EnterYCoordinate" xml:space="preserve">
     <value>Wpisz współrzędną y: </value>
   </data>
-  <data name="FehlerKoordinateIstKeineZahl" xml:space="preserve">
+  <data name="CoordinateIsNotANumber" xml:space="preserve">
     <value>Wprowadzona współrzędna nie jest liczbą!</value>
   </data>
   <data name="SelektiertePosition" xml:space="preserve">
@@ -223,7 +223,7 @@
   <data name="ZweiSpielsteineHabenSprung" xml:space="preserve">
     <value>Wybierz jeden z tych pionków: [{0}|{1}] LUB [{2}|{3}]</value>
   </data>
-  <data name="AnzahlSprüngeSpielstein" xml:space="preserve">
+  <data name="TwoCheckerJumpsAvailable" xml:space="preserve">
     <value>Pionek na pozycji [{0}|{1}] ma {2} skoki!</value>
   </data>
   <data name="SpielsteinHatWenigerSprünge" xml:space="preserve">
@@ -265,16 +265,19 @@
   <data name="VerabschiedeNutzer" xml:space="preserve">
     <value>Do następnego razu.</value>
   </data>
-  <data name="Rot" xml:space="preserve">
+  <data name="Red" xml:space="preserve">
     <value>czerwony</value>
   </data>
-  <data name="Blau" xml:space="preserve">
+  <data name="Blue" xml:space="preserve">
     <value>niebieski</value>
   </data>
-  <data name="Grün" xml:space="preserve">
+  <data name="Green" xml:space="preserve">
     <value>zielony</value>
   </data>
-  <data name="Gelb" xml:space="preserve">
+  <data name="Yellow" xml:space="preserve">
     <value>zolty</value>
+  </data>
+  <data name="EuropeanVariant" xml:space="preserve">
+    <value>wariant europejski</value>
   </data>
 </root>
