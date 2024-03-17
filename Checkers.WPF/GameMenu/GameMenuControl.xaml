@@ -26,17 +26,17 @@
         <!--            Text="{Binding TimeLeft}"/> -->
         <!-- <Grid Grid.Row="1" Name="LayoutRoot" /> -->
         <TextBlock Grid.Row="0" Grid.Column="0"
-                   Text="Enter name"/>
+                   Text="{StaticResource EnterName}"/>
         <TextBox Grid.Row="0" Grid.Column="1"
                  MinWidth="200"
                  Text="{Binding PlayerName}"/>
         <TextBlock Grid.Row="1" Grid.Column="0"
-                   Text="Select color for your Checkers"/>
+                   Text="{StaticResource SelectCheckerColor}"/>
         <ComboBox Grid.Row="1" Grid.Column="1"
                   ItemsSource="{Binding CheckerColors}"/>
         <StackPanel Grid.Row="2" Grid.Column="0"
                     Orientation="Horizontal">
-            <TextBlock Text="Select your playing site"/>
+            <TextBlock Text="{StaticResource SelectPlayingSite}"/>
             <RadioButton GroupName="site" VerticalContentAlignment="Center">
                 <WrapPanel>
                     <TextBlock Text="Upper" Foreground="Brown"/>
