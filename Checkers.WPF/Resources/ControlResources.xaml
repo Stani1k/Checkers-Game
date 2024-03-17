@@ -4,6 +4,9 @@
                     xmlns:settings="clr-namespace:Checkers.WPF.Settings"
                     xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu">
     
+    <!-- Converters -->
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    
     <DataTemplate DataType="{x:Type mainMenu:MainMenuViewModel}">
         <mainMenu:MainMenuControl />
     </DataTemplate>
@@ -14,6 +17,10 @@
     <DataTemplate DataType="{x:Type gameMenu:GameMenuViewModel}">
         <gameMenu:GameMenuControl />
     </DataTemplate>
-        
-    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    
+    <!-- Styles -->
+    <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    
 </ResourceDictionary>

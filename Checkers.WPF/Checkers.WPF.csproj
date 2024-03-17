@@ -14,6 +14,7 @@
     <ItemGroup>
       <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="25.1.35" />
       <PackageReference Include="Syncfusion.Themes.Windows11Dark.WPF" Version="25.1.35" />
+      <PackageReference Include="Syncfusion.Themes.Windows11Light.WPF" Version="25.1.35" />
     </ItemGroup>
 
 </Project>

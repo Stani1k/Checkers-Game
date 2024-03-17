@@ -34,15 +34,20 @@
                    Text="{StaticResource SelectCheckerColor}"/>
         <ComboBox Grid.Row="1" Grid.Column="1"
                   ItemsSource="{Binding CheckerColors}"/>
-        <StackPanel Grid.Row="2" Grid.Column="0"
-                    Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="{StaticResource SelectPlayingSite}"/>
-            <RadioButton GroupName="site" VerticalContentAlignment="Center">
+            <RadioButton GroupName="site" 
+                         Style="{StaticResource RadioButtonStyle}">
                 <WrapPanel>
                     <TextBlock Text="Upper" Foreground="Brown"/>
                 </WrapPanel>
             </RadioButton>
-            <RadioButton GroupName="site" Content="Lower" />
+            <RadioButton GroupName="site"
+                         Style="{StaticResource RadioButtonStyle}">
+                <WrapPanel>
+                    <TextBlock Text="Lower" Foreground="DarkGreen"/>
+                </WrapPanel>
+            </RadioButton>
         </StackPanel>
     </Grid>
 </UserControl>

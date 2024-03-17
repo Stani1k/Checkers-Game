@@ -18,6 +18,23 @@
             <ComboBox Margin="0,10"
                       ItemsSource="{Binding Languages}"
                       SelectedItem="{Binding SelectedLanguage}"/>
+            
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Name="DarkMode" GroupName="theme" 
+                             Checked="RadioButton_OnChecked"
+                             Style="{StaticResource RadioButtonStyle}">
+                    <WrapPanel>
+                        <TextBlock Text="Dark Mode"/>
+                    </WrapPanel>
+                </RadioButton>
+                <RadioButton Name="LightMode" GroupName="theme"
+                             Checked="RadioButton_OnChecked"
+                             Style="{StaticResource RadioButtonStyle}">
+                    <WrapPanel>
+                        <TextBlock Text="Light Mode" />
+                    </WrapPanel>
+                </RadioButton>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
