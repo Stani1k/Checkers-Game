@@ -7,19 +7,42 @@
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
              Name="Control">
     
-    <Grid DataContext="{Binding ElementName=Control, Path=ViewModel}">
+    <Grid DataContext="{Binding ElementName=Control, Path=ViewModel}"
+          VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" 
-                   Text="{Binding TimeLeft}"/>
-        <Grid Grid.Row="1" Name="LayoutRoot" />
-        <TextBlock Grid.Row="2"
-                   Text="Player-1 enter name"/>
-        <TextBox Grid.Row="3"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- <TextBlock Grid.Row="0"  -->
+        <!--            Text="{Binding TimeLeft}"/> -->
+        <!-- <Grid Grid.Row="1" Name="LayoutRoot" /> -->
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                   Text="Enter name"/>
+        <TextBox Grid.Row="0" Grid.Column="1"
+                 MinWidth="200"
                  Text="{Binding PlayerName}"/>
+        <TextBlock Grid.Row="1" Grid.Column="0"
+                   Text="Select color for your Checkers"/>
+        <ComboBox Grid.Row="1" Grid.Column="1"
+                  ItemsSource="{Binding CheckerColors}"/>
+        <StackPanel Grid.Row="2" Grid.Column="0"
+                    Orientation="Horizontal">
+            <TextBlock Text="Select your playing site"/>
+            <RadioButton GroupName="site" VerticalContentAlignment="Center">
+                <WrapPanel>
+                    <TextBlock Text="Upper" Foreground="Brown"/>
+                </WrapPanel>
+            </RadioButton>
+            <RadioButton GroupName="site" Content="Lower" />
+        </StackPanel>
     </Grid>
 </UserControl>

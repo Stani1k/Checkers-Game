@@ -47,6 +47,6 @@ public partial class GameMenuControl : UserControl
         blackBrush.TileMode = TileMode.Tile;  
         // Fill rectangle with a DrawingBrush  
         chessBoard.Fill = blackBrush;
-        LayoutRoot.Children.Add(chessBoard);  
+        // LayoutRoot.Children.Add(chessBoard);
     } 
 }

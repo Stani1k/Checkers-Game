@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Checkers Game" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
-        d:DataContext="{d:DesignInstance wpf:MainViewModel}">
+        d:DataContext="{d:DesignInstance wpf:MainViewModel}"
+        FontSize="25">
     <Grid>
         <ContentControl Content="{Binding SelectedViewModel}"/>
     </Grid>
