@@ -2,6 +2,7 @@
 
 public enum MenuOption
 {
+    MainMenu,
     Game,
     Settings,
     Help,

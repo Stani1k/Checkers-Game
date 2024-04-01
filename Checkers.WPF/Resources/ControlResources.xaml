@@ -22,5 +22,9 @@
     <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
-    
+    <Style x:Key="MainMenuButtonStyle" TargetType="Button">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
 </ResourceDictionary>

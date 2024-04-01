@@ -19,7 +19,7 @@ public class MainViewModel : ViewModelBase
     {
         var updateViewCommand = new UpdateViewCommand(this);
         MainMenuViewModel = new MainMenuViewModel(updateViewCommand);
-        SettingsViewModel = new SettingsViewModel();
+        SettingsViewModel = new SettingsViewModel(updateViewCommand);
         GameMenuViewModel = new GameMenuViewModel();
         _selectedViewModel = MainMenuViewModel;
     }

@@ -35,6 +35,11 @@
                     </WrapPanel>
                 </RadioButton>
             </StackPanel>
+            <Button Content="Back to Main Menu" 
+                    Style="{StaticResource MainMenuButtonStyle}" 
+                    Command="{Binding UpdateViewCommand}"
+                    CommandParameter="MainMenu"
+                    Margin="0,20"/>
         </StackPanel>
     </Grid>
 </UserControl>
