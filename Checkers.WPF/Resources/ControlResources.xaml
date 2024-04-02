@@ -2,11 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:gameMenu="clr-namespace:Checkers.WPF.GameMenu"
                     xmlns:settings="clr-namespace:Checkers.WPF.Settings"
-                    xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu">
+                    xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu"
+                    xmlns:converters="clr-namespace:Checkers.WPF.Converters">
     
     <!-- Converters -->
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
     
+    <!-- Data Templates -->
     <DataTemplate DataType="{x:Type mainMenu:MainMenuViewModel}">
         <mainMenu:MainMenuControl />
     </DataTemplate>

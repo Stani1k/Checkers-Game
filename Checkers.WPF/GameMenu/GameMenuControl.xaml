@@ -40,7 +40,7 @@
             <TextBlock Text="{StaticResource SelectPlayingSite}"/>
             <RadioButton GroupName="site" 
                          Style="{StaticResource RadioButtonStyle}"
-                         IsChecked="{Binding GameDirection, Converter={StaticResource EnumBooleanConverter},
+                         IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter},
                          ConverterParameter={x:Static models:GameDirection.Top}}">
                 <WrapPanel>
                     <TextBlock Text="Upper" Foreground="Brown"/>
@@ -48,7 +48,7 @@
             </RadioButton>
             <RadioButton GroupName="site"
                          Style="{StaticResource RadioButtonStyle}"
-                         IsChecked="{Binding GameDirection, Converter={StaticResource EnumBooleanConverter},
+                         IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter},
                          ConverterParameter={x:Static models:GameDirection.Bottom}}">
                 <WrapPanel>
                     <TextBlock Text="Lower" Foreground="DarkGreen"/>
