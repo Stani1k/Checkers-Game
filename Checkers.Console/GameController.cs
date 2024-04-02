@@ -119,8 +119,8 @@ namespace Checkers.Console
                 player2Name = _view.GetPlayerName(_player2.Number);
             }
 
-            _player1 = new Player(player1Name, 1, _view);
-            _player2 = new Player(player2Name, 2, _view);
+            _player1 = new Player(player1Name, GameDirection.Top, _view);
+            _player2 = new Player(player2Name, GameDirection.Bottom, _view);
         }
 
         private void SelectPlayerColors()
@@ -138,14 +138,6 @@ namespace Checkers.Console
         private void SelectSites()
         {
             _player1.SetGameDirection(_view.GetStartingSite(_player1.Name));
-            if (_player1.GameDirection == 1)
-            {
-                _player2.GameDirection = -1;
-            }
-            else if (_player1.GameDirection == -1)
-            {
-                _player2.GameDirection = 1;
-            }
         }
 
         private void PrintCheckers(Player player)
@@ -664,25 +656,25 @@ namespace Checkers.Console
                 }
                 if (richtung.Equals(checker.CurrentPosition.LeftJump))
                 {
-                    checker.CurrentPosition = new Position(checker.CurrentPosition.X - 1, checker.CurrentPosition.Y + _player1.GameDirection, _player1.GameDirection);
+                    checker.CurrentPosition = new Position(checker.CurrentPosition.X - 1, checker.CurrentPosition.Y, _player1.GameDirection);
                     richtung = checker.CurrentPosition.LeftJump;
                     sprungPosition = new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondNextYCoordinate, _player1.GameDirection);
                 }
                 else if (richtung.Equals(checker.CurrentPosition.RightJump))
                 {
-                    checker.CurrentPosition = new Position(checker.CurrentPosition.X + 1, checker.CurrentPosition.Y + _player1.GameDirection, _player1.GameDirection);
+                    checker.CurrentPosition = new Position(checker.CurrentPosition.X + 1, checker.CurrentPosition.Y, _player1.GameDirection);
                     richtung = checker.CurrentPosition.RightJump;
                     sprungPosition = new Position(checker.CurrentPosition.SecondXRight, checker.CurrentPosition.SecondNextYCoordinate, _player1.GameDirection);
                 }
                 else if (richtung.Equals(checker.CurrentPosition.LeftBackwardsJump))
                 {
-                    checker.CurrentPosition = new Position(checker.CurrentPosition.X - 1, checker.CurrentPosition.Y - _player1.GameDirection, _player1.GameDirection);
+                    checker.CurrentPosition = new Position(checker.CurrentPosition.X - 1, checker.CurrentPosition.Y, _player1.GameDirection);
                     richtung = checker.CurrentPosition.LeftBackwardsJump;
                     sprungPosition = new Position(checker.CurrentPosition.SecondXLeft, checker.CurrentPosition.SecondYCoordinateBackwards, _player1.GameDirection);
                 }
                 else if (richtung.Equals(checker.CurrentPosition.RightBackwardsJump))
                 {
-                    checker.CurrentPosition = new Position(checker.CurrentPosition.X + 1, checker.CurrentPosition.Y - _player1.GameDirection, _player1.GameDirection);
+                    checker.CurrentPosition = new Position(checker.CurrentPosition.X + 1, checker.CurrentPosition.Y, _player1.GameDirection);
                     richtung = checker.CurrentPosition.RightBackwardsJump;
                     sprungPosition = new Position(checker.CurrentPosition.SecondXRight, checker.CurrentPosition.SecondYCoordinateBackwards, _player1.GameDirection);
                 }

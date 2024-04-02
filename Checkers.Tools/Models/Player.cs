@@ -7,11 +7,10 @@
         public string Name { get; }
         public int Number { get; set; }
         public ConsoleColor CheckersColor { get; set; }
-        // Todo: Refactor type to Enum 'GameDirection'?
-        public int GameDirection { get; set; }
+        public GameDirection GameDirection { get; private set; }
         public List<Checker> Checkers { get; }
 
-        public Player(string name, int gameDirection, IView view = null)
+        public Player(string name, GameDirection gameDirection, IView view = null)
         {
             _view = view;
             Name = name;
@@ -21,16 +20,12 @@
 
         public void SetGameDirection(string direction)
         {
-            switch (direction)
+            GameDirection = direction switch
             {
-                case "1":
-                    GameDirection = 1;
-                    break;
-
-                case "2":
-                    GameDirection = -1;
-                    break;
-            }
+                "1" => GameDirection.Top,
+                "2" => GameDirection.Bottom,
+                _ => GameDirection
+            };
         }
 
         public void CreateCheckers(GameBoard gameBoard)
@@ -39,15 +34,17 @@
             {
                 for (var x = 0; x < gameBoard.ColumnCount; x++)
                 {
-                    if (GameDirection == 1 && y < gameBoard.StartingUpperRow || 
-                        GameDirection == -1 && y > gameBoard.StartingLowerRow)
+                    // Black square -> invalid Checker position
+                    if ((GameDirection != GameDirection.Top || y >= gameBoard.StartingUpperRow) &&
+                        (GameDirection != GameDirection.Bottom || y <= gameBoard.StartingLowerRow))
                     {
-                        // "!=" means that the checkers are positioned on a black square
-                        if ((x + y) % 2 != 0)
-                        {
-                            Checker checker = new(CheckersColor, new Position(x, y, GameDirection));
-                            Checkers.Add(checker);
-                        }
+                        continue;
+                    }
+                    
+                    if ((x + y) % 2 != 0)
+                    {
+                        Checker checker = new(CheckersColor, new Position(x, y, GameDirection));
+                        Checkers.Add(checker);
                     }
                 }
             }

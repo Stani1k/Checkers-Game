@@ -2,7 +2,7 @@
 {
     public enum GameDirection
     {
-        Top,
-        Bottom
+        Top = 1,
+        Bottom = 2
     }
 }

@@ -26,14 +26,21 @@
         public JumpDestination RightJump { get; set; }
         public JumpDestination LeftJump { get; set; }
 
-        public Position(int x, int y, int gameDirection)
+        public Position(int x, int y, GameDirection gameDirection)
         {
             X = x;
             Y = y;
-            NextYCoordinate = y + gameDirection;
-            SecondNextYCoordinate = y + 2 * gameDirection;
-            NextYCoordinateBackwards = y - gameDirection;
-            SecondYCoordinateBackwards = y - 2 * gameDirection;
+            var gameDirectionNumber = gameDirection switch
+            {
+                GameDirection.Top => 1,
+                GameDirection.Bottom => 2,
+                _ => 0
+            };
+
+            NextYCoordinate = y + gameDirectionNumber;
+            SecondNextYCoordinate = y + 2 * gameDirectionNumber;
+            NextYCoordinateBackwards = y - gameDirectionNumber;
+            SecondYCoordinateBackwards = y - 2 * gameDirectionNumber;
 
             RightBackwardsJump = new JumpDestination(XRight, NextYCoordinateBackwards, SecondXRight, SecondYCoordinateBackwards);
             LeftBackwardsJump = new JumpDestination(XLeft, NextYCoordinateBackwards, SecondXLeft, SecondYCoordinateBackwards);
