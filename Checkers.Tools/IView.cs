@@ -16,7 +16,7 @@ namespace Checkers.Tools
         Variant GetSelectedGameVariant();
         string GetPlayerName(int playerID);
         string GetStartingSite(string playerName);
-        ConsoleColor GetSelectedColor(string playerName, int playerNumber);
+        Colors GetSelectedColor(string playerName, int playerNumber);
         void EqualCheckerColorNotAllowed();
         void EqualNamesNotAllowed();
         void CreateGameboard();
@@ -36,7 +36,7 @@ namespace Checkers.Tools
         void SelectEmptyField();
         void MoveCheckerOnOccupiedField();
         void MovingNotPossible();
-        void ShowPlayerTurn(string playerName, ConsoleColor checkerColor);
+        void ShowPlayerTurn(string playerName, Colors checkerColor);
         void ShowPossibleJump(char x, int y);
         void ShowTwoPossibleJumps(char xRight, int yRight, char xLeft, int yLeft);
         void ShowPossibleJumpCount(List<Checker> checkers);

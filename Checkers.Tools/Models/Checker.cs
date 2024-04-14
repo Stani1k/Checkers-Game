@@ -10,7 +10,7 @@
 
         public bool IsQueen { get; private set; }
 
-        public Checker(ConsoleColor color, Position currentPosition) : base(color)
+        public Checker(Colors color, Position currentPosition) : base(color)
         {
             CurrentPosition = currentPosition;
             Jumps = new List<Position>();

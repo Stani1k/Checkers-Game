@@ -2,13 +2,13 @@
 {
     public class GamePiece : Entity
     {
-        public ConsoleColor Color { get; }
+        public Colors Color { get; }
 
         public Position CurrentPosition { get; set; }
 
         public List<Position> Moves { get; set; }
 
-        protected GamePiece(ConsoleColor color) : base(Guid.NewGuid())
+        protected GamePiece(Colors color) : base(Guid.NewGuid())
         {
             Color = color;
         }

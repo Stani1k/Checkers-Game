@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Checkers.Tools;
 using Checkers.Tools.Models;
+using Checkers.WPF.Commands;
+using Colors = Checkers.Tools.Models.Colors;
 
 namespace Checkers.WPF.GameMenu;
 
@@ -10,18 +12,20 @@ public class GameMenuViewModel : ViewModelBase
 {
     private string _timeLeft;
     private string _playerName;
-    private ConsoleColor _checkerColor;
+    private Colors _checkerColor;
     private GameDirection _gameDirection;
 
-    public List<ConsoleColor> CheckerColors { get; }
+    public UpdateViewCommand UpdateViewCommand { get; }
+    public IEnumerable<Colors> CheckerColors { get; }
     public List<PlayerViewModel> Players { get; set; }
     
-    public GameMenuViewModel()
+    public GameMenuViewModel(UpdateViewCommand updateViewCommand)
     {
+        UpdateViewCommand = updateViewCommand;
         _playerName = string.Empty;
         _timeLeft = string.Empty;
         Players = new List<PlayerViewModel>();
-        CheckerColors = Enum.GetValues(typeof(ConsoleColor)).Cast<ConsoleColor>().ToList();
+        CheckerColors = Enum.GetValues(typeof(Colors)).Cast<Colors>();
     }
 
     public string TimeLeft
@@ -46,7 +50,7 @@ public class GameMenuViewModel : ViewModelBase
         }
     }
 
-    public ConsoleColor CheckerColor
+    public Colors CheckerColor
     {
         get => _checkerColor;
         set

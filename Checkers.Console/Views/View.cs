@@ -188,11 +188,11 @@ namespace Checkers.Console.Views
             return eingabeSeitenwahl;
         }
 
-        public ConsoleColor GetSelectedColor(string playerName, int playerNumber)
+        public Colors GetSelectedColor(string playerName, int playerNumber)
         {
             System.Console.SetCursorPosition(CursorXCoordinate, 4);
             System.Console.WriteLine(GlobalStrings.ColorInfoSelection);
-            var checkerColor = ConsoleColor.White;
+            var checkerColor = Colors.Blue;
             ClearText(CursorXCoordinate, 7);
             System.Console.SetCursorPosition(CursorXCoordinate, 7);
             System.Console.Write(GlobalStrings.SelectColor, playerNumber, playerName);
@@ -206,19 +206,19 @@ namespace Checkers.Console.Views
 
             if (selectedColorText.ToLower() == GlobalStrings.Red)
             {
-                checkerColor = ConsoleColor.Red;
+                checkerColor = Colors.Red;
             }
             else if (selectedColorText.ToLower() == GlobalStrings.Blue)
             {
-                checkerColor = ConsoleColor.Blue;
+                checkerColor = Colors.Blue;
             }
             else if (selectedColorText.ToLower() == GlobalStrings.Green)
             {
-                checkerColor = ConsoleColor.Green;
+                checkerColor = Colors.Green;
             }
             else if (selectedColorText.ToLower() == GlobalStrings.Yellow)
             {
-                checkerColor = ConsoleColor.Yellow;
+                checkerColor = Colors.Yellow;
             }
             else
             {
@@ -346,7 +346,7 @@ namespace Checkers.Console.Views
         {
             System.Console.SetCursorPosition(GameBoard.FieldWidth * checker.CurrentPosition.X + 6, GameBoard.FieldHeight * checker.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = checker.Color;
+            System.Console.ForegroundColor = (ConsoleColor)checker.Color;
             System.Console.Write(C);
             SetGameColors();
         }
@@ -436,7 +436,7 @@ namespace Checkers.Console.Views
         {
             System.Console.SetCursorPosition(GameBoard.FieldWidth * checkerToMove.CurrentPosition.X + 6, GameBoard.FieldHeight * checkerToMove.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = checkerToMove.Color;
+            System.Console.ForegroundColor = (ConsoleColor)checkerToMove.Color;
             PrintChecker(checkerToMove.IsQueen);
         }
 
@@ -444,7 +444,7 @@ namespace Checkers.Console.Views
         {
             System.Console.SetCursorPosition(GameBoard.FieldWidth * geschlagenerSpielstein.CurrentPosition.X + 6, GameBoard.FieldHeight * geschlagenerSpielstein.CurrentPosition.Y + 2);
             System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = geschlagenerSpielstein.Color;
+            System.Console.ForegroundColor = (ConsoleColor)geschlagenerSpielstein.Color;
             System.Console.Write(" ");
         }
 
@@ -505,7 +505,7 @@ namespace Checkers.Console.Views
             System.Console.WriteLine(GlobalStrings.SpielsteinIstNichtBewegbar2);
         }
 
-        public void ShowPlayerTurn(string playerName, ConsoleColor checkerColor)
+        public void ShowPlayerTurn(string playerName, Colors checkerColor)
         {   
             SetGameColors();
             ClearText(CursorXCoordinate, 6);

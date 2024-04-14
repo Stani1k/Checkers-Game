@@ -5,17 +5,8 @@ using System.Windows.Shapes;
 
 namespace Checkers.WPF.GameMenu;
 
-public partial class GameMenuControl : UserControl
+public partial class GameMenuControl
 {
-    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
-        nameof(ViewModel), typeof(GameMenuViewModel), typeof(GameMenuControl), new PropertyMetadata(default(GameMenuViewModel)));
-
-    public GameMenuViewModel ViewModel
-    {
-        get => (GameMenuViewModel)GetValue(ViewModelProperty);
-        set => SetValue(ViewModelProperty, value);
-    }
-    
     public GameMenuControl()
     {
         InitializeComponent();

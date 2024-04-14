@@ -15,8 +15,8 @@ namespace Checkers.UnitTests
         {
             _view = new Mock<IView>();
             _player = new Player("Max", GameDirection.Top, _view.Object);
-            _player.CreateCheckers(new List<Checker> { new Checker(ConsoleColor.Blue, new Position(1, 0, _player.GameDirection)),
-                new Checker(ConsoleColor.Blue, new Position(2, 1, _player.GameDirection)) });
+            _player.CreateCheckers(new List<Checker> { new Checker(Colors.Blue, new Position(1, 0, _player.GameDirection)),
+                new Checker(Colors.Blue, new Position(2, 1, _player.GameDirection)) });
         }
 
         [Test]

@@ -17,12 +17,12 @@ namespace Checkers.UnitTests
             _view = new Mock<IView>();
             _player = new Player("Max", GameDirection.Top);
             var checkersToTest = new List<Checker> {
-                new Checker(ConsoleColor.Blue, new Position(1, 0, _player.GameDirection)), 
-                new Checker(ConsoleColor.Blue, new Position(2, 1, _player.GameDirection)) 
+                new Checker(Colors.Blue, new Position(1, 0, _player.GameDirection)), 
+                new Checker(Colors.Blue, new Position(2, 1, _player.GameDirection)) 
             };
             _player.CreateCheckers(checkersToTest);
 
-            _checker = new Checker(ConsoleColor.Blue, new Position(1, 2, _player.GameDirection)) {Moves = new List<Position> {new Position(2, 3, _player.GameDirection)}};
+            _checker = new Checker(Colors.Blue, new Position(1, 2, _player.GameDirection)) {Moves = new List<Position> {new Position(2, 3, _player.GameDirection)}};
         }
 
 

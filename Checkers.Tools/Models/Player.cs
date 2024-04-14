@@ -6,7 +6,7 @@
 
         public string Name { get; }
         public int Number { get; set; }
-        public ConsoleColor CheckersColor { get; set; }
+        public Colors CheckersColor { get; set; }
         public GameDirection GameDirection { get; private set; }
         public List<Checker> Checkers { get; }
 

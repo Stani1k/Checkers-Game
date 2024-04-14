@@ -6,10 +6,9 @@
              xmlns:local="clr-namespace:Checkers.WPF.GameMenu"
              xmlns:models="clr-namespace:Checkers.Tools.Models;assembly=Checkers.Tools"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
-             Name="Control">
+             d:DataContext="{d:DesignInstance local:GameMenuViewModel}">
     
-    <Grid DataContext="{Binding ElementName=Control, Path=ViewModel}"
-          VerticalAlignment="Center" HorizontalAlignment="Center">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -35,7 +34,16 @@
                    Text="{StaticResource SelectCheckerColor}"/>
         <ComboBox Grid.Row="1" Grid.Column="1"
                   ItemsSource="{Binding CheckerColors}"
-                  SelectedItem="{Binding CheckerColor}"/>
+                  SelectedItem="{Binding CheckerColor}">
+             <ComboBox.ItemTemplate> 
+                 <DataTemplate> 
+                     <StackPanel Orientation="Horizontal"> 
+                         <!-- <Rectangle Fill="{Binding}" Width="16" Height="16" Margin="0,2,5,2" />  -->
+                         <TextBlock Text="{Binding}"/> 
+                     </StackPanel> 
+                 </DataTemplate> 
+             </ComboBox.ItemTemplate> 
+        </ComboBox>
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="{StaticResource SelectPlayingSite}"/>
             <RadioButton GroupName="site" 
