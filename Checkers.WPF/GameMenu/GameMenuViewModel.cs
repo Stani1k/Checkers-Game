@@ -11,21 +11,15 @@ namespace Checkers.WPF.GameMenu;
 public class GameMenuViewModel : ViewModelBase
 {
     private string _timeLeft;
-    private string _playerName;
-    private Colors _checkerColor;
-    private GameDirection _gameDirection;
 
     public UpdateViewCommand UpdateViewCommand { get; }
-    public IEnumerable<Colors> CheckerColors { get; }
     public List<PlayerViewModel> Players { get; set; }
     
     public GameMenuViewModel(UpdateViewCommand updateViewCommand)
     {
         UpdateViewCommand = updateViewCommand;
-        _playerName = string.Empty;
         _timeLeft = string.Empty;
-        Players = new List<PlayerViewModel>();
-        CheckerColors = Enum.GetValues(typeof(Colors)).Cast<Colors>();
+        Players = new List<PlayerViewModel> { new(1), new(2) };
     }
 
     public string TimeLeft
@@ -35,39 +29,6 @@ public class GameMenuViewModel : ViewModelBase
         {
             if (value == _timeLeft) return;
             _timeLeft = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string PlayerName
-    {
-        get => _playerName;
-        set
-        {
-            if (value == _playerName) return;
-            _playerName = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public Colors CheckerColor
-    {
-        get => _checkerColor;
-        set
-        {
-            if (value == _checkerColor) return;
-            _checkerColor = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public GameDirection GameDirection
-    {
-        get => _gameDirection;
-        set
-        {
-            if (value == _gameDirection) return;
-            _gameDirection = value;
             OnPropertyChanged();
         }
     }

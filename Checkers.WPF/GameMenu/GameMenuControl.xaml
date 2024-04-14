@@ -7,61 +7,78 @@
              xmlns:models="clr-namespace:Checkers.Tools.Models;assembly=Checkers.Tools"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance local:GameMenuViewModel}">
-    
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        
-        <!-- <TextBlock Grid.Row="0"  -->
-        <!--            Text="{Binding TimeLeft}"/> -->
-        <!-- <Grid Grid.Row="1" Name="LayoutRoot" /> -->
-        <TextBlock Grid.Row="0" Grid.Column="0"
-                   Text="{StaticResource EnterName}"/>
-        <TextBox Grid.Row="0" Grid.Column="1"
-                 MinWidth="200"
-                 Text="{Binding PlayerName}"/>
-        <TextBlock Grid.Row="1" Grid.Column="0"
-                   Text="{StaticResource SelectCheckerColor}"/>
-        <ComboBox Grid.Row="1" Grid.Column="1"
-                  ItemsSource="{Binding CheckerColors}"
-                  SelectedItem="{Binding CheckerColor}">
-             <ComboBox.ItemTemplate> 
-                 <DataTemplate> 
-                     <StackPanel Orientation="Horizontal"> 
-                         <!-- <Rectangle Fill="{Binding}" Width="16" Height="16" Margin="0,2,5,2" />  -->
-                         <TextBlock Text="{Binding}"/> 
-                     </StackPanel> 
-                 </DataTemplate> 
-             </ComboBox.ItemTemplate> 
-        </ComboBox>
-        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-            <TextBlock Text="{StaticResource SelectPlayingSite}"/>
-            <RadioButton GroupName="site" 
-                         Style="{StaticResource RadioButtonStyle}"
-                         IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter},
+
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <ListView ItemsSource="{Binding Players}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- <TextBlock Grid.Row="0"  -->
+                        <!--            Text="{Binding TimeLeft}"/> -->
+                        <!-- <Grid Grid.Row="1" Name="LayoutRoot" /> -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Text="{Binding PlayerNumberText}"
+                                   FontSize="30" FontWeight="Medium" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0"
+                                   Text="{StaticResource EnterName}" />
+                        <TextBox Grid.Row="1" Grid.Column="1"
+                                 MinWidth="200"
+                                 Text="{Binding PlayerName}" />
+                        <TextBlock Grid.Row="2" Grid.Column="0"
+                                   Text="{StaticResource SelectCheckerColor}" />
+                        <ComboBox Grid.Row="2" Grid.Column="1"
+                                  ItemsSource="{Binding CheckerColors}"
+                                  SelectedItem="{Binding CheckerColor}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <!-- <Rectangle Fill="{Binding}" Width="16" Height="16" Margin="0,2,5,2" />  -->
+                                        <TextBlock Text="{Binding}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+                            <TextBlock Text="{StaticResource SelectPlayingSite}" />
+                            <RadioButton GroupName="site"
+                                         Style="{StaticResource RadioButtonStyle}"
+                                         IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter},
                          ConverterParameter={x:Static models:GameDirection.Top}}">
-                <WrapPanel>
-                    <TextBlock Text="Upper" Foreground="Brown"/>
-                </WrapPanel>
-            </RadioButton>
-            <RadioButton GroupName="site"
-                         Style="{StaticResource RadioButtonStyle}"
-                         IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter},
+                                <WrapPanel>
+                                    <TextBlock Text="Upper" Foreground="Brown" />
+                                </WrapPanel>
+                            </RadioButton>
+                            <RadioButton GroupName="site"
+                                         Style="{StaticResource RadioButtonStyle}"
+                                         IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter},
                          ConverterParameter={x:Static models:GameDirection.Bottom}}">
-                <WrapPanel>
-                    <TextBlock Text="Lower" Foreground="DarkGreen"/>
-                </WrapPanel>
-            </RadioButton>
-        </StackPanel>
-    </Grid>
+                                <WrapPanel>
+                                    <TextBlock Text="Lower" Foreground="DarkGreen" />
+                                </WrapPanel>
+                            </RadioButton>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Content="Back to Main Menu" 
+                    Style="{StaticResource MainMenuButtonStyle}" 
+                    Command="{Binding UpdateViewCommand}"
+                    CommandParameter="MainMenu"
+                    Margin="0,20"/>
+    </StackPanel>
 </UserControl>

@@ -10,6 +10,11 @@
         public GameDirection GameDirection { get; private set; }
         public List<Checker> Checkers { get; }
 
+        public Player()
+        {
+            Name = string.Empty;
+        }
+        
         public Player(string name, GameDirection gameDirection, IView view = null)
         {
             _view = view;
