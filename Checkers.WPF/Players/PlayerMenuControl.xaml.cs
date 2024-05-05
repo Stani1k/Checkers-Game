@@ -1,13 +1,12 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Checkers.WPF.GameMenu;
+namespace Checkers.WPF.Players;
 
-public partial class GameMenuControl
+public partial class PlayerMenuControl
 {
-    public GameMenuControl()
+    public PlayerMenuControl()
     {
         InitializeComponent();
         CreateCheckerBoard();

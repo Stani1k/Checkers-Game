@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:gameMenu="clr-namespace:Checkers.WPF.GameMenu"
                     xmlns:settings="clr-namespace:Checkers.WPF.Settings"
                     xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu"
-                    xmlns:converters="clr-namespace:Checkers.WPF.Converters">
+                    xmlns:converters="clr-namespace:Checkers.WPF.Converters"
+                    xmlns:gameMenu="clr-namespace:Checkers.WPF.Players">
     
     <!-- Converters -->
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -17,8 +17,8 @@
     <DataTemplate DataType="{x:Type settings:SettingsViewModel}">
         <settings:SettingsControl />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type gameMenu:GameMenuViewModel}">
-        <gameMenu:GameMenuControl />
+    <DataTemplate DataType="{x:Type gameMenu:PlayerMenuViewModel}">
+        <gameMenu:PlayerMenuControl />
     </DataTemplate>
     
     <!-- Styles -->

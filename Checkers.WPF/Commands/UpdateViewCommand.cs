@@ -28,7 +28,7 @@ public class UpdateViewCommand : ICommand
         }
         else if (parameter.ToString() == MenuOption.Game.ToString())
         {
-            _viewModel.SelectedViewModel = _viewModel.GameMenuViewModel;
+            _viewModel.SelectedViewModel = _viewModel.PlayerMenuViewModel;
         }
         else if (parameter.ToString() == MenuOption.MainMenu.ToString())
         {

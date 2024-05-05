@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Checkers.Tools;
-using Checkers.Tools.Models;
 using Checkers.WPF.Commands;
-using Colors = Checkers.Tools.Models.Colors;
 
-namespace Checkers.WPF.GameMenu;
+namespace Checkers.WPF.Players;
 
-public class GameMenuViewModel : ViewModelBase
+public class PlayerMenuViewModel : ViewModelBase
 {
     private string _timeLeft;
 
     public UpdateViewCommand UpdateViewCommand { get; }
     public List<PlayerViewModel> Players { get; set; }
     
-    public GameMenuViewModel(UpdateViewCommand updateViewCommand)
+    public PlayerMenuViewModel(UpdateViewCommand updateViewCommand)
     {
         UpdateViewCommand = updateViewCommand;
         _timeLeft = string.Empty;

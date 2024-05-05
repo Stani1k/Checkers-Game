@@ -5,7 +5,7 @@ using System.Linq;
 using Checkers.Tools;
 using Checkers.Tools.Models;
 
-namespace Checkers.WPF.GameMenu;
+namespace Checkers.WPF.Players;
 
 public class PlayerViewModel : ViewModelBase
 {
