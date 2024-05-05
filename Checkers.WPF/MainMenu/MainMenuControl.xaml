@@ -19,7 +19,7 @@
         
         <StackPanel Grid.Row="1" 
                     HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Start Game" 
+            <Button Content="Play" 
                     Style="{StaticResource MainMenuButtonStyle}" 
                     Command="{Binding UpdateViewCommand}"
                     CommandParameter="Game"/>

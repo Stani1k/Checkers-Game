@@ -12,6 +12,7 @@ public class PlayerViewModel : ViewModelBase
     private string _playerName;
     private Colors _checkerColor;
     private GameDirection _gameDirection;
+    private string _groupName;
     private readonly Player _player;
 
     public string PlayerNumberText { get; private set; }
@@ -32,6 +33,17 @@ public class PlayerViewModel : ViewModelBase
         {
             if (value == _playerName) return;
             _playerName = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    public string GroupName
+    {
+        get => _groupName;
+        set
+        {
+            if (value == _groupName) return;
+            _groupName = value;
             OnPropertyChanged();
         }
     }

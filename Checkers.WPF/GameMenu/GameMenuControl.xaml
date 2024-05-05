@@ -54,7 +54,7 @@
                         </ComboBox>
                         <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
                             <TextBlock Text="{StaticResource SelectPlayingSite}" />
-                            <RadioButton GroupName="site"
+                            <RadioButton GroupName="{Binding GroupName}"
                                          Style="{StaticResource RadioButtonStyle}"
                                          IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter},
                          ConverterParameter={x:Static models:GameDirection.Top}}">
@@ -62,7 +62,7 @@
                                     <TextBlock Text="Upper" Foreground="Brown" />
                                 </WrapPanel>
                             </RadioButton>
-                            <RadioButton GroupName="site"
+                            <RadioButton GroupName="{Binding GroupName}"
                                          Style="{StaticResource RadioButtonStyle}"
                                          IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter},
                          ConverterParameter={x:Static models:GameDirection.Bottom}}">
@@ -75,10 +75,18 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Content="Back to Main Menu" 
-                    Style="{StaticResource MainMenuButtonStyle}" 
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Content="Main Menu"
+                    Style="{StaticResource MainMenuButtonStyle}"
                     Command="{Binding UpdateViewCommand}"
                     CommandParameter="MainMenu"
-                    Margin="0,20"/>
+                    Margin="20" />
+            <Button Content="Start Game"
+                    Style="{StaticResource MainMenuButtonStyle}"
+                    Command="{Binding UpdateViewCommand}"
+                    CommandParameter="Play"
+                    Margin="20" />
+        </StackPanel>
     </StackPanel>
 </UserControl>
