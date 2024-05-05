@@ -26,13 +26,17 @@ public class UpdateViewCommand : ICommand
         {
             _viewModel.SelectedViewModel = _viewModel.SettingsViewModel;
         }
-        else if (parameter.ToString() == MenuOption.Game.ToString())
+        else if (parameter.ToString() == MenuOption.Play.ToString())
         {
             _viewModel.SelectedViewModel = _viewModel.PlayerMenuViewModel;
         }
         else if (parameter.ToString() == MenuOption.MainMenu.ToString())
         {
             _viewModel.SelectedViewModel = _viewModel.MainMenuViewModel;
+        }
+        else if (parameter.ToString() == MenuOption.StartGame.ToString())
+        {
+            _viewModel.SelectedViewModel = _viewModel.GameViewModel;
         }
     }
 

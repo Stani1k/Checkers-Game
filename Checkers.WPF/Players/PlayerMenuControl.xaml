@@ -85,7 +85,7 @@
             <Button Content="Start Game"
                     Style="{StaticResource MainMenuButtonStyle}"
                     Command="{Binding UpdateViewCommand}"
-                    CommandParameter="Play"
+                    CommandParameter="StartGame"
                     Margin="20" />
         </StackPanel>
     </StackPanel>

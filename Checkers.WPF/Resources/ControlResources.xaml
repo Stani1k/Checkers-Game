@@ -3,7 +3,8 @@
                     xmlns:settings="clr-namespace:Checkers.WPF.Settings"
                     xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu"
                     xmlns:converters="clr-namespace:Checkers.WPF.Converters"
-                    xmlns:gameMenu="clr-namespace:Checkers.WPF.Players">
+                    xmlns:players="clr-namespace:Checkers.WPF.Players"
+                    xmlns:game="clr-namespace:Checkers.WPF.Game">
     
     <!-- Converters -->
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -17,8 +18,12 @@
     <DataTemplate DataType="{x:Type settings:SettingsViewModel}">
         <settings:SettingsControl />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type gameMenu:PlayerMenuViewModel}">
-        <gameMenu:PlayerMenuControl />
+    
+    <DataTemplate DataType="{x:Type players:PlayerMenuViewModel}">
+        <players:PlayerMenuControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type game:GameViewModel}">
+        <game:GameControl />
     </DataTemplate>
     
     <!-- Styles -->

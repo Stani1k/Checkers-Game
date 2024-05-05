@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using Checkers.Tools;
 using Checkers.WPF.Commands;
+using Checkers.WPF.Game;
 using Checkers.WPF.MainMenu;
 using Checkers.WPF.Players;
 using Checkers.WPF.Settings;
@@ -14,6 +15,7 @@ public class MainViewModel : ViewModelBase
     public MainMenuViewModel MainMenuViewModel { get; set; }
     public SettingsViewModel SettingsViewModel { get; set; }
     public PlayerMenuViewModel PlayerMenuViewModel { get; set; }
+    public GameViewModel GameViewModel { get; set; }
 
     public MainViewModel()
     {
@@ -21,6 +23,7 @@ public class MainViewModel : ViewModelBase
         MainMenuViewModel = new MainMenuViewModel(updateViewCommand);
         SettingsViewModel = new SettingsViewModel(updateViewCommand);
         PlayerMenuViewModel = new PlayerMenuViewModel(updateViewCommand);
+        GameViewModel = new GameViewModel(updateViewCommand);
         _selectedViewModel = MainMenuViewModel;
     }
     

@@ -22,7 +22,7 @@
             <Button Content="Play" 
                     Style="{StaticResource MainMenuButtonStyle}" 
                     Command="{Binding UpdateViewCommand}"
-                    CommandParameter="Game"/>
+                    CommandParameter="Play"/>
             <Button Content="Settings"
                     Style="{StaticResource MainMenuButtonStyle}"
                     Command="{Binding UpdateViewCommand}"
