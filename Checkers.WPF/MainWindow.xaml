@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wpf="clr-namespace:Checkers.WPF"
         mc:Ignorable="d"
-        Title="Checkers Game" Height="450" Width="800"
-        WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance wpf:MainViewModel}"
+        Title="Checkers Game"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        ResizeMode="NoResize"
         FontSize="25">
     <Grid>
         <ContentControl Content="{Binding SelectedViewModel}"/>

@@ -7,11 +7,14 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance local:GameViewModel}"
-             Initialized="GameControl_OnInitialized">
+             Background="White"
+             Loaded="GameControl_OnLoaded">
     <Grid>
-        <Border BorderBrush="PapayaWhip" BorderThickness="4">
+        <Border BorderBrush="Black" BorderThickness="5"
+                Width="{Binding RowHeightAndWidth}" 
+                Height="{Binding RowHeightAndWidth}">
             <Canvas Name="GameArea" ClipToBounds="True">
-                
+
             </Canvas>
         </Border>
     </Grid>
