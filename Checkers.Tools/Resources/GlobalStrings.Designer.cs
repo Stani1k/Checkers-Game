@@ -38,7 +38,7 @@ namespace Checkers.Console.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Checkers.Console.Resources.GlobalStrings", typeof(GlobalStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Checkers.Tools.Resources.GlobalStrings", typeof(GlobalStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
