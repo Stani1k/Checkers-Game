@@ -1,0 +1,14 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Board colours are identical in both themes -->
+    <SolidColorBrush x:Key="BoardLightSquareBrush" Color="#EBD9B4" />
+    <SolidColorBrush x:Key="BoardDarkSquareBrush" Color="#8B5E3C" />
+    <SolidColorBrush x:Key="BoardFrameBrush" Color="#3B2A1A" />
+    <SolidColorBrush x:Key="LastMoveBrush" Color="#80F2E34C" />
+    <SolidColorBrush x:Key="SelectionBrush" Color="#FFD500" />
+    <SolidColorBrush x:Key="TargetBrush" Color="#CC2E9E4F" />
+    <SolidColorBrush x:Key="LightPieceFillBrush" Color="#F5F1E6" />
+    <SolidColorBrush x:Key="LightPieceStrokeBrush" Color="#8A7A5A" />
+    <SolidColorBrush x:Key="DarkPieceFillBrush" Color="#3A2323" />
+    <SolidColorBrush x:Key="DarkPieceStrokeBrush" Color="#150C0C" />
+    <SolidColorBrush x:Key="CrownBrush" Color="Goldenrod" />
+</ResourceDictionary>

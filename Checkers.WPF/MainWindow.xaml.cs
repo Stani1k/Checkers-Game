@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Syncfusion.SfSkinManager;
+using System.Windows;
 
 namespace Checkers.WPF
 {
@@ -10,7 +9,7 @@ namespace Checkers.WPF
     {
         public MainWindow()
         {
-            SfSkinManager.SetTheme(this, new Theme("Windows11Dark"));
+            ThemeManager.Apply(dark: true);
             InitializeComponent();
             DataContext = new MainViewModel();
         }

@@ -1,6 +1,5 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
-using Syncfusion.SfSkinManager;
 
 namespace Checkers.WPF.Settings;
 
@@ -9,6 +8,7 @@ public partial class SettingsControl : UserControl
     public SettingsControl()
     {
         InitializeComponent();
+        (ThemeManager.IsDark ? DarkMode : LightMode).IsChecked = true;
     }
 
     private void FullSizeCheckbox_OnChecked(object sender, RoutedEventArgs e)
@@ -23,14 +23,7 @@ public partial class SettingsControl : UserControl
     private void RadioButton_OnChecked(object sender, RoutedEventArgs e)
     {
         var themeName = (sender as RadioButton)?.Name;
-        switch (themeName)
-        {
-            case "LightMode":
-                SfSkinManager.SetVisualStyle(Application.Current.MainWindow, VisualStyles.Windows11Light);
-                break;
-            case "DarkMode":
-                SfSkinManager.SetVisualStyle(Application.Current.MainWindow, VisualStyles.Windows11Dark);
-                break;
-        }
+        ThemeManager.Apply(dark: themeName == "DarkMode");
     }
 }
+

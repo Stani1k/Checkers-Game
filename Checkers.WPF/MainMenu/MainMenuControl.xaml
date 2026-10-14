@@ -1,35 +1,38 @@
-﻿<UserControl x:Class="Checkers.WPF.MainMenu.MainMenuControl"
+<UserControl x:Class="Checkers.WPF.MainMenu.MainMenuControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+             mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance mainMenu:MainMenuViewModel}">
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Welcome to the Game Checkers" 
-                   HorizontalAlignment="Center"
-                   FontSize="30"/>
-        
-        <StackPanel Grid.Row="1" 
-                    HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Play" 
-                    Style="{StaticResource MainMenuButtonStyle}" 
-                    Command="{Binding UpdateViewCommand}"
-                    CommandParameter="Play"/>
-            <Button Content="Settings"
-                    Style="{StaticResource MainMenuButtonStyle}"
-                    Command="{Binding UpdateViewCommand}"
-                    CommandParameter="Settings"/>
-            <Button Content="Quit"
-                    Style="{StaticResource MainMenuButtonStyle}"
-                    Click="Quit_OnClick"/>
-        </StackPanel>
+    <Grid>
+        <Border Style="{StaticResource CardStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="56,44">
+            <StackPanel>
+                <Viewbox Width="96" Height="96" HorizontalAlignment="Center" Margin="0,0,0,18">
+                    <Canvas Width="80" Height="80">
+                        <Rectangle Width="80" Height="80" RadiusX="10" RadiusY="10" Fill="#EBD9B4" />
+                        <Path Fill="#8B5E3C" Data="M0,0 H20 V20 H0 Z M40,0 H60 V20 H40 Z M20,20 H40 V40 H20 Z M60,20 H80 V40 H60 Z M0,40 H20 V60 H0 Z M40,40 H60 V60 H40 Z M20,60 H40 V80 H20 Z M60,60 H80 V80 H60 Z" />
+                        <Ellipse Canvas.Left="23" Canvas.Top="23" Width="34" Height="34"
+                                 Fill="{DynamicResource AccentBrush}" Stroke="White" StrokeThickness="2.5" />
+                    </Canvas>
+                </Viewbox>
+
+                <TextBlock Text="CHECKERS" FontSize="48" FontWeight="Bold"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="Classic board game for two players" FontSize="16"
+                           Foreground="{DynamicResource MutedBrush}"
+                           HorizontalAlignment="Center" Margin="0,4,0,32" />
+
+                <Button Content="Play" Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding UpdateViewCommand}" CommandParameter="Play" />
+                <Button Content="Settings" Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding UpdateViewCommand}" CommandParameter="Settings" />
+                <Button Content="Quit" Style="{StaticResource PrimaryButtonStyle}"
+                        Click="Quit_OnClick" />
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
+

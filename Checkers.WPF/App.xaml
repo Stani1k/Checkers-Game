@@ -1,4 +1,4 @@
-﻿<Application x:Class="Checkers.WPF.App"
+<Application x:Class="Checkers.WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              DispatcherUnhandledException="App_OnDispatcherUnhandledException"
@@ -8,9 +8,15 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/StringResources.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Board.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Typography.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Cards.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Buttons.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Inputs.xaml"/>
                 <ResourceDictionary Source="Resources/ControlResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
     
 </Application>
+

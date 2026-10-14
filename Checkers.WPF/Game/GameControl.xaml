@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
 
         <Viewbox Grid.Column="0" Stretch="Uniform">
-            <Border BorderBrush="#3B2A1A" BorderThickness="6"
+            <Border BorderBrush="{StaticResource BoardFrameBrush}" BorderThickness="6"
                     Width="{Binding BoardWidthAndHeight}" Height="{Binding BoardWidthAndHeight}">
                 <ItemsControl ItemsSource="{Binding Squares}">
                     <ItemsControl.ItemsPanel>
@@ -26,21 +26,21 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type local:SquareViewModel}">
                             <Grid MouseLeftButtonUp="Square_OnMouseLeftButtonUp" Background="Transparent">
-                                <Rectangle x:Name="Background" Fill="#EBD9B4" />
-                                <Rectangle x:Name="LastMove" Fill="#80F2E34C" Visibility="Collapsed" />
-                                <Rectangle x:Name="Selection" Stroke="#FFD500" StrokeThickness="5" Margin="2"
+                                <Rectangle x:Name="Background" Fill="{StaticResource BoardLightSquareBrush}" />
+                                <Rectangle x:Name="LastMove" Fill="{StaticResource LastMoveBrush}" Visibility="Collapsed" />
+                                <Rectangle x:Name="Selection" Stroke="{StaticResource SelectionBrush}" StrokeThickness="5" Margin="2"
                                            Visibility="Collapsed" />
                                 <Ellipse x:Name="Piece" Margin="10" Visibility="Collapsed"
-                                         Fill="#F5F1E6" Stroke="#8A7A5A" StrokeThickness="3" />
-                                <TextBlock x:Name="Crown" Text="♛" FontSize="34" Foreground="Goldenrod"
+                                         Fill="{StaticResource LightPieceFillBrush}" Stroke="{StaticResource LightPieceStrokeBrush}" StrokeThickness="3" />
+                                <TextBlock x:Name="Crown" Text="♛" FontSize="34" Foreground="{StaticResource CrownBrush}"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"
                                            Visibility="Collapsed" />
-                                <Ellipse x:Name="Target" Width="26" Height="26" Fill="#CC2E9E4F"
+                                <Ellipse x:Name="Target" Width="26" Height="26" Fill="{StaticResource TargetBrush}"
                                          Visibility="Collapsed" />
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsDark}" Value="True">
-                                    <Setter TargetName="Background" Property="Fill" Value="#8B5E3C" />
+                                    <Setter TargetName="Background" Property="Fill" Value="{StaticResource BoardDarkSquareBrush}" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsLastMove}" Value="True">
                                     <Setter TargetName="LastMove" Property="Visibility" Value="Visible" />
@@ -52,8 +52,8 @@
                                     <Setter TargetName="Piece" Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsTopPiece}" Value="True">
-                                    <Setter TargetName="Piece" Property="Fill" Value="#3A2323" />
-                                    <Setter TargetName="Piece" Property="Stroke" Value="#150C0C" />
+                                    <Setter TargetName="Piece" Property="Fill" Value="{StaticResource DarkPieceFillBrush}" />
+                                    <Setter TargetName="Piece" Property="Stroke" Value="{StaticResource DarkPieceStrokeBrush}" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsKing}" Value="True">
                                     <Setter TargetName="Crown" Property="Visibility" Value="Visible" />
@@ -68,14 +68,15 @@
             </Border>
         </Viewbox>
 
-        <StackPanel Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" MinWidth="320">
-            <TextBlock Text="{Binding StatusText}" FontSize="26" FontWeight="SemiBold"
-                       TextWrapping="Wrap" Margin="0,0,0,15" />
-            <TextBlock Text="{Binding ScoreText}" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,25" />
-            <Button Content="New Game" Style="{StaticResource MainMenuButtonStyle}"
-                    Command="{Binding NewGameCommand}" />
-            <Button Content="Main Menu" Style="{StaticResource MainMenuButtonStyle}"
-                    Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" />
-        </StackPanel>
+        <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="30,0,0,0" VerticalAlignment="Center" MinWidth="340">
+            <StackPanel>
+                <TextBlock Text="{Binding StatusText}" Style="{StaticResource HeadingTextStyle}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding ScoreText}" Style="{StaticResource SubtitleTextStyle}" Margin="0,0,0,24" />
+                <Button Content="New Game" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding NewGameCommand}" />
+                <Button Content="Main Menu" Style="{StaticResource SecondaryButtonStyle}"
+                        Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" />
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
+

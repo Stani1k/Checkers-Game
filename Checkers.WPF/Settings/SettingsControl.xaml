@@ -1,45 +1,31 @@
-﻿<UserControl x:Class="Checkers.WPF.Settings.SettingsControl"
+<UserControl x:Class="Checkers.WPF.Settings.SettingsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Checkers.WPF.Settings"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{StaticResource SettingsViewModel}">
-    <UserControl.Resources>
-        <local:SettingsViewModel x:Key="SettingsViewModel" />
-    </UserControl.Resources>
-    
-    <Grid>
-        <StackPanel VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
-            <CheckBox Checked="FullSizeCheckbox_OnChecked">Switch Window State</CheckBox>
-            <ComboBox Margin="0,10"
-                      ItemsSource="{Binding Languages}"
-                      SelectedItem="{Binding SelectedLanguage}"/>
-            
-            <StackPanel Orientation="Horizontal">
-                <RadioButton Name="DarkMode" GroupName="theme" 
-                             Checked="RadioButton_OnChecked"
-                             Style="{StaticResource RadioButtonStyle}">
-                    <WrapPanel>
-                        <TextBlock Text="Dark Mode"/>
-                    </WrapPanel>
-                </RadioButton>
-                <RadioButton Name="LightMode" GroupName="theme"
-                             Checked="RadioButton_OnChecked"
-                             Style="{StaticResource RadioButtonStyle}">
-                    <WrapPanel>
-                        <TextBlock Text="Light Mode" />
-                    </WrapPanel>
-                </RadioButton>
+             d:DesignHeight="700" d:DesignWidth="1000"
+             d:DataContext="{d:DesignInstance local:SettingsViewModel}">
+
+    <Border Style="{StaticResource CardStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"
+            Padding="48,40" MinWidth="420">
+        <StackPanel>
+            <TextBlock Text="Settings" Style="{StaticResource TitleTextStyle}" Margin="0,0,0,28" />
+
+            <TextBlock Text="Language" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,6" />
+            <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0,0,0,24" />
+
+            <TextBlock Text="Theme" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,8" />
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                <RadioButton Name="DarkMode" GroupName="theme" Content="Dark Mode" Checked="RadioButton_OnChecked" />
+                <RadioButton Name="LightMode" GroupName="theme" Content="Light Mode" Checked="RadioButton_OnChecked" />
             </StackPanel>
-            <Button Content="Back to Main Menu" 
-                    Style="{StaticResource MainMenuButtonStyle}" 
-                    Command="{Binding UpdateViewCommand}"
-                    CommandParameter="MainMenu"
-                    Margin="0,20"/>
+
+            <CheckBox Content="Switch Window State" Checked="FullSizeCheckbox_OnChecked" />
+
+            <Button Content="Back to Main Menu" Style="{StaticResource SecondaryButtonStyle}"
+                    Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" Margin="0,28,0,0" />
         </StackPanel>
-    </Grid>
+    </Border>
 </UserControl>
