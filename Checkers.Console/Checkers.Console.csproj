@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>10</LangVersion>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>Checkers.Console</AssemblyName>
     <RootNamespace>Checkers.Console</RootNamespace>
     <IsPackable>false</IsPackable>
