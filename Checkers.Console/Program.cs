@@ -1,5 +1,3 @@
-﻿using Checkers.Console.Views;
-
 namespace Checkers.Console
 {
     internal static class Program
@@ -9,10 +7,7 @@ namespace Checkers.Console
         /// </summary>
         private static void Main()
         {
-            var controller = new GameController();
-            controller.RunApplication();
-
-            System.Console.ReadKey();
+            new GameController().RunApplication();
         }
     }
 }

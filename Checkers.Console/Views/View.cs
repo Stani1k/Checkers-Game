@@ -1,683 +1,389 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Threading;
-using Checkers.Console.Resources;
-using Checkers.Tools;
+using Checkers.Tools.Engine;
 using Checkers.Tools.Models;
 
 namespace Checkers.Console.Views
 {
-    public class View : IView
+    /// <summary>
+    /// Plain, linear console UI. It never positions the cursor absolutely, so it works in any terminal or IDE console.
+    /// </summary>
+    public sealed class View
     {
-        private readonly GameBoard board;
-        public int CursorXCoordinate => board.Variant == Variant.American ? 76 : 62;
-        public int CursorYCoordinate => board.Variant == Variant.American ? 10: 8;
+        private const int CellWidth = 6;
+        private const int CellHeight = 2;
+        private const string Separator = "------------------------------------------------------------";
 
-        private const int AsciiNumberLetterA = 97;
-        private const string EmptyField = "                                                                          ";
-        private const string GameTurnSeparator = "----------------------------------------------------------------------";
-        private const string C = "C";
-        private const string Q = "Q";
-
-        public View(GameBoard gameBoard)
-        {
-            board = gameBoard;
-        }
+        private static readonly Colors[] SelectableColors = { Colors.Red, Colors.Green, Colors.Yellow, Colors.Pink, Colors.Blue };
 
         public void SetUp()
         {
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
-            System.Console.BackgroundColor = ConsoleColor.DarkYellow;
-            System.Console.ForegroundColor = ConsoleColor.Black;
-            System.Console.Clear();
+            ResetColors();
+            ClearScreen();
         }
 
-        public void ShowMainMenu()
+        public static ConsoleColor ToConsoleColor(Colors color) => color switch
         {
-            System.Console.SetCursorPosition(55, 1);
-            System.Console.WriteLine(GlobalStrings.WelcomeText);
-            System.Console.SetCursorPosition(40, 2);
-            System.Console.WriteLine(GameTurnSeparator);
+            Colors.Red => ConsoleColor.Red,
+            Colors.Green => ConsoleColor.Green,
+            Colors.Yellow => ConsoleColor.Yellow,
+            Colors.Pink => ConsoleColor.Magenta,
+            _ => ConsoleColor.Cyan
+        };
 
-            System.Console.WriteLine("[1] Start Game");
-            System.Console.WriteLine("[2] Settings");
-            System.Console.WriteLine("[3] Help");
-            System.Console.WriteLine("[4] About");
-            System.Console.WriteLine("[5] Quit");
-        }
-        
-        public int ChooseLanguage()
+        private static string ColorName(Colors color) => color.ToString();
+
+        private static void ResetColors()
         {
-            var englishLanguage = $"[1] {GlobalStrings.English}";
-            var germanLanguage = $"[2] {GlobalStrings.German}";
-            var polishLanguage = $"[3] {GlobalStrings.Polish}";
-            
-            System.Console.SetCursorPosition(56, 4);
-            System.Console.WriteLine(GlobalStrings.AvailableLanguages);
-            System.Console.SetCursorPosition(58, 5);
-            System.Console.WriteLine(englishLanguage);
-            System.Console.SetCursorPosition(58, 6);
-            System.Console.WriteLine(germanLanguage);
-            System.Console.SetCursorPosition(58, 7);
-            System.Console.WriteLine(polishLanguage);
-            System.Console.SetCursorPosition(58, 8);
-            System.Console.Write(GlobalStrings.LanguageSelection);
-            var languageId = Convert.ToInt32(System.Console.ReadLine());
-            switch (languageId)
+            System.Console.BackgroundColor = ConsoleColor.Black;
+            System.Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        private static void ClearScreen()
+        {
+            try
             {
-                case 1:
-                    return 1;
-                case 2:
-                    return 2;
-                case 3:
-                    return 3;
-                default:
-                    System.Console.SetCursorPosition(37, 10);
-                    System.Console.WriteLine(GlobalStrings.InvalidSelection);
-                    break;
+                System.Console.Clear();
             }
-
-            return 0;
-        }
-
-        public Variant GetSelectedGameVariant()
-        {
-            // Removes the language selection outputs
-            ClearText(56, 4);
-            ClearText(58, 5);
-            ClearText(58, 6);
-            ClearText(58, 7);
-            ClearText(58, 8);
-            ClearText(37, 10);
-            System.Console.SetCursorPosition(37, 4);
-            System.Console.WriteLine(GlobalStrings.VariantSelection);
-            SelectGameVariant();
-            // Remove "Welcome Text"
-            ClearText(55, 1);
-            ClearText(40, 2);
-            // Clear Console output from this method
-            ClearText(37, 4);
-            ClearText(46, 5);
-            ClearText(46, 7);
-            return board.Variant;
-        }
-
-        private void SelectGameVariant()
-        {
-            var gameVariant = System.Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(gameVariant) || gameVariant != "1" && gameVariant != "2")
+            catch (IOException)
             {
-                System.Console.SetCursorPosition(46, 7);
-                System.Console.Write(GlobalStrings.InvalidSelection);
-                gameVariant = System.Console.ReadLine();
-            }
-
-            System.Console.SetCursorPosition(46, 5);
-            switch (gameVariant)
-            {
-                case "1":
-                    System.Console.WriteLine($@"1 = {GlobalStrings.AmericanVariant}");
-                    board.SetGameVariant(Variant.American);
-                    break;
-                case "2":
-                    System.Console.WriteLine($@"2 = {GlobalStrings.EuropeanVariant}");
-                    board.SetGameVariant(Variant.European);
-                    break;
+                // Output is redirected; nothing to clear.
             }
         }
 
-        public string GetPlayerName(int playerNumber)
+        public string ReadLine()
         {
-            var validInput = false;
-            var playerName = string.Empty;
-            while (validInput == false)
+            var line = System.Console.ReadLine();
+            if (line == null)
             {
-                // Remove console output for previous player name
-                ClearText(CursorXCoordinate, 4);
-                System.Console.SetCursorPosition(CursorXCoordinate, 4);
-                var enterName = $"{0} {GlobalStrings.EnterName}";
-                System.Console.Write(enterName, playerNumber);
-                playerName = System.Console.ReadLine();
-                validInput = true;
-                if (string.IsNullOrWhiteSpace(playerName))
+                throw new EndOfInputException();
+            }
+
+            return line.Trim();
+        }
+
+        private string Ask(string prompt)
+        {
+            System.Console.Write(prompt);
+            return ReadLine();
+        }
+
+        public void ShowMessage(string message)
+        {
+            System.Console.WriteLine(message);
+        }
+
+        public void ShowError(string message)
+        {
+            System.Console.ForegroundColor = ConsoleColor.Yellow;
+            System.Console.WriteLine(message);
+            ResetColors();
+        }
+
+        public void WaitForEnter()
+        {
+            System.Console.Write("Press Enter to continue...");
+            ReadLine();
+        }
+
+        public MenuOption ShowMainMenu()
+        {
+            while (true)
+            {
+                ClearScreen();
+                System.Console.WriteLine(Separator);
+                System.Console.WriteLine("  Welcome to the game Checkers!");
+                System.Console.WriteLine(Separator);
+                System.Console.WriteLine("[1] Start Game");
+                System.Console.WriteLine("[2] Help");
+                System.Console.WriteLine("[3] About");
+                System.Console.WriteLine("[4] Quit");
+                System.Console.WriteLine();
+
+                switch (Ask("Please choose: "))
                 {
-                    System.Console.SetCursorPosition(CursorXCoordinate, 10);
-                    System.Console.WriteLine(GlobalStrings.EmptyInput);
-                    validInput = false;
+                    case "1": return MenuOption.Play;
+                    case "2": return MenuOption.Help;
+                    case "3": return MenuOption.About;
+                    case "4": return MenuOption.Quit;
+                }
+
+                ShowError("Please make a valid selection!");
+                WaitForEnter();
+            }
+        }
+
+        public Variant AskVariant()
+        {
+            ClearScreen();
+            System.Console.WriteLine("Choose a variant:");
+            System.Console.WriteLine("[1] American  - 8x8 board, kings move one square, captures are mandatory");
+            System.Console.WriteLine("[2] European  - 10x10 board, flying kings, men capture backwards, the longest capture must be taken");
+            while (true)
+            {
+                switch (Ask("Variant (1/2): "))
+                {
+                    case "1": return Variant.American;
+                    case "2": return Variant.European;
+                }
+
+                ShowError("Please enter 1 or 2.");
+            }
+        }
+
+        public string AskName(int playerNumber, string? takenName)
+        {
+            while (true)
+            {
+                var name = Ask($"Player {playerNumber}, please enter your name: ");
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    ShowError("The name must not be empty.");
+                }
+                else if (string.Equals(name, takenName, StringComparison.OrdinalIgnoreCase))
+                {
+                    ShowError("Both players need different names.");
+                }
+                else
+                {
+                    return name;
                 }
             }
-
-            return playerName;
         }
 
-        public string GetStartingSite(string spielername)
+        public Colors AskColor(string playerName, IReadOnlyCollection<Colors> takenColors)
         {
-            // Entfernt den Fehlertext "NutzerSelektiertZweiGleicheFarben"
-            ClearText(CursorXCoordinate, 10);
-            // Der Nutzer kann entscheiden auf welcher Seite er beginnen möchte (oben oder unten)
-            System.Console.SetCursorPosition(CursorXCoordinate, 8);
-            System.Console.WriteLine(GlobalStrings.ChooseSite, spielername);
-            System.Console.SetCursorPosition(CursorXCoordinate, 9);
-            System.Console.Write(GlobalStrings.ObenOderUnten);
-
-            var eingabeSeitenwahl = System.Console.ReadLine();
-            // Solange die Nutzereingabe nicht dem Wert 1 ODER 2 entspricht ODER leer ist, muss der Nutzer einen neuen Wert eingeben
-            while (eingabeSeitenwahl != "1" && eingabeSeitenwahl != "2" || string.IsNullOrWhiteSpace(eingabeSeitenwahl))
+            var available = SelectableColors.Where(c => !takenColors.Contains(c)).ToList();
+            System.Console.WriteLine($"{playerName}, choose the color of your checkers:");
+            for (var i = 0; i < available.Count; i++)
             {
-                System.Console.SetCursorPosition(CursorXCoordinate, 11);
-                System.Console.WriteLine(GlobalStrings.InvalidSelection);
-                ClearText(CursorXCoordinate, 9);
-                System.Console.SetCursorPosition(CursorXCoordinate, 9);
-                System.Console.Write(GlobalStrings.ObenOderUnten);
-                eingabeSeitenwahl = System.Console.ReadLine();
-            }
-            // Entfernt die Texte aus der Methode "FarbeDerSpielsteineErmitteln"
-            ClearText(CursorXCoordinate, 4);
-            ClearText(CursorXCoordinate, 5);
-            // Entfernt die Texte/Meldungen aus dieser Methode
-            ClearText(CursorXCoordinate, 8);
-            ClearText(CursorXCoordinate, 9);
-            ClearText(CursorXCoordinate, 11);
-            // Entfernt den Text der die ausgewählten Farben dem Nutzer anzeigt
-            ClearText(CursorXCoordinate, 12);
-            ClearText(CursorXCoordinate, 13);
-
-            return eingabeSeitenwahl;
-        }
-
-        public Colors GetSelectedColor(string playerName, int playerNumber)
-        {
-            System.Console.SetCursorPosition(CursorXCoordinate, 4);
-            System.Console.WriteLine(GlobalStrings.ColorInfoSelection);
-            var checkerColor = Colors.Blue;
-            ClearText(CursorXCoordinate, 7);
-            System.Console.SetCursorPosition(CursorXCoordinate, 7);
-            System.Console.Write(GlobalStrings.SelectColor, playerNumber, playerName);
-            var selectedColorText = System.Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(selectedColorText))
-            {
-                System.Console.SetCursorPosition(CursorXCoordinate, 9);
-                System.Console.WriteLine(GlobalStrings.EmptyInput);
+                System.Console.Write($"[{i + 1}] ");
+                System.Console.ForegroundColor = ToConsoleColor(available[i]);
+                System.Console.WriteLine(ColorName(available[i]));
+                ResetColors();
             }
 
-            if (selectedColorText.ToLower() == GlobalStrings.Red)
+            while (true)
             {
-                checkerColor = Colors.Red;
-            }
-            else if (selectedColorText.ToLower() == GlobalStrings.Blue)
-            {
-                checkerColor = Colors.Blue;
-            }
-            else if (selectedColorText.ToLower() == GlobalStrings.Green)
-            {
-                checkerColor = Colors.Green;
-            }
-            else if (selectedColorText.ToLower() == GlobalStrings.Yellow)
-            {
-                checkerColor = Colors.Yellow;
-            }
-            else
-            {
-                System.Console.SetCursorPosition(CursorXCoordinate, 9);
-                System.Console.WriteLine(GlobalStrings.InvalidColor);
-            }
-            switch (playerNumber)
-            {
-                case 1:
-                    System.Console.SetCursorPosition(CursorXCoordinate, 12);
-                    System.Console.WriteLine(GlobalStrings.FarbenAuswahlÜbersicht, playerNumber, playerName, checkerColor);
-                    break;
-                case 2:
-                    System.Console.SetCursorPosition(CursorXCoordinate, 13);
-                    System.Console.WriteLine(GlobalStrings.FarbenAuswahlÜbersicht, playerNumber, playerName, checkerColor);
-                    break;
-            }
-            ClearText(CursorXCoordinate, 7);
-            ClearText(CursorXCoordinate, 9);
-            return checkerColor;
-        }
-
-        public void EqualCheckerColorNotAllowed()
-        {
-            System.Console.SetCursorPosition(CursorXCoordinate, 10);
-            System.Console.WriteLine(GlobalStrings.SelectSameColor);
-        }
-
-        public void EqualNamesNotAllowed()
-        {
-            System.Console.SetCursorPosition(CursorXCoordinate, 10);
-            System.Console.WriteLine(GlobalStrings.SelectSameNames);
-        }
-
-        public void CreateGameboard()
-        {
-            for (var row = 0; row < board.RowCount; row++)
-            {
-                for (var height = 0; height < GameBoard.FieldHeight; height++)
+                var input = Ask("Color: ");
+                if (int.TryParse(input, out var index) && index >= 1 && index <= available.Count)
                 {
-                    if (height == GameBoard.FieldHeight / 2)
+                    return available[index - 1];
+                }
+
+                var byName = available.Where(c => string.Equals(ColorName(c), input, StringComparison.OrdinalIgnoreCase)).ToList();
+                if (byName.Count == 1)
+                {
+                    return byName[0];
+                }
+
+                ShowError("Invalid color.");
+            }
+        }
+
+        public Side AskSide(string playerName)
+        {
+            System.Console.WriteLine($"{playerName}, which side do you want to play?");
+            System.Console.WriteLine("[1] Bottom (moves first)");
+            System.Console.WriteLine("[2] Top");
+            while (true)
+            {
+                switch (Ask("Side (1/2): "))
+                {
+                    case "1": return Side.Bottom;
+                    case "2": return Side.Top;
+                }
+
+                ShowError("Please enter 1 or 2.");
+            }
+        }
+
+        public void ShowGame(CheckersGame game, PlayerInfo bottom, PlayerInfo top, string? message)
+        {
+            ClearScreen();
+            DrawBoard(game, bottom, top);
+            System.Console.WriteLine();
+            DrawPlayerLine(game, top, "Top   ");
+            DrawPlayerLine(game, bottom, "Bottom");
+            if (game.LastMove != null)
+            {
+                System.Console.WriteLine($"Last move: {FormatMove(game, game.LastMove)}");
+            }
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                ShowError(message);
+            }
+
+            if (game.Status != GameStatus.InProgress)
+            {
+                return;
+            }
+
+            var turnPlayer = game.Turn == Side.Bottom ? bottom : top;
+            System.Console.WriteLine(Separator);
+            System.Console.Write("Turn: ");
+            System.Console.ForegroundColor = ToConsoleColor(turnPlayer.Color);
+            System.Console.WriteLine($"{turnPlayer.Name} ({ColorName(turnPlayer.Color)})");
+            ResetColors();
+            if (game.GetLegalMoves().Any(m => m.IsCapture))
+            {
+                System.Console.WriteLine("You must capture!");
+            }
+
+            System.Console.WriteLine("Enter a move like c3 d4 (jumps: c3 e5 g7). Commands: moves, help, surrender, quit");
+        }
+
+        private void DrawPlayerLine(CheckersGame game, PlayerInfo player, string label)
+        {
+            System.Console.Write($"{label}: ");
+            System.Console.ForegroundColor = ToConsoleColor(player.Color);
+            System.Console.Write($"{player.Name} ({ColorName(player.Color)})");
+            ResetColors();
+            System.Console.WriteLine($" - {game.CountPieces(player.Side)} pieces");
+        }
+
+        private void DrawBoard(CheckersGame game, PlayerInfo bottom, PlayerInfo top)
+        {
+            for (var row = 0; row < game.Size; row++)
+            {
+                for (var line = 0; line < CellHeight; line++)
+                {
+                    ResetColors();
+                    System.Console.Write(line == 0 ? $"{game.Size - row,2} " : "   ");
+                    for (var col = 0; col < game.Size; col++)
                     {
-                        PrintRowValueNumbers(row);
+                        DrawCell(game, new Square(col, row), line, bottom, top);
                     }
-                    else
-                    {
-                        PrintWhiteSpacesBetweenRowValues(height, row);
-                    }
-                    CreateRows(row);
+
+                    ResetColors();
                     System.Console.WriteLine();
                 }
             }
-            CreateColumns();
-        }
 
-        private static void PrintWhiteSpacesBetweenRowValues(int height, int row)
-        {
-            System.Console.BackgroundColor = ConsoleColor.DarkYellow;
-            if (height == 2)
-            {
-                if (row == 0)
-                {
-                    System.Console.SetCursorPosition(0, 3);
-                }
-                else
-                {
-                    System.Console.SetCursorPosition(0, 3 + row * 3);
-                }
-            }
-            else
-            {
-                System.Console.SetCursorPosition(0, 1 + row * GameBoard.FieldHeight);
-            }
+            ResetColors();
             System.Console.Write("   ");
-        }
-
-        public void PrintRowValueNumbers(int columnNumber)
-        {
-            System.Console.BackgroundColor = ConsoleColor.DarkYellow;
-            System.Console.ForegroundColor = ConsoleColor.Black;
-            if (board.Variant == Variant.American && columnNumber == 0)
+            for (var col = 0; col < game.Size; col++)
             {
-                // Value 10 is shown in the center
-                System.Console.Write(board.RowCount + " ");
-            }
-            else
-            {
-                // Values 1-9 are shown in the center
-                System.Console.Write((board.RowCount - columnNumber) + "  ");
-            }
-        }
-
-        public void CreateRows(int reihe)
-        {
-            for (var spalte = 0; spalte < board.ColumnCount; spalte++)
-            {
-                for (var b = 0; b < GameBoard.FieldWidth; b++)
-                {
-                    if ((reihe + spalte) % 2 == 0)
-                    {
-                        System.Console.BackgroundColor = ConsoleColor.White;
-                        System.Console.Write(" ");
-                    }
-                    else
-                    {
-                        System.Console.BackgroundColor = ConsoleColor.Black;
-                        System.Console.Write(" ");
-                    }
-                }
-            }
-        }
-
-        public void CreateColumns()
-        {
-            for (var i = 0; i < board.ColumnCount; i++)
-            {
-                var aAscii = AsciiNumberLetterA + i;
-                System.Console.SetCursorPosition(i * GameBoard.FieldWidth + GameBoard.FieldWidth / 2 + 3, board.RowCount * GameBoard.FieldHeight + 1);
-                System.Console.BackgroundColor = ConsoleColor.DarkYellow;
-                System.Console.Write((char) aAscii);
-            }
-        }
-
-        public void PrintChecker(Checker checker)
-        {
-            System.Console.SetCursorPosition(GameBoard.FieldWidth * checker.CurrentPosition.X + 6, GameBoard.FieldHeight * checker.CurrentPosition.Y + 2);
-            System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = (ConsoleColor)checker.Color;
-            System.Console.Write(C);
-            SetGameColors();
-        }
-
-        public void ShowSurrenderOption()
-        {
-            System.Console.SetCursorPosition(CursorXCoordinate, 2);
-            System.Console.Write(GlobalStrings.InformationZumAufgeben1);
-            System.Console.SetCursorPosition(CursorXCoordinate, 3);
-            System.Console.Write(GlobalStrings.InformationZumAufgeben2);
-        }
-
-        public Position? GetPosition(bool isStartCoordinate, Player player)
-        {
-            SetGameColors();
-            ClearText(CursorXCoordinate, 10);
-            ClearText(CursorXCoordinate, 11);
-            ClearText(CursorXCoordinate, 13);
-            ClearText(CursorXCoordinate, 14);
-            var enteredCoordinates = GetEnteredCoordinates(isStartCoordinate);
-            var yCoordinate = (enteredCoordinates.x - CursorYCoordinate) * -1;
-            if (!isStartCoordinate)
-            {
-                ClearText(CursorXCoordinate, 22);
-            }
-            ClearText(CursorXCoordinate, 17);
-            ClearText(CursorXCoordinate, 18);
-            ClearText(CursorXCoordinate, 21);
-            return new Position(enteredCoordinates.y, yCoordinate, player.GameDirection);
-        }
-
-        private (int x, int y) GetEnteredCoordinates(bool isStartCoordinate)
-        {
-            int xCoordinate = 0, yCoordinate = 0;
-            var valid = false;
-            char firstLetter = '\0';
-            while (valid == false)
-            {
-                System.Console.SetCursorPosition(CursorXCoordinate, 10);
-                System.Console.Write(GlobalStrings.EnterXCoordinate);
-                var enteredLetter = System.Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(enteredLetter))
-                {
-                    System.Console.SetCursorPosition(CursorXCoordinate, 11);
-                    System.Console.WriteLine(GlobalStrings.EmptyInput);
-                    continue;
-                }
-
-                firstLetter = enteredLetter.ToLower().ToCharArray().First();
-                var ascii = (int) firstLetter;
-                if (ascii >= 97  && ascii < 97 + board.ColumnCount)
-                {
-                    xCoordinate = ascii - 97;
-                    valid = true;
-                }
-                else
-                {
-                    System.Console.SetCursorPosition(CursorXCoordinate, 11);
-                    System.Console.WriteLine(GlobalStrings.FehlerUngültigerKoordinatenwert);
-                }
-            }
-            System.Console.SetCursorPosition(CursorXCoordinate, 13);
-            System.Console.Write(GlobalStrings.EnterYCoordinate);
-            while (!int.TryParse(System.Console.ReadLine(), out yCoordinate))
-            {
-                System.Console.SetCursorPosition(CursorXCoordinate, 14);
-                System.Console.WriteLine(GlobalStrings.CoordinateIsNotANumber);
-                System.Console.SetCursorPosition(CursorXCoordinate, 13);
-                System.Console.Write(GlobalStrings.EnterYCoordinate);
-            }
-            
-            if (isStartCoordinate)
-            {
-                ShowCurrentPosition(firstLetter, yCoordinate);
-            }
-            return (xCoordinate, yCoordinate);
-        }
-
-        public void ShowCurrentPosition(char x, int y)
-        {
-            System.Console.SetCursorPosition(CursorXCoordinate, 22);
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.Write(GlobalStrings.SelektiertePosition, x, y);
-        }
-
-        public void MoveChecker(Checker checkerToMove)
-        {
-            System.Console.SetCursorPosition(GameBoard.FieldWidth * checkerToMove.CurrentPosition.X + 6, GameBoard.FieldHeight * checkerToMove.CurrentPosition.Y + 2);
-            System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = (ConsoleColor)checkerToMove.Color;
-            PrintChecker(checkerToMove.IsQueen);
-        }
-
-        public void RemoveChecker(Checker geschlagenerSpielstein)
-        {
-            System.Console.SetCursorPosition(GameBoard.FieldWidth * geschlagenerSpielstein.CurrentPosition.X + 6, GameBoard.FieldHeight * geschlagenerSpielstein.CurrentPosition.Y + 2);
-            System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = (ConsoleColor)geschlagenerSpielstein.Color;
-            System.Console.Write(" ");
-        }
-
-        private static void PrintChecker(bool isQueen)
-        {
-            System.Console.Write(isQueen ? Q : C);
-        }
-
-        public void TransformCheckerToQueen(Position positionSpielstein)
-        {
-            SetGameColors();
-            var xKoordinateUmgewandelt = Convert.ToChar(positionSpielstein.X + 97);
-            var yKoordinateUmgewandelt = (positionSpielstein.Y - CursorYCoordinate) * - 1;
-            System.Console.SetCursorPosition(CursorXCoordinate, 21);
-            System.Console.WriteLine(GlobalStrings.UmwandlungSpielsteinInDame, xKoordinateUmgewandelt, yKoordinateUmgewandelt);
-        }
-
-        public void TryMovingEnemyChecker()
-        {
-            SetGameColors();
-            System.Console.SetCursorPosition(CursorXCoordinate, 17);
-            System.Console.WriteLine(GlobalStrings.SelektiereGegnerischenSpielstein);
-        }
-
-        public void MoveCheckerOnWhiteField()
-        {
-            System.Console.SetCursorPosition(CursorXCoordinate, 17);
-            System.Console.WriteLine(GlobalStrings.PlatziereSpielsteinAufWeißesFeld);
-        }
-
-        public void TryMovingCheckerToFarAway()
-        {
-            System.Console.SetCursorPosition(CursorXCoordinate, 17);
-            System.Console.WriteLine(GlobalStrings.UngültigeBewegung);
-            System.Console.SetCursorPosition(CursorXCoordinate, 18);
-            System.Console.WriteLine(GlobalStrings.ÜngültigeBewegungHinweis);
-        }
-
-        public void SelectEmptyField()
-        {
-            SetGameColors();
-            System.Console.SetCursorPosition(CursorXCoordinate, 17);
-            System.Console.WriteLine(GlobalStrings.SelektiereLeeresFeld);
-        }
-
-        public void MoveCheckerOnOccupiedField()
-        {
-            System.Console.SetCursorPosition(CursorXCoordinate, 17);
-            System.Console.WriteLine(GlobalStrings.FeldBereitsBesetzt);
-        }
-
-        public void MovingNotPossible()
-        {
-            SetGameColors();
-            System.Console.SetCursorPosition(CursorXCoordinate, 17);
-            System.Console.WriteLine(GlobalStrings.SpielsteinIstNichtBewegbar1);
-            System.Console.SetCursorPosition(CursorXCoordinate, 18);
-            System.Console.WriteLine(GlobalStrings.SpielsteinIstNichtBewegbar2);
-        }
-
-        public void ShowPlayerTurn(string playerName, Colors checkerColor)
-        {   
-            SetGameColors();
-            ClearText(CursorXCoordinate, 6);
-            System.Console.SetCursorPosition(CursorXCoordinate, 6);
-            System.Console.Write(GlobalStrings.SpielerIstAmSpielzug, playerName, checkerColor);
-            System.Console.SetCursorPosition(CursorXCoordinate, 7);
-            System.Console.WriteLine(GameTurnSeparator);
-        }
-
-        public void ShowPossibleJump(char x, int y)
-        {
-            SetGameColors();
-            ClearText(CursorXCoordinate, 18);
-            System.Console.SetCursorPosition(CursorXCoordinate, 17);
-            System.Console.WriteLine(GlobalStrings.SprungWurdeGefunden);
-            System.Console.SetCursorPosition(CursorXCoordinate, 18);
-            System.Console.Write(GlobalStrings.SpielsteinHatSprung, x, y);
-        }
-
-        public void ShowTwoPossibleJumps(char xRight, int yRight, char xLeft, int yLeft)
-        {
-            SetGameColors();
-            System.Console.SetCursorPosition(CursorXCoordinate, 17);
-            System.Console.WriteLine(GlobalStrings.Sprung2SpielsteineWurdeGefunden);
-            System.Console.SetCursorPosition(CursorXCoordinate, 18);
-            System.Console.Write(GlobalStrings.ZweiSpielsteineHabenSprung, xRight, yRight, xLeft, yLeft);
-        }
-
-        public void ShowPossibleJumpCount(List<Checker> spielsteine)
-        {
-            SetGameColors();
-            // Umgewandelte x und y Koordinaten des ERSTEN gefundenen Spielsteins, welcher über einen Sprung verfügt
-            var xKoordinateUmgewandelt = Convert.ToChar(spielsteine[0].CurrentPosition.X + 97);
-            var yKoordinateUmgewandelt = (spielsteine[0].CurrentPosition.Y - CursorYCoordinate) * -1;
-
-            System.Console.SetCursorPosition(CursorXCoordinate, 21);
-            System.Console.WriteLine(GlobalStrings.TwoCheckerJumpsAvailable, xKoordinateUmgewandelt, yKoordinateUmgewandelt, spielsteine[0].JumpCount);
-            // Wenn der zweite Spielstein nicht null ist, bedeutet es, dass zwei verschiedene Spielsteine gleichzeitig springen können
-            if (spielsteine.Count == 2)
-            {
-                // Umgewandelte x und y Koordinaten des ZWEITEN gefundenen Spielsteins, welcher über einen Sprung verfügt
-                var xKoordinate2Umgewandelt = Convert.ToChar(spielsteine[1].CurrentPosition.X + 97);
-                var yKoordinate2Umgewandelt = (spielsteine[1].CurrentPosition.Y - CursorYCoordinate) * -1;
-                System.Console.SetCursorPosition(CursorXCoordinate, 22);
-                System.Console.WriteLine(GlobalStrings.TwoCheckerJumpsAvailable, xKoordinate2Umgewandelt, yKoordinate2Umgewandelt, spielsteine[1].JumpCount);
-            }
-        }
-
-        public void CheckerHasLessJumps(Checker spielstein)
-        {
-            ClearText(CursorXCoordinate, 21);
-            ClearText(CursorXCoordinate, 22);
-            SetGameColors();
-            var xKoordinateUmgewandelt = Convert.ToChar(spielstein.CurrentPosition.X + 97);
-            var yKoordinateUmgewandelt = (spielstein.CurrentPosition.Y - CursorYCoordinate) * -1;
-            System.Console.SetCursorPosition(CursorXCoordinate, 21);
-            System.Console.WriteLine(GlobalStrings.SpielsteinHatWenigerSprünge);
-            System.Console.SetCursorPosition(CursorXCoordinate, 22);
-            System.Console.WriteLine(GlobalStrings.HinweisSelektiereAnderenSpielstein, xKoordinateUmgewandelt, yKoordinateUmgewandelt);
-        }
-
-        public void ForceJump(List<Position> sprungPositionen)
-        {
-            SetGameColors();
-            var xKoordinate1 = Convert.ToChar(sprungPositionen.ElementAt(0).X + 97);
-            var yKoordinate1 = (sprungPositionen.ElementAt(0).Y - CursorYCoordinate) * -1;
-
-            if (sprungPositionen.Count == 1)
-            {
-                System.Console.SetCursorPosition(CursorXCoordinate, 18);
-                System.Console.WriteLine(GlobalStrings.EineSprungPositionVorhanden, xKoordinate1, yKoordinate1);
-            }
-            else if (sprungPositionen.Count == 2)
-            {
-                var xKoordinate2 = Convert.ToChar(sprungPositionen.ElementAt(1).X + 97);
-                var yKoordinate2 = (sprungPositionen.ElementAt(1).Y - CursorYCoordinate) * -1;
-                System.Console.SetCursorPosition(CursorXCoordinate, 18);
-                System.Console.WriteLine(GlobalStrings.ZweiSprungPositionenVorhanden, xKoordinate1, yKoordinate1, xKoordinate2, yKoordinate2);
-            }
-            else if (sprungPositionen.Count == 3)
-            {
-                var xKoordinate2 = Convert.ToChar(sprungPositionen.ElementAt(1).X + 97);
-                var yKoordinate2 = (sprungPositionen.ElementAt(1).Y - CursorYCoordinate) * -1;
-                var xKoordinate3 = Convert.ToChar(sprungPositionen.ElementAt(2).X + 97);
-                var yKoordinate3 = (sprungPositionen.ElementAt(2).Y - CursorYCoordinate) * -1;
-                System.Console.SetCursorPosition(CursorXCoordinate, 18);
-                System.Console.WriteLine(GlobalStrings.DreiSprungPositionenVorhanden, xKoordinate1, yKoordinate1, xKoordinate2, yKoordinate2, xKoordinate3, yKoordinate3);
-            }
-            else if (sprungPositionen.Count == 4)
-            {
-                var xKoordinate2 = Convert.ToChar(sprungPositionen.ElementAt(1).X + 97);
-                var yKoordinate2 = (sprungPositionen.ElementAt(1).Y - CursorYCoordinate) * -1;
-                var xKoordinate3 = Convert.ToChar(sprungPositionen.ElementAt(2).X + 97);
-                var yKoordinate3 = (sprungPositionen.ElementAt(2).Y - CursorYCoordinate) * -1;
-                var xKoordinate4 = Convert.ToChar(sprungPositionen.ElementAt(3).X + 97);
-                var yKoordinate4 = (sprungPositionen.ElementAt(3).Y - CursorYCoordinate) * -1;
-                System.Console.SetCursorPosition(CursorXCoordinate, 18);
-                System.Console.WriteLine(GlobalStrings.VierSprungPositionenVorhanden, xKoordinate1, yKoordinate1, xKoordinate2, yKoordinate2, xKoordinate3, yKoordinate3, xKoordinate4, yKoordinate4);
-            }
-        }
-
-        public void BeatChecker()
-        {
-            SetGameColors();
-            System.Console.SetCursorPosition(CursorXCoordinate, 18);
-            System.Console.WriteLine(GlobalStrings.SchlageSpielstein);
-        }
-
-        public void ShowCurrentCheckerAmount(string spieler1Name, int anzahlSpielsteineSpieler1, string spieler2Name, int anzahlSpielsteineSpieler2)
-        {
-            const string checkerAmountFormat = "                  {0}: {1}  |  {2}: {3}";
-            var xPosition1 = 0;
-            var xPosition2 = 0;
-            switch (board.Variant)
-            {
-                case Variant.European:
-                    xPosition1 = 27;
-                    xPosition2 = 28;
-                    break;
-                case Variant.American:
-                    xPosition1 = 33;
-                    xPosition2 = 34;
-                    break;
+                var letter = (char)('a' + col);
+                System.Console.Write(new string(' ', CellWidth / 2 - 1) + letter + new string(' ', CellWidth - CellWidth / 2));
             }
 
-            SetGameColors();
-            System.Console.SetCursorPosition(3, xPosition1);
-            System.Console.WriteLine(GlobalStrings.HinweisAnzahlSpielsteine);
-            System.Console.SetCursorPosition(3, xPosition2);
-            System.Console.Write(checkerAmountFormat, spieler1Name, anzahlSpielsteineSpieler1, spieler2Name, anzahlSpielsteineSpieler2);
-        }
-
-        public void ShowPassedTime(Stopwatch zeitMessung)
-        {
-            var gameTime = $"{GlobalStrings.GameTime} {0:00}:{1:00}";
-            System.Console.SetCursorPosition(3, 26);
-            System.Console.Write(gameTime, zeitMessung.Elapsed.Minutes, zeitMessung.Elapsed.Seconds);
-        }
-
-        public void ClearText(int xPosition, int yPosition)
-        {
-            System.Console.SetCursorPosition(xPosition, yPosition);
-            System.Console.Write(EmptyField);
-        }
-
-        public void SetGameColors()
-        {
-            System.Console.BackgroundColor = ConsoleColor.DarkYellow;
-            System.Console.ForegroundColor = ConsoleColor.Black;
-        }
-
-        public void PlayerHasSurrendered(Player verlierer, Player gewinner)
-        {
-            SetGameColors();
-            System.Console.SetCursorPosition(CursorXCoordinate, 22);
-            System.Console.WriteLine(GlobalStrings.VerliererDerPartie, verlierer.Name.ToUpper());
-            System.Console.SetCursorPosition(CursorXCoordinate, 24);
-            System.Console.WriteLine(GlobalStrings.GewinnerDerPartie, gewinner.Name.ToUpper());
             System.Console.WriteLine();
         }
-        public void ShowWinner(string gewinnerName)
+
+        private static void DrawCell(CheckersGame game, Square square, int line, PlayerInfo bottom, PlayerInfo top)
         {
-            SetGameColors();
-            System.Console.SetCursorPosition(CursorXCoordinate, 22);
-            System.Console.WriteLine(GlobalStrings.GewinnerDerPartie, gewinnerName.ToUpper());
+            var dark = game.IsDarkSquare(square);
+            System.Console.BackgroundColor = dark ? ConsoleColor.DarkGray : ConsoleColor.Gray;
+            var piece = game.PieceAt(square);
+            if (piece == null || line != 0)
+            {
+                System.Console.Write(new string(' ', CellWidth));
+                return;
+            }
+
+            var owner = piece.Value.Side == Side.Bottom ? bottom : top;
+            System.Console.ForegroundColor = ToConsoleColor(owner.Color);
+            var glyph = piece.Value.IsKing ? "K" : "O";
+            System.Console.Write(new string(' ', CellWidth / 2 - 1) + glyph + new string(' ', CellWidth - CellWidth / 2));
         }
-        public void QuitGame()
+
+        public static string FormatMove(CheckersGame game, Move move)
         {
-            System.Console.SetCursorPosition(60, 24);
-            System.Console.WriteLine(GlobalStrings.SpielBeenden);
-            System.Console.SetCursorPosition(60, 25);
-            System.Console.WriteLine(GlobalStrings.VerabschiedeNutzer);
+            var separator = move.IsCapture ? " x " : " - ";
+            return string.Join(separator, move.Path.Select(game.ToNotation));
+        }
+
+        public void ShowLegalMoves(CheckersGame game)
+        {
+            var moves = game.GetLegalMoves();
+            System.Console.WriteLine($"Possible moves ({moves.Count}):");
+            System.Console.WriteLine(string.Join("   ", moves.Select(m => FormatMove(game, m))));
+        }
+
+        public void ShowHelp()
+        {
+            ClearScreen();
+            System.Console.WriteLine(Separator);
+            System.Console.WriteLine("  Help");
+            System.Console.WriteLine(Separator);
+            System.Console.WriteLine("Goal: capture all pieces of your opponent or leave him without a legal move.");
+            System.Console.WriteLine();
+            System.Console.WriteLine("Entering moves: type the squares, e.g.  c3 d4   or  c3-d4.");
+            System.Console.WriteLine("For multiple jumps type every landing square, e.g.  c3 e5 g7");
+            System.Console.WriteLine("(start and end alone are enough when they are unambiguous).");
+            System.Console.WriteLine("Commands: moves = list your possible moves, help, surrender, quit (back to menu).");
+            System.Console.WriteLine();
+            System.Console.WriteLine("Common rules:");
+            System.Console.WriteLine(" - Pieces move diagonally on the dark squares; the bottom player starts.");
+            System.Console.WriteLine(" - Captures are mandatory. A piece cannot be jumped twice in one turn.");
+            System.Console.WriteLine(" - A man reaching the far row becomes a king (K).");
+            System.Console.WriteLine();
+            System.Console.WriteLine("American (8x8): men move and capture forward only; kings move and capture one square");
+            System.Console.WriteLine("  in any direction. You may choose any capture sequence. A man that is crowned while");
+            System.Console.WriteLine("  capturing ends its turn.");
+            System.Console.WriteLine("European (10x10): men capture forward and backward; kings fly over any number of free");
+            System.Console.WriteLine("  squares; you must take the capture sequence with the most pieces.");
+            System.Console.WriteLine("A game is a draw after a long series of king-only moves without a capture.");
+            System.Console.WriteLine();
+            WaitForEnter();
+        }
+
+        public void ShowAbout()
+        {
+            ClearScreen();
+            System.Console.WriteLine(Separator);
+            System.Console.WriteLine("  Checkers - console edition");
+            System.Console.WriteLine("  American and European draughts for two players.");
+            System.Console.WriteLine(Separator);
+            WaitForEnter();
+        }
+
+        public bool Confirm(string question)
+        {
+            while (true)
+            {
+                switch (Ask($"{question} (y/n): ").ToLowerInvariant())
+                {
+                    case "y":
+                    case "yes":
+                        return true;
+                    case "n":
+                    case "no":
+                        return false;
+                }
+            }
+        }
+
+        public void ShowResult(CheckersGame game, PlayerInfo bottom, PlayerInfo top, string? message = null)
+        {
+            ShowGame(game, bottom, top, message);
+            System.Console.WriteLine(Separator);
+            switch (game.Status)
+            {
+                case GameStatus.BottomWins:
+                    ShowMessage($"Congratulations {bottom.Name}, you have won the game!");
+                    break;
+                case GameStatus.TopWins:
+                    ShowMessage($"Congratulations {top.Name}, you have won the game!");
+                    break;
+                case GameStatus.Draw:
+                    ShowMessage("The game ended in a draw.");
+                    break;
+            }
+        }
+
+        public void ShowSurrender(PlayerInfo loser, PlayerInfo winner)
+        {
+            ShowMessage($"{loser.Name} has surrendered. {winner.Name} wins the game!");
+        }
+
+        public void ShowGoodbye()
+        {
+            ShowMessage("Thanks for playing. Goodbye!");
         }
     }
 }
