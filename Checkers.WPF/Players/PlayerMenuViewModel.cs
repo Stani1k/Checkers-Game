@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Checkers.Tools;
+using Checkers.Tools.Models;
 using Checkers.WPF.Commands;
 
 namespace Checkers.WPF.Players;
@@ -10,6 +11,9 @@ public class PlayerMenuViewModel : ViewModelBase
 
     public UpdateViewCommand UpdateViewCommand { get; }
     public List<PlayerViewModel> Players { get; set; }
+    public IReadOnlyList<Variant> Variants { get; } = new[] { Variant.American, Variant.European };
+
+    public Variant SelectedVariant { get; set; } = Variant.American;
     
     public PlayerMenuViewModel(UpdateViewCommand updateViewCommand)
     {

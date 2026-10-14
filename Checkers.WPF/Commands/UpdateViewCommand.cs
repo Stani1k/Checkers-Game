@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Input;
 using Checkers.Tools.Models;
 using Checkers.WPF.Settings;
@@ -36,6 +36,8 @@ public class UpdateViewCommand : ICommand
         }
         else if (parameter.ToString() == MenuOption.StartGame.ToString())
         {
+            var players = _viewModel.PlayerMenuViewModel;
+            _viewModel.GameViewModel.StartNewGame(players.SelectedVariant, players.Players[0].PlayerName, players.Players[1].PlayerName);
             _viewModel.SelectedViewModel = _viewModel.GameViewModel;
         }
     }

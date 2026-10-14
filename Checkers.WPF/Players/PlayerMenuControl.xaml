@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Checkers.WPF.Players.PlayerMenuControl"
+<UserControl x:Class="Checkers.WPF.Players.PlayerMenuControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -75,6 +75,10 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+            <TextBlock Text="Variant" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <ComboBox ItemsSource="{Binding Variants}" SelectedItem="{Binding SelectedVariant}" MinWidth="150" />
+        </StackPanel>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center">
             <Button Content="Main Menu"
@@ -90,3 +94,4 @@
         </StackPanel>
     </StackPanel>
 </UserControl>
+

@@ -49,7 +49,10 @@ namespace Checkers.Console.Views
             }
             catch (IOException)
             {
-                // Output is redirected; nothing to clear.
+                // No real terminal (e.g. IDE output window): try an ANSI clear and separate screens visually.
+                System.Console.Write("\u001b[2J\u001b[3J\u001b[H");
+                System.Console.WriteLine();
+                System.Console.WriteLine("==================== new screen ====================");
             }
         }
 
