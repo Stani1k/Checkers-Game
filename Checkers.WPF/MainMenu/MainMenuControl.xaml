@@ -43,6 +43,8 @@
                         Command="{Binding UpdateViewCommand}" CommandParameter="ContinueGame" />
                 <Button Content="Play" Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Play" />
+                <Button Content="Rules" Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding UpdateViewCommand}" CommandParameter="Rules" />
                 <Button Content="Settings" Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Settings" />
                 <Button Content="Quit" Style="{StaticResource PrimaryButtonStyle}"

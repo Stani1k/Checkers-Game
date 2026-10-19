@@ -4,6 +4,7 @@
                     xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu"
                     xmlns:converters="clr-namespace:Checkers.WPF.Converters"
                     xmlns:players="clr-namespace:Checkers.WPF.Players"
+                    xmlns:rules="clr-namespace:Checkers.WPF.Rules"
                     xmlns:game="clr-namespace:Checkers.WPF.Game">
     
     <!-- Converters -->
@@ -21,6 +22,9 @@
     
     <DataTemplate DataType="{x:Type players:PlayerMenuViewModel}">
         <players:PlayerMenuControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type rules:RulesViewModel}">
+        <rules:RulesControl />
     </DataTemplate>
     <DataTemplate DataType="{x:Type game:GameViewModel}">
         <game:GameControl />

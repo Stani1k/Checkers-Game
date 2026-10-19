@@ -26,6 +26,19 @@ public class UpdateViewCommand : ICommand
         {
             _viewModel.SelectedViewModel = _viewModel.SettingsViewModel;
         }
+        else if (parameter.ToString() == MenuOption.Rules.ToString())
+        {
+            if (_viewModel.SelectedViewModel != _viewModel.RulesViewModel)
+            {
+                _viewModel.ViewBeforeRules = _viewModel.SelectedViewModel;
+            }
+
+            _viewModel.SelectedViewModel = _viewModel.RulesViewModel;
+        }
+        else if (parameter.ToString() == MenuOption.Back.ToString())
+        {
+            _viewModel.SelectedViewModel = _viewModel.ViewBeforeRules ?? _viewModel.MainMenuViewModel;
+        }
         else if (parameter.ToString() == MenuOption.Play.ToString())
         {
             _viewModel.SelectedViewModel = _viewModel.PlayerMenuViewModel;

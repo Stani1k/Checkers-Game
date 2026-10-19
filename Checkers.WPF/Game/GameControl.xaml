@@ -102,6 +102,8 @@
                 <TextBlock Text="{Binding ScoreText}" Style="{StaticResource SubtitleTextStyle}" Margin="0,0,0,24" />
                 <Button Content="New Game" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding NewGameCommand}" />
                 <Button Content="Save Game" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveGameCommand}" />
+                <Button Content="Rules" Style="{StaticResource SecondaryButtonStyle}"
+                        Command="{Binding UpdateViewCommand}" CommandParameter="Rules" />
                 <Button Content="Main Menu" Style="{StaticResource SecondaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" />
             </StackPanel>

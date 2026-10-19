@@ -8,6 +8,8 @@ public enum MenuOption
     ContinueGame,
     Settings,
     Help,
+    Rules,
+    Back,
     About,
     Quit,
     None
