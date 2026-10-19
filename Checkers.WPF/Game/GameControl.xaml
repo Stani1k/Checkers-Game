@@ -32,6 +32,8 @@
                                            Visibility="Collapsed" />
                                 <Ellipse x:Name="Piece" Margin="10" Visibility="Collapsed"
                                          Fill="{StaticResource LightPieceFillBrush}" Stroke="{StaticResource LightPieceStrokeBrush}" StrokeThickness="3" />
+                                <Ellipse x:Name="MovableRing" Margin="6" Stroke="{StaticResource SelectionBrush}" StrokeThickness="3"
+                                         StrokeDashArray="2 1.5" Visibility="Collapsed" />
                                 <TextBlock x:Name="Crown" Text="♛" FontSize="34" Foreground="{StaticResource CrownBrush}"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"
                                            Visibility="Collapsed" />
@@ -58,6 +60,13 @@
                                 <DataTrigger Binding="{Binding IsKing}" Value="True">
                                     <Setter TargetName="Crown" Property="Visibility" Value="Visible" />
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding IsMovable}" Value="True">
+                                    <Setter TargetName="MovableRing" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsWaiting}" Value="True">
+                                    <Setter TargetName="Piece" Property="Opacity" Value="0.55" />
+                                    <Setter TargetName="Crown" Property="Opacity" Value="0.55" />
+                                </DataTrigger>
                                 <DataTrigger Binding="{Binding IsTarget}" Value="True">
                                     <Setter TargetName="Target" Property="Visibility" Value="Visible" />
                                 </DataTrigger>
@@ -70,7 +79,26 @@
 
         <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="30,0,0,0" VerticalAlignment="Center" MinWidth="340">
             <StackPanel>
-                <TextBlock Text="{Binding StatusText}" Style="{StaticResource HeadingTextStyle}" TextWrapping="Wrap" />
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <Ellipse Width="36" Height="36" StrokeThickness="3" Margin="0,0,12,0" VerticalAlignment="Center"
+                             Fill="{StaticResource LightPieceFillBrush}" Stroke="{StaticResource LightPieceStrokeBrush}">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TurnIsTop}" Value="True">
+                                        <Setter Property="Fill" Value="{StaticResource DarkPieceFillBrush}" />
+                                        <Setter Property="Stroke" Value="{StaticResource DarkPieceStrokeBrush}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsGameInProgress}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <TextBlock Text="{Binding StatusText}" Style="{StaticResource HeadingTextStyle}" TextWrapping="Wrap"
+                               VerticalAlignment="Center" MaxWidth="270" />
+                </StackPanel>
                 <TextBlock Text="{Binding ScoreText}" Style="{StaticResource SubtitleTextStyle}" Margin="0,0,0,24" />
                 <Button Content="New Game" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding NewGameCommand}" />
                 <Button Content="Save Game" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveGameCommand}" />

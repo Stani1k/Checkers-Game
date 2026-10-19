@@ -9,6 +9,8 @@ public sealed class SquareViewModel : ViewModelBase
     private bool _isSelected;
     private bool _isTarget;
     private bool _isLastMove;
+    private bool _isMovable;
+    private bool _isWaiting;
 
     public SquareViewModel(int col, int row, bool isDark)
     {
@@ -66,6 +68,30 @@ public sealed class SquareViewModel : ViewModelBase
         {
             if (_isLastMove == value) return;
             _isLastMove = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>The piece belongs to the player on turn and has a legal move.</summary>
+    public bool IsMovable
+    {
+        get => _isMovable;
+        set
+        {
+            if (_isMovable == value) return;
+            _isMovable = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>The piece belongs to the player who is not on turn.</summary>
+    public bool IsWaiting
+    {
+        get => _isWaiting;
+        set
+        {
+            if (_isWaiting == value) return;
+            _isWaiting = value;
             OnPropertyChanged();
         }
     }

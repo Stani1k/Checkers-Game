@@ -24,6 +24,8 @@ public class GameViewModel : ViewModelBase
     private string _statusText = string.Empty;
     private string _scoreText = string.Empty;
     private int _boardSize;
+    private bool _turnIsTop;
+    private bool _isGameInProgress;
 
     public UpdateViewCommand UpdateViewCommand { get; }
     public ICommand SquareClickCommand { get; }
@@ -40,6 +42,28 @@ public class GameViewModel : ViewModelBase
         {
             if (_boardSize == value) return;
             _boardSize = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool TurnIsTop
+    {
+        get => _turnIsTop;
+        private set
+        {
+            if (_turnIsTop == value) return;
+            _turnIsTop = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IsGameInProgress
+    {
+        get => _isGameInProgress;
+        private set
+        {
+            if (_isGameInProgress == value) return;
+            _isGameInProgress = value;
             OnPropertyChanged();
         }
     }
@@ -187,6 +211,8 @@ public class GameViewModel : ViewModelBase
                    .Select(m => m.Path[_path.Count])
                    .ToHashSet();
         var lastMove = _game.LastMove?.Path.ToHashSet() ?? new HashSet<Square>();
+        var inProgress = _game.Status == GameStatus.InProgress;
+        var movable = moves.Select(m => m.From).ToHashSet();
 
         foreach (var vm in Squares)
         {
@@ -194,7 +220,12 @@ public class GameViewModel : ViewModelBase
             vm.IsSelected = _path.Contains(vm.Square);
             vm.IsTarget = targets.Contains(vm.Square);
             vm.IsLastMove = lastMove.Contains(vm.Square);
+            vm.IsMovable = inProgress && movable.Contains(vm.Square);
+            vm.IsWaiting = inProgress && vm.Piece is { } p && p.Side != _game.Turn;
         }
+
+        TurnIsTop = _game.Turn == Side.Top;
+        IsGameInProgress = inProgress;
 
         StatusText = _game.Status switch
         {
