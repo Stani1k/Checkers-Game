@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Checkers.Tools;
+using Checkers.Tools.Engine;
 using Checkers.WPF.Commands;
 using Checkers.WPF.Game;
 using Checkers.WPF.MainMenu;
@@ -19,11 +20,12 @@ public class MainViewModel : ViewModelBase
 
     public MainViewModel()
     {
+        var saveService = new GameSaveService();
         var updateViewCommand = new UpdateViewCommand(this);
-        MainMenuViewModel = new MainMenuViewModel(updateViewCommand);
+        MainMenuViewModel = new MainMenuViewModel(updateViewCommand, saveService);
         SettingsViewModel = new SettingsViewModel(updateViewCommand);
         PlayerMenuViewModel = new PlayerMenuViewModel(updateViewCommand);
-        GameViewModel = new GameViewModel(updateViewCommand);
+        GameViewModel = new GameViewModel(updateViewCommand, saveService);
         _selectedViewModel = MainMenuViewModel;
     }
     

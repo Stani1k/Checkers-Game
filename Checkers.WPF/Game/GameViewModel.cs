@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -14,6 +16,8 @@ public class GameViewModel : ViewModelBase
     private const int BoardPixels = 720;
 
     private CheckersGame _game = new(Variant.American);
+    private readonly GameSaveService _saveService;
+    private string _saveMessage = string.Empty;
     private readonly List<Square> _path = new();
     private string _bottomPlayerName = "Player 1";
     private string _topPlayerName = "Player 2";
@@ -24,6 +28,7 @@ public class GameViewModel : ViewModelBase
     public UpdateViewCommand UpdateViewCommand { get; }
     public ICommand SquareClickCommand { get; }
     public ICommand NewGameCommand { get; }
+    public ICommand SaveGameCommand { get; }
     public ObservableCollection<SquareViewModel> Squares { get; } = new();
 
     public int BoardWidthAndHeight => BoardPixels;
@@ -61,11 +66,13 @@ public class GameViewModel : ViewModelBase
         }
     }
 
-    public GameViewModel(UpdateViewCommand updateViewCommand)
+    public GameViewModel(UpdateViewCommand updateViewCommand, GameSaveService saveService)
     {
         UpdateViewCommand = updateViewCommand;
+        _saveService = saveService;
         SquareClickCommand = new RelayCommand<SquareViewModel>(OnSquareClicked);
         NewGameCommand = new RelayCommand(() => StartNewGame(_game.Variant, _bottomPlayerName, _topPlayerName));
+        SaveGameCommand = new RelayCommand(SaveGame);
         StartNewGame(Variant.American, _bottomPlayerName, _topPlayerName);
     }
 
@@ -73,8 +80,48 @@ public class GameViewModel : ViewModelBase
     {
         _bottomPlayerName = string.IsNullOrWhiteSpace(bottomPlayerName) ? "Player 1" : bottomPlayerName.Trim();
         _topPlayerName = string.IsNullOrWhiteSpace(topPlayerName) ? "Player 2" : topPlayerName.Trim();
-        _game = new CheckersGame(variant);
+        SetGame(new CheckersGame(variant));
+    }
+
+    /// <summary>Loads the saved game; returns false when there is no valid save.</summary>
+    public bool LoadSavedGame(out string error)
+    {
+        if (!_saveService.TryLoad(out var data, out var game, out error) || data == null || game == null)
+        {
+            return false;
+        }
+
+        _bottomPlayerName = string.IsNullOrWhiteSpace(data.BottomPlayerName) ? "Player 1" : data.BottomPlayerName.Trim();
+        _topPlayerName = string.IsNullOrWhiteSpace(data.TopPlayerName) ? "Player 2" : data.TopPlayerName.Trim();
+        SetGame(game);
+        return true;
+    }
+
+    private void SaveGame()
+    {
+        if (_game.Status != GameStatus.InProgress)
+        {
+            return;
+        }
+
+        try
+        {
+            _saveService.Save(GameSaveData.From(_game, _bottomPlayerName, _topPlayerName));
+            _saveMessage = "Game saved.";
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _saveMessage = "Could not save the game.";
+        }
+
+        Refresh();
+    }
+
+    private void SetGame(CheckersGame game)
+    {
+        _game = game;
         _path.Clear();
+        _saveMessage = string.Empty;
 
         Squares.Clear();
         for (var row = 0; row < _game.Size; row++)
@@ -96,6 +143,7 @@ public class GameViewModel : ViewModelBase
     private void OnSquareClicked(SquareViewModel? clicked)
     {
         if (clicked == null || _game.Status != GameStatus.InProgress) return;
+        _saveMessage = string.Empty;
 
         var square = clicked.Square;
         var moves = _game.GetLegalMoves();
@@ -159,5 +207,9 @@ public class GameViewModel : ViewModelBase
         };
         ScoreText = $"{_bottomPlayerName} (light): {_game.CountPieces(Side.Bottom)}    " +
                     $"{_topPlayerName} (dark): {_game.CountPieces(Side.Top)}";
+        if (_saveMessage.Length > 0)
+        {
+            ScoreText += $"{Environment.NewLine}{_saveMessage}";
+        }
     }
 }

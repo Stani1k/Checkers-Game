@@ -5,6 +5,7 @@ public enum MenuOption
     MainMenu,
     Play,
     StartGame,
+    ContinueGame,
     Settings,
     Help,
     About,

@@ -22,6 +22,24 @@ public sealed class CheckersGame
     public GameStatus Status { get; private set; }
     public Move? LastMove { get; private set; }
 
+    /// <summary>Plies since the last capture or man move; drives the draw rule.</summary>
+    public int QuietPlies => _quietPlies;
+
+    /// <summary>All pieces on the board, for saving the position.</summary>
+    public IEnumerable<(Square Square, Piece Piece)> GetPieces()
+    {
+        for (var row = 0; row < Size; row++)
+        {
+            for (var col = 0; col < Size; col++)
+            {
+                if (_board[col, row] is { } piece)
+                {
+                    yield return (new Square(col, row), piece);
+                }
+            }
+        }
+    }
+
     private int DrawPlyLimit => Variant == Variant.American ? 80 : 50;
 
     public CheckersGame(Variant variant) : this(variant, Side.Bottom)
@@ -58,9 +76,15 @@ public sealed class CheckersGame
     }
 
     /// <summary>Creates a game from a custom position (used for tests and puzzles).</summary>
-    public static CheckersGame FromPieces(Variant variant, Side turn, IEnumerable<(Square Square, Piece Piece)> pieces)
+    public static CheckersGame FromPieces(Variant variant, Side turn, IEnumerable<(Square Square, Piece Piece)> pieces,
+        int quietPlies = 0, Move? lastMove = null)
     {
-        var game = new CheckersGame(variant, turn);
+        if (quietPlies < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(quietPlies));
+        }
+
+        var game = new CheckersGame(variant, turn) { _quietPlies = quietPlies, LastMove = lastMove };
         foreach (var (square, piece) in pieces)
         {
             if (!game.InBounds(square) || !game.IsDarkSquare(square))

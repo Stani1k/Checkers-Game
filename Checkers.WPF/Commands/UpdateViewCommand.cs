@@ -32,7 +32,22 @@ public class UpdateViewCommand : ICommand
         }
         else if (parameter.ToString() == MenuOption.MainMenu.ToString())
         {
+            _viewModel.MainMenuViewModel.ErrorMessage = string.Empty;
+            _viewModel.MainMenuViewModel.RefreshSavedGame();
             _viewModel.SelectedViewModel = _viewModel.MainMenuViewModel;
+        }
+        else if (parameter.ToString() == MenuOption.ContinueGame.ToString())
+        {
+            if (_viewModel.GameViewModel.LoadSavedGame(out var error))
+            {
+                _viewModel.MainMenuViewModel.ErrorMessage = string.Empty;
+                _viewModel.SelectedViewModel = _viewModel.GameViewModel;
+            }
+            else
+            {
+                _viewModel.MainMenuViewModel.ErrorMessage = error;
+                _viewModel.MainMenuViewModel.RefreshSavedGame();
+            }
         }
         else if (parameter.ToString() == MenuOption.StartGame.ToString())
         {

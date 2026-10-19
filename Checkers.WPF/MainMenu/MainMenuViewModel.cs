@@ -1,15 +1,49 @@
 ﻿using System.Windows.Input;
 using Checkers.Tools;
+using Checkers.Tools.Engine;
 using Checkers.WPF.Commands;
 
 namespace Checkers.WPF.MainMenu;
 
 public class MainMenuViewModel : ViewModelBase
 {
+    private readonly GameSaveService _saveService;
+    private bool _hasSavedGame;
+    private string _errorMessage = string.Empty;
+
     public UpdateViewCommand UpdateViewCommand { get; set; }
 
-    public MainMenuViewModel(UpdateViewCommand updateViewCommand)
+    public bool HasSavedGame
+    {
+        get => _hasSavedGame;
+        private set
+        {
+            if (_hasSavedGame == value) return;
+            _hasSavedGame = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set
+        {
+            if (_errorMessage == value) return;
+            _errorMessage = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(HasError));
+        }
+    }
+
+    public bool HasError => _errorMessage.Length > 0;
+
+    public MainMenuViewModel(UpdateViewCommand updateViewCommand, GameSaveService saveService)
     {
         UpdateViewCommand = updateViewCommand;
+        _saveService = saveService;
+        RefreshSavedGame();
     }
+
+    public void RefreshSavedGame() => HasSavedGame = _saveService.Exists;
 }

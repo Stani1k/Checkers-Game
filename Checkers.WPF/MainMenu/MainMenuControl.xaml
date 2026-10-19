@@ -25,6 +25,22 @@
                            Foreground="{DynamicResource MutedBrush}"
                            HorizontalAlignment="Center" Margin="0,4,0,32" />
 
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="#C0392B" TextWrapping="Wrap" MaxWidth="320"
+                           HorizontalAlignment="Center" TextAlignment="Center" Margin="0,0,0,12">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasError}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <Button Content="Continue Game" Style="{StaticResource PrimaryButtonStyle}"
+                        IsEnabled="{Binding HasSavedGame}"
+                        Command="{Binding UpdateViewCommand}" CommandParameter="ContinueGame" />
                 <Button Content="Play" Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Play" />
                 <Button Content="Settings" Style="{StaticResource PrimaryButtonStyle}"
