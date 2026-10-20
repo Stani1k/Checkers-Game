@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Checkers.Tools;
 using Checkers.Tools.Models;
+using Checkers.WPF.Localization;
 
 namespace Checkers.WPF.Players;
 
@@ -15,14 +16,17 @@ public class PlayerViewModel : ViewModelBase
     private string _groupName;
     private readonly Player _player;
 
-    public string PlayerNumberText { get; private set; }
+    private readonly int _playerNumber;
+
+    public string PlayerNumberText => Loc.Format("Players.PlayerN", _playerNumber);
     public IEnumerable<Colors> CheckerColors { get; }
     public ObservableCollection<Checker> Checkers { get; set; }
 
     public PlayerViewModel(int playerNumber)
     {
         _player = new Player();
-        PlayerNumberText = $"Player {playerNumber}";
+        _playerNumber = playerNumber;
+        Loc.Instance.LanguageChanged += (_, _) => OnPropertyChanged(nameof(PlayerNumberText));
         CheckerColors = Enum.GetValues(typeof(Colors)).Cast<Colors>();
     }
     

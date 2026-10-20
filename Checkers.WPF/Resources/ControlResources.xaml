@@ -10,6 +10,8 @@
     <!-- Converters -->
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    <converters:LocalizedEnumConverter x:Key="LocalizedEnumConverter" />
+    <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     
     <!-- Data Templates -->
     <DataTemplate DataType="{x:Type mainMenu:MainMenuViewModel}">

@@ -8,6 +8,7 @@ using Checkers.Tools;
 using Checkers.Tools.Engine;
 using Checkers.Tools.Models;
 using Checkers.WPF.Commands;
+using Checkers.WPF.Localization;
 
 namespace Checkers.WPF.Game;
 
@@ -17,10 +18,10 @@ public class GameViewModel : ViewModelBase
 
     private CheckersGame _game = new(Variant.American);
     private readonly GameSaveService _saveService;
-    private string _saveMessage = string.Empty;
+    private string _saveMessageKey = string.Empty;
     private readonly List<Square> _path = new();
-    private string _bottomPlayerName = "Player 1";
-    private string _topPlayerName = "Player 2";
+    private string _bottomPlayerName = string.Empty;
+    private string _topPlayerName = string.Empty;
     private string _statusText = string.Empty;
     private string _scoreText = string.Empty;
     private int _boardSize;
@@ -98,12 +99,13 @@ public class GameViewModel : ViewModelBase
         NewGameCommand = new RelayCommand(() => StartNewGame(_game.Variant, _bottomPlayerName, _topPlayerName));
         SaveGameCommand = new RelayCommand(SaveGame);
         StartNewGame(Variant.American, _bottomPlayerName, _topPlayerName);
+        Loc.Instance.LanguageChanged += (_, _) => Refresh();
     }
 
     public void StartNewGame(Variant variant, string bottomPlayerName, string topPlayerName)
     {
-        _bottomPlayerName = string.IsNullOrWhiteSpace(bottomPlayerName) ? "Player 1" : bottomPlayerName.Trim();
-        _topPlayerName = string.IsNullOrWhiteSpace(topPlayerName) ? "Player 2" : topPlayerName.Trim();
+        _bottomPlayerName = bottomPlayerName?.Trim() ?? string.Empty;
+        _topPlayerName = topPlayerName?.Trim() ?? string.Empty;
         SetGame(new CheckersGame(variant));
     }
 
@@ -115,8 +117,8 @@ public class GameViewModel : ViewModelBase
             return false;
         }
 
-        _bottomPlayerName = string.IsNullOrWhiteSpace(data.BottomPlayerName) ? "Player 1" : data.BottomPlayerName.Trim();
-        _topPlayerName = string.IsNullOrWhiteSpace(data.TopPlayerName) ? "Player 2" : data.TopPlayerName.Trim();
+        _bottomPlayerName = data.BottomPlayerName?.Trim() ?? string.Empty;
+        _topPlayerName = data.TopPlayerName?.Trim() ?? string.Empty;
         SetGame(game);
         return true;
     }
@@ -131,11 +133,11 @@ public class GameViewModel : ViewModelBase
         try
         {
             _saveService.Save(GameSaveData.From(_game, _bottomPlayerName, _topPlayerName));
-            _saveMessage = "Game saved.";
+            _saveMessageKey = "Game.Saved";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            _saveMessage = "Could not save the game.";
+            _saveMessageKey = "Game.SaveFailed";
         }
 
         Refresh();
@@ -145,7 +147,7 @@ public class GameViewModel : ViewModelBase
     {
         _game = game;
         _path.Clear();
-        _saveMessage = string.Empty;
+        _saveMessageKey = string.Empty;
 
         Squares.Clear();
         for (var row = 0; row < _game.Size; row++)
@@ -162,12 +164,16 @@ public class GameViewModel : ViewModelBase
 
     private SquareViewModel SquareAt(Square square) => Squares[square.Row * _game.Size + square.Col];
 
-    private string NameOf(Side side) => side == Side.Bottom ? _bottomPlayerName : _topPlayerName;
+    private string NameOf(Side side)
+    {
+        var name = side == Side.Bottom ? _bottomPlayerName : _topPlayerName;
+        return name.Length > 0 ? name : Loc.Format("Players.PlayerN", side == Side.Bottom ? 1 : 2);
+    }
 
     private void OnSquareClicked(SquareViewModel? clicked)
     {
         if (clicked == null || _game.Status != GameStatus.InProgress) return;
-        _saveMessage = string.Empty;
+        _saveMessageKey = string.Empty;
 
         var square = clicked.Square;
         var moves = _game.GetLegalMoves();
@@ -229,18 +235,16 @@ public class GameViewModel : ViewModelBase
 
         StatusText = _game.Status switch
         {
-            GameStatus.BottomWins => $"{_bottomPlayerName} wins!",
-            GameStatus.TopWins => $"{_topPlayerName} wins!",
-            GameStatus.Draw => "Draw.",
-            _ => moves.Any(m => m.IsCapture)
-                ? $"{NameOf(_game.Turn)}'s turn - you must capture."
-                : $"{NameOf(_game.Turn)}'s turn."
+            GameStatus.BottomWins => Loc.Format("Game.Wins", NameOf(Side.Bottom)),
+            GameStatus.TopWins => Loc.Format("Game.Wins", NameOf(Side.Top)),
+            GameStatus.Draw => Loc.Get("Game.Draw"),
+            _ => Loc.Format(moves.Any(m => m.IsCapture) ? "Game.TurnCapture" : "Game.Turn", NameOf(_game.Turn))
         };
-        ScoreText = $"{_bottomPlayerName} (light): {_game.CountPieces(Side.Bottom)}    " +
-                    $"{_topPlayerName} (dark): {_game.CountPieces(Side.Top)}";
-        if (_saveMessage.Length > 0)
+        ScoreText = Loc.Format("Game.Score", NameOf(Side.Bottom), _game.CountPieces(Side.Bottom),
+            NameOf(Side.Top), _game.CountPieces(Side.Top));
+        if (_saveMessageKey.Length > 0)
         {
-            ScoreText += $"{Environment.NewLine}{_saveMessage}";
+            ScoreText += $"{Environment.NewLine}{Loc.Get(_saveMessageKey)}";
         }
     }
 }

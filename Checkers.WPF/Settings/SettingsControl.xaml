@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Checkers.WPF.Settings"
+             xmlns:loc="clr-namespace:Checkers.WPF.Localization"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance local:SettingsViewModel}">
@@ -11,20 +12,27 @@
     <Border Style="{StaticResource CardStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"
             Padding="48,40" MinWidth="420">
         <StackPanel>
-            <TextBlock Text="Settings" Style="{StaticResource TitleTextStyle}" Margin="0,0,0,28" />
+            <TextBlock Text="{loc:T Settings.Title}" Style="{StaticResource TitleTextStyle}" Margin="0,0,0,28" />
 
-            <TextBlock Text="Language" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,6" />
-            <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0,0,0,24" />
+            <TextBlock Text="{loc:T Settings.Language}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,6" />
+            <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Margin="0,0,0,24">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource LocalizedEnumConverter}, ConverterParameter=Language}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
-            <TextBlock Text="Theme" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,8" />
+            <TextBlock Text="{loc:T Settings.Theme}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,8" />
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
-                <RadioButton Name="DarkMode" GroupName="theme" Content="Dark Mode" Checked="RadioButton_OnChecked" />
-                <RadioButton Name="LightMode" GroupName="theme" Content="Light Mode" Checked="RadioButton_OnChecked" />
+                <RadioButton GroupName="theme" Content="{loc:T Settings.Dark}" IsChecked="{Binding IsDarkTheme}" />
+                <RadioButton GroupName="theme" Content="{loc:T Settings.Light}"
+                             IsChecked="{Binding IsDarkTheme, Converter={StaticResource InverseBooleanConverter}}" />
             </StackPanel>
 
-            <CheckBox Content="Switch Window State" Checked="FullSizeCheckbox_OnChecked" />
+            <CheckBox Content="{loc:T Settings.Maximized}" IsChecked="{Binding IsMaximized}" />
 
-            <Button Content="Back to Main Menu" Style="{StaticResource SecondaryButtonStyle}"
+            <Button Content="{loc:T Settings.Back}" Style="{StaticResource SecondaryButtonStyle}"
                     Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" Margin="0,28,0,0" />
         </StackPanel>
     </Border>

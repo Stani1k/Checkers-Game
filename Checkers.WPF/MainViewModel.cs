@@ -25,7 +25,7 @@ public class MainViewModel : ViewModelBase
         var saveService = new GameSaveService();
         var updateViewCommand = new UpdateViewCommand(this);
         MainMenuViewModel = new MainMenuViewModel(updateViewCommand, saveService);
-        SettingsViewModel = new SettingsViewModel(updateViewCommand);
+        SettingsViewModel = new SettingsViewModel(updateViewCommand, new SettingsService());
         PlayerMenuViewModel = new PlayerMenuViewModel(updateViewCommand);
         GameViewModel = new GameViewModel(updateViewCommand, saveService);
         RulesViewModel = new RulesViewModel(updateViewCommand);

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Checkers.WPF.Game"
+             xmlns:loc="clr-namespace:Checkers.WPF.Localization"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1200"
              d:DataContext="{d:DesignInstance local:GameViewModel}">
@@ -100,11 +101,11 @@
                                VerticalAlignment="Center" MaxWidth="270" />
                 </StackPanel>
                 <TextBlock Text="{Binding ScoreText}" Style="{StaticResource SubtitleTextStyle}" Margin="0,0,0,24" />
-                <Button Content="New Game" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding NewGameCommand}" />
-                <Button Content="Save Game" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveGameCommand}" />
-                <Button Content="Rules" Style="{StaticResource SecondaryButtonStyle}"
+                <Button Content="{loc:T Game.NewGame}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding NewGameCommand}" />
+                <Button Content="{loc:T Game.Save}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveGameCommand}" />
+                <Button Content="{loc:T Game.Rules}" Style="{StaticResource SecondaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Rules" />
-                <Button Content="Main Menu" Style="{StaticResource SecondaryButtonStyle}"
+                <Button Content="{loc:T Common.MainMenu}" Style="{StaticResource SecondaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" />
             </StackPanel>
         </Border>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mainMenu="clr-namespace:Checkers.WPF.MainMenu"
+             xmlns:loc="clr-namespace:Checkers.WPF.Localization"
              mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance mainMenu:MainMenuViewModel}">
 
@@ -21,7 +22,7 @@
 
                 <TextBlock Text="CHECKERS" FontSize="48" FontWeight="Bold"
                            HorizontalAlignment="Center" />
-                <TextBlock Text="Classic board game for two players" FontSize="16"
+                <TextBlock Text="{loc:T Menu.Subtitle}" FontSize="16"
                            Foreground="{DynamicResource MutedBrush}"
                            HorizontalAlignment="Center" Margin="0,4,0,32" />
 
@@ -38,16 +39,16 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <Button Content="Continue Game" Style="{StaticResource PrimaryButtonStyle}"
+                <Button Content="{loc:T Menu.Continue}" Style="{StaticResource PrimaryButtonStyle}"
                         IsEnabled="{Binding HasSavedGame}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="ContinueGame" />
-                <Button Content="Play" Style="{StaticResource PrimaryButtonStyle}"
+                <Button Content="{loc:T Menu.Play}" Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Play" />
-                <Button Content="Rules" Style="{StaticResource PrimaryButtonStyle}"
+                <Button Content="{loc:T Menu.Rules}" Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Rules" />
-                <Button Content="Settings" Style="{StaticResource PrimaryButtonStyle}"
+                <Button Content="{loc:T Menu.Settings}" Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Settings" />
-                <Button Content="Quit" Style="{StaticResource PrimaryButtonStyle}"
+                <Button Content="{loc:T Menu.Quit}" Style="{StaticResource PrimaryButtonStyle}"
                         Click="Quit_OnClick" />
             </StackPanel>
         </Border>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Checkers.WPF.Rules"
+             xmlns:loc="clr-namespace:Checkers.WPF.Localization"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance local:RulesViewModel}">
@@ -22,38 +23,31 @@
     <Border Style="{StaticResource CardStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"
             Padding="40,32" Margin="20" Width="860" MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=UserControl}}">
         <DockPanel>
-            <TextBlock DockPanel.Dock="Top" Text="How to Play" Style="{StaticResource TitleTextStyle}" Margin="0,0,0,16" />
-            <Button DockPanel.Dock="Bottom" Content="Back" Style="{StaticResource SecondaryButtonStyle}"
+            <TextBlock DockPanel.Dock="Top" Text="{loc:T Rules.Title}" Style="{StaticResource TitleTextStyle}" Margin="0,0,0,16" />
+            <Button DockPanel.Dock="Bottom" Content="{loc:T Common.Back}" Style="{StaticResource SecondaryButtonStyle}"
                     Command="{Binding UpdateViewCommand}" CommandParameter="Back" Margin="0,16,0,0" />
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="0,0,12,0">
-                    <TextBlock Text="Goal" Style="{StaticResource RuleHeadingStyle}" />
-                    <TextBlock Style="{StaticResource RuleBodyStyle}"
-                               Text="Win by capturing all of your opponent's pieces, or by leaving them with no legal move on their turn. Light pieces (bottom) move first; players then alternate turns." />
+                    <TextBlock Text="{loc:T Rules.GoalTitle}" Style="{StaticResource RuleHeadingStyle}" />
+                    <TextBlock Style="{StaticResource RuleBodyStyle}" Text="{loc:T Rules.Goal}" />
 
-                    <TextBlock Text="Moving" Style="{StaticResource RuleHeadingStyle}" />
-                    <TextBlock Style="{StaticResource RuleBodyStyle}"
-                               Text="Pieces only ever stand on the dark squares and move diagonally. An ordinary piece (a man) moves one square diagonally forward onto an empty square. To move, click a piece that has a dotted ring, then click one of the highlighted target squares." />
+                    <TextBlock Text="{loc:T Rules.MovingTitle}" Style="{StaticResource RuleHeadingStyle}" />
+                    <TextBlock Style="{StaticResource RuleBodyStyle}" Text="{loc:T Rules.Moving}" />
 
-                    <TextBlock Text="Capturing" Style="{StaticResource RuleHeadingStyle}" />
-                    <TextBlock Style="{StaticResource RuleBodyStyle}"
-                               Text="If an opponent's piece is diagonally next to yours and the square right behind it is empty, you can jump over it and capture it. Capturing is mandatory: if you can capture, you must. You may chain several jumps in one turn by clicking each landing square in turn. A piece cannot be jumped twice in the same turn." />
+                    <TextBlock Text="{loc:T Rules.CapturingTitle}" Style="{StaticResource RuleHeadingStyle}" />
+                    <TextBlock Style="{StaticResource RuleBodyStyle}" Text="{loc:T Rules.Capturing}" />
 
-                    <TextBlock Text="Kings" Style="{StaticResource RuleHeadingStyle}" />
-                    <TextBlock Style="{StaticResource RuleBodyStyle}"
-                               Text="A man that reaches the far edge of the board becomes a king (marked with a crown). Kings can move and capture both forward and backward." />
+                    <TextBlock Text="{loc:T Rules.KingsTitle}" Style="{StaticResource RuleHeadingStyle}" />
+                    <TextBlock Style="{StaticResource RuleBodyStyle}" Text="{loc:T Rules.Kings}" />
 
-                    <TextBlock Text="American variant (8x8)" Style="{StaticResource RuleHeadingStyle}" />
-                    <TextBlock Style="{StaticResource RuleBodyStyle}"
-                               Text="Each side has 12 pieces. Men move and capture forward only. Kings move and capture one square at a time in any diagonal direction. You may choose any of the available captures." />
+                    <TextBlock Text="{loc:T Rules.AmericanTitle}" Style="{StaticResource RuleHeadingStyle}" />
+                    <TextBlock Style="{StaticResource RuleBodyStyle}" Text="{loc:T Rules.American}" />
 
-                    <TextBlock Text="European variant (10x10)" Style="{StaticResource RuleHeadingStyle}" />
-                    <TextBlock Style="{StaticResource RuleBodyStyle}"
-                               Text="Each side has 20 pieces. Men may capture backward as well as forward. Kings are 'flying': they move any distance along a diagonal and capture from a distance. You must choose the capture sequence that takes the most pieces." />
+                    <TextBlock Text="{loc:T Rules.EuropeanTitle}" Style="{StaticResource RuleHeadingStyle}" />
+                    <TextBlock Style="{StaticResource RuleBodyStyle}" Text="{loc:T Rules.European}" />
 
-                    <TextBlock Text="Draws" Style="{StaticResource RuleHeadingStyle}" />
-                    <TextBlock Style="{StaticResource RuleBodyStyle}" Margin="0"
-                               Text="The game is drawn if a long stretch of moves passes with no capture and no man being moved." />
+                    <TextBlock Text="{loc:T Rules.DrawsTitle}" Style="{StaticResource RuleHeadingStyle}" />
+                    <TextBlock Style="{StaticResource RuleBodyStyle}" Margin="0" Text="{loc:T Rules.Draws}" />
                 </StackPanel>
             </ScrollViewer>
         </DockPanel>

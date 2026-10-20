@@ -1,5 +1,3 @@
-using System.Windows;
-
 namespace Checkers.WPF
 {
     /// <summary>
@@ -9,15 +7,9 @@ namespace Checkers.WPF
     {
         public MainWindow()
         {
-            ThemeManager.Apply(dark: true);
-            InitializeComponent();
+            // Creating the view model first loads the saved settings and applies theme and language.
             DataContext = new MainViewModel();
-        }
-        
-        private void OpenSettings_OnClick(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Settings menu currently not implemented!", "Feature not implemented", 
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            InitializeComponent();
         }
     }
 }

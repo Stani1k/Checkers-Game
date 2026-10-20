@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:models="clr-namespace:Checkers.Tools.Models;assembly=Checkers.Tools"
              xmlns:players="clr-namespace:Checkers.WPF.Players"
+             xmlns:loc="clr-namespace:Checkers.WPF.Localization"
              mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance players:PlayerMenuViewModel}">
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock Text="New Game" Style="{StaticResource TitleTextStyle}" Margin="0,0,0,24" />
+        <TextBlock Text="{loc:T Players.Title}" Style="{StaticResource TitleTextStyle}" Margin="0,0,0,24" />
 
         <ItemsControl ItemsSource="{Binding Players}" HorizontalAlignment="Center">
             <ItemsControl.ItemsPanel>
@@ -23,17 +24,23 @@
                         <StackPanel>
                             <TextBlock Text="{Binding PlayerNumberText}" Style="{StaticResource HeadingTextStyle}" />
 
-                            <TextBlock Text="{StaticResource EnterName}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,6" />
+                            <TextBlock Text="{loc:T Players.EnterName}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,6" />
                             <TextBox Text="{Binding PlayerName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" />
 
-                            <TextBlock Text="{StaticResource SelectCheckerColor}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,6" />
-                            <ComboBox ItemsSource="{Binding CheckerColors}" SelectedItem="{Binding CheckerColor}" Margin="0,0,0,16" />
+                            <TextBlock Text="{loc:T Players.SelectColor}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,6" />
+                            <ComboBox ItemsSource="{Binding CheckerColors}" SelectedItem="{Binding CheckerColor}" Margin="0,0,0,16">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource LocalizedEnumConverter}, ConverterParameter=Color}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
 
-                            <TextBlock Text="{StaticResource SelectPlayingSite}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,8" />
+                            <TextBlock Text="{loc:T Players.SelectSide}" Style="{StaticResource LabelTextStyle}" Margin="0,0,0,8" />
                             <StackPanel Orientation="Horizontal">
-                                <RadioButton Content="Upper" GroupName="{Binding GroupName}"
+                                <RadioButton Content="{loc:T Players.Upper}" GroupName="{Binding GroupName}"
                                              IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:GameDirection.Top}}" />
-                                <RadioButton Content="Lower" GroupName="{Binding GroupName}"
+                                <RadioButton Content="{loc:T Players.Lower}" GroupName="{Binding GroupName}"
                                              IsChecked="{Binding GameDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:GameDirection.Bottom}}" />
                             </StackPanel>
                         </StackPanel>
@@ -43,14 +50,20 @@
         </ItemsControl>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12">
-            <TextBlock Text="Variant" Style="{StaticResource LabelTextStyle}" FontSize="18" />
-            <ComboBox ItemsSource="{Binding Variants}" SelectedItem="{Binding SelectedVariant}" />
+            <TextBlock Text="{loc:T Players.Variant}" Style="{StaticResource LabelTextStyle}" FontSize="18" />
+            <ComboBox ItemsSource="{Binding Variants}" SelectedItem="{Binding SelectedVariant}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource LocalizedEnumConverter}, ConverterParameter=Variant}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
-            <Button Content="Main Menu" Style="{StaticResource SecondaryButtonStyle}"
+            <Button Content="{loc:T Common.MainMenu}" Style="{StaticResource SecondaryButtonStyle}"
                     Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" Margin="12" />
-            <Button Content="Start Game" Style="{StaticResource PrimaryButtonStyle}"
+            <Button Content="{loc:T Players.Start}" Style="{StaticResource PrimaryButtonStyle}"
                     Command="{Binding UpdateViewCommand}" CommandParameter="StartGame" Margin="12" />
         </StackPanel>
     </StackPanel>
