@@ -11,5 +11,9 @@
       <ProjectReference Include="..\Checkers.Tools\Checkers.Tools.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
+    </ItemGroup>
+
 </Project>
 

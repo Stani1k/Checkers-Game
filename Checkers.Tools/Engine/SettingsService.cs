@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Checkers.Tools.Models;
+using Serilog;
 
 namespace Checkers.Tools.Engine;
 
@@ -48,6 +49,7 @@ public sealed class SettingsService
         }
         catch (Exception ex) when (ex is JsonException or IOException or UnauthorizedAccessException)
         {
+            Log.ForContext<SettingsService>().Warning(ex, "Could not load settings from {Path}; using defaults", FilePath);
             return new AppSettings();
         }
     }
@@ -70,6 +72,7 @@ public sealed class SettingsService
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
+            Log.ForContext<SettingsService>().Error(ex, "Could not save settings to {Path}", FilePath);
             return false;
         }
     }

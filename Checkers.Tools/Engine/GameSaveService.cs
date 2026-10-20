@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Checkers.Tools.Models;
+using Serilog;
 
 namespace Checkers.Tools.Engine;
 
@@ -107,6 +108,7 @@ public sealed class GameSaveService
         var temp = FilePath + ".tmp";
         File.WriteAllText(temp, JsonSerializer.Serialize(data, Options));
         File.Move(temp, FilePath, overwrite: true);
+        Log.ForContext<GameSaveService>().Information("Game saved to {Path}", FilePath);
     }
 
     /// <summary>Returns false and a user-readable error when there is no save or it is unreadable or invalid.</summary>
@@ -115,11 +117,13 @@ public sealed class GameSaveService
         data = null;
         game = null;
         error = string.Empty;
+        var log = Log.ForContext<GameSaveService>();
         try
         {
             if (!File.Exists(FilePath))
             {
                 error = "No saved game was found.";
+                log.Information("No saved game at {Path}", FilePath);
                 return false;
             }
 
@@ -140,17 +144,20 @@ public sealed class GameSaveService
             data = loaded;
             return true;
         }
-        catch (JsonException)
+        catch (JsonException ex)
         {
             error = "The saved game file is corrupted and cannot be read.";
+            log.Warning(ex, "Corrupted save file {Path}", FilePath);
         }
         catch (ArgumentException ex)
         {
             error = $"The saved game contains an invalid position: {ex.Message}";
+            log.Warning(ex, "Invalid position in save file {Path}", FilePath);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             error = $"The saved game could not be opened: {ex.Message}";
+            log.Error(ex, "Could not open save file {Path}", FilePath);
         }
 
         return false;

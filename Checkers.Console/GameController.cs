@@ -4,6 +4,7 @@ using System.Linq;
 using Checkers.Console.Views;
 using Checkers.Tools.Engine;
 using Checkers.Tools.Models;
+using Serilog;
 
 namespace Checkers.Console
 {
@@ -23,6 +24,7 @@ namespace Checkers.Console
             catch (EndOfInputException)
             {
                 // Input stream closed: leave quietly.
+                Log.Information("Input stream closed");
             }
         }
 
@@ -53,6 +55,7 @@ namespace Checkers.Console
             var variant = _view.AskVariant();
             var (bottom, top) = CreatePlayers();
             var game = new CheckersGame(variant);
+            Log.Information("Game started: {Variant}, {Bottom} vs {Top}", variant, bottom.Name, top.Name);
 
             string? message = null;
             while (game.Status == GameStatus.InProgress)
@@ -78,6 +81,7 @@ namespace Checkers.Console
                     case "exit":
                         if (_view.Confirm("Really abandon this game and return to the menu?"))
                         {
+                            Log.Information("Game abandoned");
                             return;
                         }
 
@@ -87,6 +91,7 @@ namespace Checkers.Console
                         if (_view.Confirm($"{current.Name}, do you really want to surrender?"))
                         {
                             _view.ShowSurrender(current, opponent);
+                            Log.Information("{Player} surrendered", current.Name);
                             _view.WaitForEnter();
                             return;
                         }
@@ -101,6 +106,7 @@ namespace Checkers.Console
                 else if (game.TryResolveMove(squares, out var move, out var moveError))
                 {
                     game.Apply(move!);
+                    Log.Debug("Move applied by {Player}: {Input}", current.Name, input);
                 }
                 else
                 {
@@ -109,6 +115,7 @@ namespace Checkers.Console
             }
 
             _view.ShowResult(game, bottom, top);
+            Log.Information("Game finished with status {Status}", game.Status);
             _view.WaitForEnter();
         }
 

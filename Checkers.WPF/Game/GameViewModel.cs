@@ -9,6 +9,7 @@ using Checkers.Tools.Engine;
 using Checkers.Tools.Models;
 using Checkers.WPF.Commands;
 using Checkers.WPF.Localization;
+using Serilog;
 
 namespace Checkers.WPF.Game;
 
@@ -107,6 +108,7 @@ public class GameViewModel : ViewModelBase
         _bottomPlayerName = bottomPlayerName?.Trim() ?? string.Empty;
         _topPlayerName = topPlayerName?.Trim() ?? string.Empty;
         SetGame(new CheckersGame(variant));
+        Log.Information("New game started: {Variant}, {Bottom} vs {Top}", variant, _bottomPlayerName, _topPlayerName);
     }
 
     /// <summary>Loads the saved game; returns false when there is no valid save.</summary>
@@ -120,6 +122,7 @@ public class GameViewModel : ViewModelBase
         _bottomPlayerName = data.BottomPlayerName?.Trim() ?? string.Empty;
         _topPlayerName = data.TopPlayerName?.Trim() ?? string.Empty;
         SetGame(game);
+        Log.Information("Saved game loaded: {Variant}", game.Variant);
         return true;
     }
 
@@ -134,9 +137,11 @@ public class GameViewModel : ViewModelBase
         {
             _saveService.Save(GameSaveData.From(_game, _bottomPlayerName, _topPlayerName));
             _saveMessageKey = "Game.Saved";
+            Log.Information("Game saved");
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
+            Log.Error(ex, "Failed to save game");
             _saveMessageKey = "Game.SaveFailed";
         }
 

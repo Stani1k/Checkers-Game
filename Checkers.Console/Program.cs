@@ -1,3 +1,7 @@
+using System;
+using Checkers.Tools.Logging;
+using Serilog;
+
 namespace Checkers.Console
 {
     internal static class Program
@@ -7,7 +11,22 @@ namespace Checkers.Console
         /// </summary>
         private static void Main()
         {
-            new GameController().RunApplication();
+            LoggingSetup.Initialize("Checkers.Console");
+            Log.Information("Console application started");
+            try
+            {
+                new GameController().RunApplication();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Console application terminated unexpectedly");
+                throw;
+            }
+            finally
+            {
+                Log.Information("Console application exiting");
+                LoggingSetup.Shutdown();
+            }
         }
     }
 }
