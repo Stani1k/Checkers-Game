@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using System.Windows;
 using Checkers.Tools.Logging;
+using Checkers.Tools.Engine;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Windows.Threading;
 
@@ -12,6 +14,8 @@ namespace Checkers.WPF
     /// </summary>
     public partial class App
     {
+        private ServiceProvider? _services;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             LoggingSetup.Initialize("Checkers.WPF", c => c.WriteTo.Debug());
@@ -21,11 +25,20 @@ namespace Checkers.WPF
             TaskScheduler.UnobservedTaskException += (_, args) =>
                 Log.Error(args.Exception, "Unobserved task exception");
             base.OnStartup(e);
+
+            _services = new ServiceCollection()
+                .AddSingleton<IGameSaveService>(_ => new GameSaveService())
+                .AddSingleton<ISettingsService>(_ => new SettingsService())
+                .AddSingleton<MainViewModel>()
+                .AddSingleton<MainWindow>()
+                .BuildServiceProvider();
+            _services.GetRequiredService<MainWindow>().Show();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
             Log.Information("WPF application exiting with code {ExitCode}", e.ApplicationExitCode);
+            _services?.Dispose();
             LoggingSetup.Shutdown();
             base.OnExit(e);
         }

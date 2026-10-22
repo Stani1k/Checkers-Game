@@ -16,8 +16,9 @@ public sealed class CheckersGame
     private IReadOnlyList<Move> _legalMoves = Array.Empty<Move>();
     private int _quietPlies;
 
-    public Variant Variant { get; }
-    public int Size => Variant == Variant.American ? 8 : 10;
+    public Variant Variant => Rules.Variant;
+    public IRuleSet Rules { get; }
+    public int Size => Rules.BoardSize;
     public Side Turn { get; private set; }
     public GameStatus Status { get; private set; }
     public Move? LastMove { get; private set; }
@@ -40,11 +41,11 @@ public sealed class CheckersGame
         }
     }
 
-    private int DrawPlyLimit => Variant == Variant.American ? 80 : 50;
+    private int DrawPlyLimit => Rules.DrawPlyLimit;
 
     public CheckersGame(Variant variant) : this(variant, Side.Bottom)
     {
-        var rowsPerSide = Variant == Variant.American ? 3 : 4;
+        var rowsPerSide = Rules.RowsPerSide;
         for (var row = 0; row < Size; row++)
         {
             for (var col = 0; col < Size; col++)
@@ -70,7 +71,7 @@ public sealed class CheckersGame
 
     private CheckersGame(Variant variant, Side turn)
     {
-        Variant = variant;
+        Rules = RuleSets.For(variant);
         Turn = turn;
         _board = new Piece?[Size, Size];
     }
@@ -274,7 +275,7 @@ public sealed class CheckersGame
             return simpleMoves;
         }
 
-        if (Variant == Variant.European)
+        if (Rules.MustTakeLongestCapture)
         {
             var longest = captures.Max(m => m.Captured.Count);
             captures = captures.Where(m => m.Captured.Count == longest).ToList();
@@ -303,7 +304,7 @@ public sealed class CheckersGame
             while (IsEmptyFor(target, start))
             {
                 result.Add(new Move(new[] { start, target }, Array.Empty<Square>()));
-                if (!(piece.IsKing && Variant == Variant.European))
+                if (!(piece.IsKing && Rules.FlyingKings))
                 {
                     break;
                 }
@@ -319,13 +320,13 @@ public sealed class CheckersGame
 
         foreach (var (dCol, dRow) in Directions)
         {
-            if (!isKing && Variant == Variant.American && dRow != Forward(piece.Side))
+            if (!isKing && !Rules.MenCaptureBackwards && dRow != Forward(piece.Side))
             {
                 continue;
             }
 
             var over = current.Offset(dCol, dRow);
-            if (isKing && Variant == Variant.European)
+            if (isKing && Rules.FlyingKings)
             {
                 while (IsEmptyFor(over, start))
                 {
@@ -346,7 +347,7 @@ public sealed class CheckersGame
                 path.Add(landing);
 
                 // In the American variant a man that reaches the king row has to stop there.
-                var crowned = !isKing && Variant == Variant.American && landing.Row == KingRow(piece.Side);
+                var crowned = !isKing && Rules.CaptureEndsOnCrowning && landing.Row == KingRow(piece.Side);
                 if (crowned)
                 {
                     result.Add(new Move(path.ToList(), captured.ToList()));
@@ -359,7 +360,7 @@ public sealed class CheckersGame
                 path.RemoveAt(path.Count - 1);
                 captured.RemoveAt(captured.Count - 1);
 
-                if (!(isKing && Variant == Variant.European))
+                if (!(isKing && Rules.FlyingKings))
                 {
                     break;
                 }

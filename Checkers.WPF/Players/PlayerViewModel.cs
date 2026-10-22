@@ -14,17 +14,14 @@ public class PlayerViewModel : ViewModelBase
     private Colors _checkerColor;
     private GameDirection _gameDirection;
     private string _groupName;
-    private readonly Player _player;
 
     private readonly int _playerNumber;
 
     public string PlayerNumberText => Loc.Format("Players.PlayerN", _playerNumber);
     public IEnumerable<Colors> CheckerColors { get; }
-    public ObservableCollection<Checker> Checkers { get; set; }
 
     public PlayerViewModel(int playerNumber)
     {
-        _player = new Player();
         _playerNumber = playerNumber;
         Loc.Instance.LanguageChanged += (_, _) => OnPropertyChanged(nameof(PlayerNumberText));
         CheckerColors = Enum.GetValues(typeof(Colors)).Cast<Colors>();

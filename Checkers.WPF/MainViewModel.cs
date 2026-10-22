@@ -20,12 +20,11 @@ public class MainViewModel : ViewModelBase
     public GameViewModel GameViewModel { get; set; }
     public RulesViewModel RulesViewModel { get; set; }
 
-    public MainViewModel()
+    public MainViewModel(IGameSaveService saveService, ISettingsService settingsService)
     {
-        var saveService = new GameSaveService();
         var updateViewCommand = new UpdateViewCommand(this);
         MainMenuViewModel = new MainMenuViewModel(updateViewCommand, saveService);
-        SettingsViewModel = new SettingsViewModel(updateViewCommand, new SettingsService());
+        SettingsViewModel = new SettingsViewModel(updateViewCommand, settingsService);
         PlayerMenuViewModel = new PlayerMenuViewModel(updateViewCommand);
         GameViewModel = new GameViewModel(updateViewCommand, saveService);
         RulesViewModel = new RulesViewModel(updateViewCommand);

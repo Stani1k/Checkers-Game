@@ -5,10 +5,10 @@ namespace Checkers.WPF
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindow()
+        public MainWindow(MainViewModel viewModel)
         {
-            // Creating the view model first loads the saved settings and applies theme and language.
-            DataContext = new MainViewModel();
+            // The view model is created before the window so it can load the saved settings and apply theme and language.
+            DataContext = viewModel;
             InitializeComponent();
         }
     }

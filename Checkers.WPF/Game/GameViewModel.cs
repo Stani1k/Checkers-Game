@@ -18,9 +18,9 @@ public class GameViewModel : ViewModelBase
     private const int BoardPixels = 720;
 
     private CheckersGame _game = new(Variant.American);
-    private readonly GameSaveService _saveService;
+    private readonly IGameSaveService _saveService;
     private string _saveMessageKey = string.Empty;
-    private readonly List<Square> _path = new();
+    private readonly MoveSelection _selection = new();
     private string _bottomPlayerName = string.Empty;
     private string _topPlayerName = string.Empty;
     private string _statusText = string.Empty;
@@ -92,7 +92,7 @@ public class GameViewModel : ViewModelBase
         }
     }
 
-    public GameViewModel(UpdateViewCommand updateViewCommand, GameSaveService saveService)
+    public GameViewModel(UpdateViewCommand updateViewCommand, IGameSaveService saveService)
     {
         UpdateViewCommand = updateViewCommand;
         _saveService = saveService;
@@ -151,10 +151,7 @@ public class GameViewModel : ViewModelBase
     private void SetGame(CheckersGame game)
     {
         _game = game;
-        _path.Clear();
-        _saveMessageKey = string.Empty;
-
-        Squares.Clear();
+        _selection.Clear();
         for (var row = 0; row < _game.Size; row++)
         {
             for (var col = 0; col < _game.Size; col++)
@@ -180,47 +177,20 @@ public class GameViewModel : ViewModelBase
         if (clicked == null || _game.Status != GameStatus.InProgress) return;
         _saveMessageKey = string.Empty;
 
-        var square = clicked.Square;
         var moves = _game.GetLegalMoves();
-
-        if (_path.Count > 0)
+        var finished = _selection.Click(clicked.Square, moves);
+        if (finished != null)
         {
-            var candidates = moves.Where(m => StartsWith(m.Path, _path)).ToList();
-            if (candidates.Any(m => m.Path.Count > _path.Count && m.Path[_path.Count] == square))
-            {
-                _path.Add(square);
-                var finished = moves.FirstOrDefault(m => m.HasSamePath(_path));
-                if (finished != null)
-                {
-                    _path.Clear();
-                    _game.Apply(finished);
-                }
-
-                Refresh();
-                return;
-            }
-        }
-
-        _path.Clear();
-        if (moves.Any(m => m.From == square))
-        {
-            _path.Add(square);
+            _game.Apply(finished);
         }
 
         Refresh();
     }
 
-    private static bool StartsWith(IReadOnlyList<Square> path, IReadOnlyList<Square> prefix) =>
-        path.Count >= prefix.Count && path.Take(prefix.Count).SequenceEqual(prefix);
-
     private void Refresh()
     {
         var moves = _game.GetLegalMoves();
-        var targets = _path.Count == 0
-            ? new HashSet<Square>()
-            : moves.Where(m => StartsWith(m.Path, _path) && m.Path.Count > _path.Count)
-                   .Select(m => m.Path[_path.Count])
-                   .ToHashSet();
+        var targets = _selection.Targets(moves);
         var lastMove = _game.LastMove?.Path.ToHashSet() ?? new HashSet<Square>();
         var inProgress = _game.Status == GameStatus.InProgress;
         var movable = moves.Select(m => m.From).ToHashSet();
@@ -228,7 +198,7 @@ public class GameViewModel : ViewModelBase
         foreach (var vm in Squares)
         {
             vm.Piece = _game.PieceAt(vm.Square);
-            vm.IsSelected = _path.Contains(vm.Square);
+            vm.IsSelected = _selection.Contains(vm.Square);
             vm.IsTarget = targets.Contains(vm.Square);
             vm.IsLastMove = lastMove.Contains(vm.Square);
             vm.IsMovable = inProgress && movable.Contains(vm.Square);

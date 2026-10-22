@@ -7,7 +7,7 @@ namespace Checkers.WPF.MainMenu;
 
 public class MainMenuViewModel : ViewModelBase
 {
-    private readonly GameSaveService _saveService;
+    private readonly IGameSaveService _saveService;
     private bool _hasSavedGame;
     private string _errorMessage = string.Empty;
 
@@ -38,7 +38,7 @@ public class MainMenuViewModel : ViewModelBase
 
     public bool HasError => _errorMessage.Length > 0;
 
-    public MainMenuViewModel(UpdateViewCommand updateViewCommand, GameSaveService saveService)
+    public MainMenuViewModel(UpdateViewCommand updateViewCommand, IGameSaveService saveService)
     {
         UpdateViewCommand = updateViewCommand;
         _saveService = saveService;

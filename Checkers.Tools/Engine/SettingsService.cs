@@ -13,7 +13,7 @@ public sealed class AppSettings
 }
 
 /// <summary>Stores the user settings as JSON. The default location is %AppData%\Checkers\settings.json.</summary>
-public sealed class SettingsService
+public sealed class SettingsService : ISettingsService
 {
     private static readonly JsonSerializerOptions Options = new()
     {

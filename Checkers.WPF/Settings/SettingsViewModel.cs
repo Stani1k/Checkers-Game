@@ -12,13 +12,13 @@ namespace Checkers.WPF.Settings;
 /// <summary>Applies each setting immediately and persists it.</summary>
 public class SettingsViewModel : ViewModelBase
 {
-    private readonly SettingsService _settingsService;
+    private readonly ISettingsService _settingsService;
     private readonly AppSettings _settings;
 
     public List<Language> Languages { get; } = new((Language[])Enum.GetValues(typeof(Language)));
     public UpdateViewCommand UpdateViewCommand { get; }
 
-    public SettingsViewModel(UpdateViewCommand updateViewCommand, SettingsService settingsService)
+    public SettingsViewModel(UpdateViewCommand updateViewCommand, ISettingsService settingsService)
     {
         UpdateViewCommand = updateViewCommand;
         _settingsService = settingsService;

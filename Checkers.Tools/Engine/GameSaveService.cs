@@ -79,7 +79,7 @@ public sealed class GameSaveData
 }
 
 /// <summary>Stores a single saved game as JSON. The default location is %AppData%\Checkers\savegame.json.</summary>
-public sealed class GameSaveService
+public sealed class GameSaveService : IGameSaveService
 {
     private static readonly JsonSerializerOptions Options = new()
     {
