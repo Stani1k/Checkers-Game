@@ -11,6 +11,7 @@ using Checkers.Tools.Online;
 using Checkers.WPF.Commands;
 using Checkers.WPF.Localization;
 using Checkers.WPF.Online;
+using Checkers.WPF.Sound;
 using Serilog;
 
 namespace Checkers.WPF.Game;
@@ -31,6 +32,7 @@ public class GameViewModel : ViewModelBase
     private bool _turnIsTop;
     private bool _isGameInProgress;
     private readonly IOnlineGameClient _client;
+    private readonly ISoundService _sound;
     private bool _isOnline;
     private bool _canResign;
     private Side _onlineSide;
@@ -129,11 +131,12 @@ public class GameViewModel : ViewModelBase
         }
     }
 
-    public GameViewModel(UpdateViewCommand updateViewCommand, IGameSaveService saveService, IOnlineGameClient client)
+    public GameViewModel(UpdateViewCommand updateViewCommand, IGameSaveService saveService, IOnlineGameClient client, ISoundService sound)
     {
         UpdateViewCommand = updateViewCommand;
         _saveService = saveService;
         _client = client;
+        _sound = sound;
         _client.MoveApplied += OnOnlineMoveApplied;
         _client.GameEnded += OnOnlineGameEnded;
         _client.ConnectionLost += OnOnlineConnectionLost;
@@ -235,13 +238,29 @@ public class GameViewModel : ViewModelBase
             return;
         }
 
-        _game.Apply(move);
+        ApplyWithSound(move);
         Refresh();
+    }
+
+    private void ApplyWithSound(Move move)
+    {
+        var wasKing = _game.PieceAt(move.From) is { IsKing: true };
+        _game.Apply(move);
+
+        var effect = _game.Status switch
+        {
+            GameStatus.Draw => SoundEffect.Draw,
+            GameStatus.InProgress when !wasKing && _game.PieceAt(move.To) is { IsKing: true } => SoundEffect.King,
+            GameStatus.InProgress => move.IsCapture ? SoundEffect.Capture : SoundEffect.Move,
+            _ => SoundEffect.Win
+        };
+        _sound.Play(effect);
     }
 
     private void OnOnlineGameEnded(GameEndedDto dto)
     {
         if (!IsOnline || _onlineEnd != null) return;
+        _sound.Play(SoundEffect.Win);
         EndOnline(dto.Winner, dto.Reason == GameEndReason.Resigned ? "Online.OpponentResigned" : "Online.OpponentLeft");
     }
 
@@ -323,7 +342,7 @@ public class GameViewModel : ViewModelBase
         var finished = _selection.Click(clicked.Square, moves);
         if (finished != null)
         {
-            _game.Apply(finished);
+            ApplyWithSound(finished);
             if (IsOnline)
             {
                 SendMove(finished);

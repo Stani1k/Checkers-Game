@@ -6,6 +6,7 @@ using Checkers.Tools.Engine;
 using Checkers.Tools.Models;
 using Checkers.WPF.Commands;
 using Checkers.WPF.Localization;
+using Checkers.WPF.Sound;
 
 namespace Checkers.WPF.Settings;
 
@@ -14,15 +15,18 @@ public class SettingsViewModel : ViewModelBase
 {
     private readonly ISettingsService _settingsService;
     private readonly AppSettings _settings;
+    private readonly ISoundService _soundService;
 
     public List<Language> Languages { get; } = new((Language[])Enum.GetValues(typeof(Language)));
     public UpdateViewCommand UpdateViewCommand { get; }
 
-    public SettingsViewModel(UpdateViewCommand updateViewCommand, ISettingsService settingsService)
+    public SettingsViewModel(UpdateViewCommand updateViewCommand,     ISettingsService settingsService, ISoundService soundService)
     {
         UpdateViewCommand = updateViewCommand;
         _settingsService = settingsService;
-        _settings = settingsService.Load();
+            _soundService = soundService;
+            _settings = settingsService.Load();
+            _soundService.IsEnabled = _settings.IsSoundEnabled;
         Loc.Instance.Language = _settings.Language;
         ThemeManager.Apply(_settings.IsDarkTheme);
     }
@@ -62,6 +66,19 @@ public class SettingsViewModel : ViewModelBase
             _settings.IsMaximized = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(WindowState));
+            Save();
+        }
+    }
+
+    public bool IsSoundEnabled
+    {
+        get => _settings.IsSoundEnabled;
+        set
+        {
+            if (value == _settings.IsSoundEnabled) return;
+            _settings.IsSoundEnabled = value;
+            _soundService.IsEnabled = value;
+            OnPropertyChanged();
             Save();
         }
     }

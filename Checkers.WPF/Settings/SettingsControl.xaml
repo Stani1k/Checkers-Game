@@ -30,7 +30,8 @@
                              IsChecked="{Binding IsDarkTheme, Converter={StaticResource InverseBooleanConverter}}" />
             </StackPanel>
 
-            <CheckBox Content="{loc:T Settings.Maximized}" IsChecked="{Binding IsMaximized}" />
+            <CheckBox Content="{loc:T Settings.Maximized}" IsChecked="{Binding IsMaximized}" Margin="0,0,0,12" />
+            <CheckBox Content="{loc:T Settings.Sound}" IsChecked="{Binding IsSoundEnabled}" />
 
             <Button Content="{loc:T Settings.Back}" Style="{StaticResource SecondaryButtonStyle}"
                     Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" Margin="0,28,0,0" />

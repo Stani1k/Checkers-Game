@@ -10,6 +10,7 @@ public sealed class AppSettings
     public Language Language { get; set; } = Language.English;
     public bool IsDarkTheme { get; set; } = true;
     public bool IsMaximized { get; set; } = true;
+    public bool IsSoundEnabled { get; set; } = true;
 }
 
 /// <summary>Stores the user settings as JSON. The default location is %AppData%\Checkers\settings.json.</summary>

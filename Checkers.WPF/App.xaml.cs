@@ -30,6 +30,7 @@ namespace Checkers.WPF
             _services = new ServiceCollection()
                 .AddSingleton<IGameSaveService>(_ => new GameSaveService())
                 .AddSingleton<ISettingsService>(_ => new SettingsService())
+                .AddSingleton<Sound.ISoundService, Sound.SoundService>()
                 .AddSingleton<IOnlineGameClient>(_ => new SignalRGameClient())
                 .AddSingleton<MainViewModel>()
                 .AddSingleton<MainWindow>()
