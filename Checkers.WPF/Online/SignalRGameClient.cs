@@ -10,7 +10,7 @@ using Serilog;
 
 namespace Checkers.WPF.Online;
 
-public sealed class SignalRGameClient : IOnlineGameClient
+public sealed class SignalRGameClient : IOnlineGameClient, IDisposable
 {
     private readonly SynchronizationContext? _context = SynchronizationContext.Current;
     private HubConnection? _connection;
@@ -98,6 +98,9 @@ public sealed class SignalRGameClient : IOnlineGameClient
     }
 
     public ValueTask DisposeAsync() => new(DisconnectAsync());
+
+    /// <summary>Used by the synchronous container disposal on exit; runs off the UI thread to avoid blocking on it.</summary>
+    public void Dispose() => Task.Run(DisconnectAsync).Wait(TimeSpan.FromSeconds(2));
 
     private async Task<T> InvokeAsync<T>(Func<HubConnection, Task<T>> call)
     {
