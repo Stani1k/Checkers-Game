@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Checkers.Tools.Logging;
 using Checkers.Tools.Engine;
+using Checkers.WPF.Online;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Windows.Threading;
@@ -29,6 +30,7 @@ namespace Checkers.WPF
             _services = new ServiceCollection()
                 .AddSingleton<IGameSaveService>(_ => new GameSaveService())
                 .AddSingleton<ISettingsService>(_ => new SettingsService())
+                .AddSingleton<IOnlineGameClient>(_ => new SignalRGameClient())
                 .AddSingleton<MainViewModel>()
                 .AddSingleton<MainWindow>()
                 .BuildServiceProvider();

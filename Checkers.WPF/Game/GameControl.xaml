@@ -101,12 +101,16 @@
                                VerticalAlignment="Center" MaxWidth="270" />
                 </StackPanel>
                 <TextBlock Text="{Binding ScoreText}" Style="{StaticResource SubtitleTextStyle}" Margin="0,0,0,24" />
-                <Button Content="{loc:T Game.NewGame}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding NewGameCommand}" />
-                <Button Content="{loc:T Game.Save}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveGameCommand}" />
+                <Button Content="{loc:T Game.NewGame}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding NewGameCommand}"
+                        Visibility="{Binding IsOffline, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button Content="{loc:T Game.Save}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveGameCommand}"
+                        Visibility="{Binding IsOffline, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button Content="{loc:T Online.Resign}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding ResignCommand}"
+                        Visibility="{Binding CanResign, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button Content="{loc:T Game.Rules}" Style="{StaticResource SecondaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Rules" />
                 <Button Content="{loc:T Common.MainMenu}" Style="{StaticResource SecondaryButtonStyle}"
-                        Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" />
+                        Command="{Binding LeaveCommand}" />
             </StackPanel>
         </Border>
     </Grid>

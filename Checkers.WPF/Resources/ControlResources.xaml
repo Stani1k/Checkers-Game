@@ -25,6 +25,9 @@
     <DataTemplate DataType="{x:Type players:PlayerMenuViewModel}">
         <players:PlayerMenuControl />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type players:OnlineMenuViewModel}">
+        <players:OnlineMenuControl />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type rules:RulesViewModel}">
         <rules:RulesControl />
     </DataTemplate>

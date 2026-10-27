@@ -6,6 +6,8 @@ public enum MenuOption
     Play,
     StartGame,
     ContinueGame,
+    Online,
+    OnlineGame,
     Settings,
     Help,
     Rules,

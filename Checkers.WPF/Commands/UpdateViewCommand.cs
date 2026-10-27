@@ -43,6 +43,15 @@ public class UpdateViewCommand : ICommand
         {
             _viewModel.SelectedViewModel = _viewModel.PlayerMenuViewModel;
         }
+        else if (parameter.ToString() == MenuOption.Online.ToString())
+        {
+            _viewModel.OnlineMenuViewModel.Reset();
+            _viewModel.SelectedViewModel = _viewModel.OnlineMenuViewModel;
+        }
+        else if (parameter.ToString() == MenuOption.OnlineGame.ToString())
+        {
+            _viewModel.SelectedViewModel = _viewModel.GameViewModel;
+        }
         else if (parameter.ToString() == MenuOption.MainMenu.ToString())
         {
             _viewModel.MainMenuViewModel.ErrorMessage = string.Empty;

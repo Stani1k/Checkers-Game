@@ -44,6 +44,8 @@
                         Command="{Binding UpdateViewCommand}" CommandParameter="ContinueGame" />
                 <Button Content="{loc:T Menu.Play}" Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Play" />
+                <Button Content="{loc:T Menu.Online}" Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding UpdateViewCommand}" CommandParameter="Online" />
                 <Button Content="{loc:T Menu.Rules}" Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding UpdateViewCommand}" CommandParameter="Rules" />
                 <Button Content="{loc:T Menu.Settings}" Style="{StaticResource PrimaryButtonStyle}"

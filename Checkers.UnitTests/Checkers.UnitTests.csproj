@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Checkers.Console\Checkers.Console.csproj" />
+    <ProjectReference Include="..\Checkers.Server\Checkers.Server.csproj" />
   </ItemGroup>
 
 </Project>
