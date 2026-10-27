@@ -11,6 +11,7 @@ public enum MenuOption
     Settings,
     Help,
     Rules,
+    Notices,
     Back,
     About,
     Quit,

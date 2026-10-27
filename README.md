@@ -12,6 +12,7 @@ A C# implementation of Checkers, a strategy board game for two players with diag
 - [Running tests](#running-tests)
 - [Game rules](#game-rules)
 - [Getting help](#getting-help)
+- [Third-party notices](#third-party-notices)
 - [Contributing](#contributing)
 
 ## Features
@@ -81,6 +82,10 @@ New to the game? See [Checkers on Wikipedia](https://en.wikipedia.org/wiki/Check
 ## Getting help
 
 Found a bug or have a question? [Open an issue](https://github.com/Stani1k/Checkers-Game/issues/new/choose).
+
+## Third-party notices
+
+The licenses of the libraries this project uses are listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). After changing NuGet dependencies, regenerate it with `powershell -File scripts\Update-ThirdPartyNotices.ps1`.
 
 ## Contributing
 

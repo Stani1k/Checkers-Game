@@ -5,6 +5,7 @@ using Checkers.WPF.Commands;
 using Checkers.WPF.Game;
 using Checkers.WPF.MainMenu;
 using Checkers.WPF.Online;
+using Checkers.WPF.Notices;
 using Checkers.WPF.Players;
 using Checkers.WPF.Rules;
 using Checkers.WPF.Settings;
@@ -22,6 +23,7 @@ public class MainViewModel : ViewModelBase
     public OnlineMenuViewModel OnlineMenuViewModel { get; set; }
     public GameViewModel GameViewModel { get; set; }
     public RulesViewModel RulesViewModel { get; set; }
+    public NoticesViewModel NoticesViewModel { get; set; }
 
     public MainViewModel(IGameSaveService saveService, ISettingsService settingsService,     IOnlineGameClient onlineClient, ISoundService soundService)
     {
@@ -32,6 +34,7 @@ public class MainViewModel : ViewModelBase
             GameViewModel = new GameViewModel(updateViewCommand, saveService, onlineClient, soundService);
         OnlineMenuViewModel = new OnlineMenuViewModel(updateViewCommand, onlineClient, GameViewModel);
         RulesViewModel = new RulesViewModel(updateViewCommand);
+        NoticesViewModel = new NoticesViewModel(updateViewCommand);
         _selectedViewModel = MainMenuViewModel;
     }
     

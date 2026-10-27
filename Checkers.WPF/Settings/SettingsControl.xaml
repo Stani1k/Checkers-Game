@@ -33,6 +33,9 @@
             <CheckBox Content="{loc:T Settings.Maximized}" IsChecked="{Binding IsMaximized}" Margin="0,0,0,12" />
             <CheckBox Content="{loc:T Settings.Sound}" IsChecked="{Binding IsSoundEnabled}" />
 
+            <Button Content="{loc:T Settings.Notices}" Style="{StaticResource SecondaryButtonStyle}"
+                    Command="{Binding UpdateViewCommand}" CommandParameter="Notices" Margin="0,24,0,0" />
+
             <Button Content="{loc:T Settings.Back}" Style="{StaticResource SecondaryButtonStyle}"
                     Command="{Binding UpdateViewCommand}" CommandParameter="MainMenu" Margin="0,28,0,0" />
         </StackPanel>

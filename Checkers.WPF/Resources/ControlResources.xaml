@@ -5,6 +5,7 @@
                     xmlns:converters="clr-namespace:Checkers.WPF.Converters"
                     xmlns:players="clr-namespace:Checkers.WPF.Players"
                     xmlns:rules="clr-namespace:Checkers.WPF.Rules"
+                    xmlns:notices="clr-namespace:Checkers.WPF.Notices"
                     xmlns:game="clr-namespace:Checkers.WPF.Game">
     
     <!-- Converters -->
@@ -30,6 +31,9 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type rules:RulesViewModel}">
         <rules:RulesControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type notices:NoticesViewModel}">
+        <notices:NoticesControl />
     </DataTemplate>
     <DataTemplate DataType="{x:Type game:GameViewModel}">
         <game:GameControl />

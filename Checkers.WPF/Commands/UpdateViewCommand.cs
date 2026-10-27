@@ -35,6 +35,10 @@ public class UpdateViewCommand : ICommand
 
             _viewModel.SelectedViewModel = _viewModel.RulesViewModel;
         }
+        else if (parameter.ToString() == MenuOption.Notices.ToString())
+        {
+            _viewModel.SelectedViewModel = _viewModel.NoticesViewModel;
+        }
         else if (parameter.ToString() == MenuOption.Back.ToString())
         {
             _viewModel.SelectedViewModel = _viewModel.ViewBeforeRules ?? _viewModel.MainMenuViewModel;
