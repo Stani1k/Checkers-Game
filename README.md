@@ -2,6 +2,8 @@
 
 A C# implementation of Checkers, a strategy board game for two players with diagonal moves and mandatory captures by jumping over opponent pieces. Play from the console, a WPF desktop app, or online against another player.
 
+Website: <https://stani1k.github.io/Checkers-Game/> (source in `docs/`, deployed with GitHub Pages).
+
 ## Table of contents
 
 - [Features](#features)

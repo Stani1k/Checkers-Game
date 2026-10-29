@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkers Game — Classic strategy, built in C#</title>
+  <meta name="description" content="Checkers for console and Windows desktop, with online multiplayer, light and dark themes, and English and Polish localization.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23e5484d'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23fff' stroke-opacity='.5' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    const saved = localStorage.getItem("theme");
+    if (saved) document.documentElement.dataset.theme = saved;
+    else if (matchMedia("(prefers-color-scheme: light)").matches) document.documentElement.dataset.theme = "light";
+  </script>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top"><span class="dot"></span>Checkers</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#play">Try it</a>
+      <a href="#screens">Screenshots</a>
+      <a href="#start">Get started</a>
+      <a href="#rules">Rules</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="theme" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">◐</button>
+      <a class="btn small" href="https://github.com/Stani1k/Checkers-Game">GitHub</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">Open source · C# · .NET 10</p>
+        <h1>The classic board game, <span class="grad">reimagined.</span></h1>
+        <p class="lead">Play Checkers from the console, a polished Windows desktop app, or online against a friend — with a server that validates every move.</p>
+        <div class="cta">
+          <a class="btn primary" href="#start">Get started</a>
+          <a class="btn" href="https://github.com/Stani1k/Checkers-Game">View on GitHub</a>
+        </div>
+      </div>
+      <div class="hero-board" aria-hidden="true"><div class="board decorative" id="heroBoard"></div></div>
+    </section>
+
+    <section id="features" class="section">
+      <h2>Everything you need for a great game</h2>
+      <div class="grid">
+        <article class="card"><div class="ico">🖥️</div><h3>Console &amp; WPF</h3><p>Quick terminal play or a full-featured Windows desktop experience.</p></article>
+        <article class="card"><div class="ico">🌐</div><h3>Online multiplayer</h3><p>A SignalR server connects players in real time and validates every move.</p></article>
+        <article class="card"><div class="ico">🌗</div><h3>Light &amp; dark themes</h3><p>Switch between themes to suit your eyes and your surroundings.</p></article>
+        <article class="card"><div class="ico">🌍</div><h3>Localized</h3><p>Available in English and Polish, with shared resources for more.</p></article>
+        <article class="card"><div class="ico">✅</div><h3>Tested core</h3><p>Shared game logic in its own library, covered by NUnit tests.</p></article>
+        <article class="card"><div class="ico">🔓</div><h3>Open source</h3><p>Read the code, file issues, and contribute on GitHub.</p></article>
+      </div>
+    </section>
+
+    <section id="play" class="section split">
+      <div>
+        <h2>Try a quick game</h2>
+        <p class="muted">A tiny in-browser demo of the core rules: diagonal moves, mandatory captures and kings. You play red; the computer plays the other side.</p>
+        <p id="status" class="status" role="status">Your move.</p>
+        <button id="reset" class="btn">New game</button>
+      </div>
+      <div class="board-wrap"><div class="board" id="board" aria-label="Checkers demo board"></div></div>
+    </section>
+
+    <section id="screens" class="section">
+      <h2>Designed to look good</h2>
+      <figure class="shot">
+        <img src="assets/checkerboard.png" alt="Checkers game board mockup" loading="lazy">
+        <figcaption>Game board design.</figcaption>
+      </figure>
+    </section>
+
+    <section id="start" class="section">
+      <h2>Get started</h2>
+      <p class="muted">Requires the <a href="https://dotnet.microsoft.com/download">.NET 10 SDK</a>. The WPF app needs Windows.</p>
+      <div class="code">
+        <button class="copy" data-copy>Copy</button>
+<pre><code>git clone https://github.com/Stani1k/Checkers-Game.git
+cd Checkers-Game
+dotnet build Checkers-Game.sln
+
+# Console app
+dotnet run --project Checkers.Console
+
+# WPF app (Windows)
+dotnet run --project Checkers.WPF</code></pre>
+      </div>
+      <div class="grid small-grid">
+        <div class="card"><h3>Checkers.Console</h3><p>Console application</p></div>
+        <div class="card"><h3>Checkers.WPF</h3><p>Windows desktop app</p></div>
+        <div class="card"><h3>Checkers.Server</h3><p>SignalR server for online play</p></div>
+        <div class="card"><h3>Checkers.Tools</h3><p>Shared logic and resources</p></div>
+      </div>
+    </section>
+
+    <section id="rules" class="section">
+      <h2>Rules in a minute</h2>
+      <ol class="rules">
+        <li><strong>Move diagonally</strong> forward one square onto an empty dark square.</li>
+        <li><strong>Capture by jumping</strong> over an adjacent opponent piece into the empty square behind it.</li>
+        <li><strong>Captures are mandatory</strong> — if you can jump, you must.</li>
+        <li><strong>Reach the far side</strong> to crown a king, which can move backward too.</li>
+        <li><strong>Win</strong> by capturing or blocking all of the opponent's pieces.</li>
+      </ol>
+      <p class="muted">New to the game? See <a href="https://en.wikipedia.org/wiki/Checkers">Checkers on Wikipedia</a>.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© Checkers Game</p>
+    <p>
+      <a href="https://github.com/Stani1k/Checkers-Game">GitHub</a> ·
+      <a href="https://github.com/Stani1k/Checkers-Game/issues/new/choose">Report an issue</a> ·
+      <a href="https://github.com/Stani1k/Checkers-Game/blob/main/THIRD-PARTY-NOTICES.md">Third-party notices</a>
+    </p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
