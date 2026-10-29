@@ -12,12 +12,12 @@ public class NoticesViewModel : ViewModelBase
     private const string ResourceName = "THIRD-PARTY-NOTICES.md";
 
     public UpdateViewCommand UpdateViewCommand { get; }
-    public string Text { get; }
+    public NoticesDocument Document { get; }
 
     public NoticesViewModel(UpdateViewCommand updateViewCommand)
     {
         UpdateViewCommand = updateViewCommand;
-        Text = LoadText();
+        Document = NoticesDocument.Parse(LoadText());
     }
 
     private static string LoadText()
